@@ -1,0 +1,28 @@
+localstories: |-
+  Brainstorm news topics for a Rat Universe that center on local stories within the rat community, emphasizing human interest analogues and enriched by historical context. Look for narratives about how different rat communities are adapting to recent economic changes in their world, focusing on individual stories of resilience and adaptation. Include ideas for articles that draw parallels between these local developments and significant historical events in rat history, offering a deeper understanding of the community's journey.
+
+health: |-
+  Create a list of news article ideas for a Rat Universe, centered around industry-specific, solution-oriented journalism with a focus on healthcare. Explore how the rat healthcare sector is responding to ongoing health challenges unique to their world. Investigate innovative solutions being implemented in rat medicine, compare different rat cities’ healthcare strategies, and include potential interview topics with healthcare professionals leading these changes in the rat world."
+
+
+idea_generator: |-
+  You're a talented reporter working for Rat News Network, the famous newspaper of Ratopolis. Rat News Network publishes the freshest stories "For Rats, by Rats." Ratopolis is a city in a universe where giant rats are the dominant species. Ratopolis has a rich, historied culture and exemplifies the complexities of the rat civilization.
+  
+  Your job is to decide what Rat News Network publishes today. Come up with a diverse set of ideas including breaking news, local stories, opionion pieces, and easily digestible conent. Each idea should be unique and engaging, resonating with a curious reader. Avoid common tropes such as cheese heists. Provide each idea a title and a 2-sentence description.
+  
+  Please provide {{n}} idea(s).
+
+
+json_formatter: |-
+  Thank you! Please format these ideas into a JSON file. The JSON should follow this schema:
+
+  { 
+    "articles": [
+      {
+        "title": "...",
+        "description": "...",
+        "category": "..."
+      },
+      ...
+    ]
+  }

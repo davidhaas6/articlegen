@@ -1,0 +1,33 @@
+brainstorming: |-
+  You are a famous graphic designer for Rat News Network. You must create an eye-catching graphic or image for the following article:
+
+  # Article title:
+  {{title}}
+
+
+  # Article Overview:
+  {{overview}}
+
+
+  # Task:
+  You are designing the news story's primary graphic. Write a thoughtful paragraph discussing some intriguing aspects of the story. Next, use that to create **three** imaginative ideas for the news story's visual. The visuals should add context and intrigue to the story. The visuasl should be simple, use a flat art-style, and have a black background with a gold foreground.
+
+
+select: |-
+  Discuss the qualities of each idea in a well-written paragraph. Afterwards, pick the best idea. The best idea should add context and intruge to the story, while also resulting in a high-quality visual. A good idea is striking yet simple.
+  
+  Once the best idea is identified, create a JSON containing the idea. The json should have the following keys: 
+  {
+    "idea_name": "the title given to the idea", 
+    "original_text": "an exact-copy of the text the assistant used to describe the idea previously in this conversation",
+  } 
+
+
+create: |-
+  Create an image for the following idea in JSON form. The image is for an article titled "{{title}}".
+
+  ```json
+  {{image_idea}}
+  ```
+
+  The image must be simple, have a flat art-style, and employ a striking black background with a gold foreground. You must use these two colors: #010100, #FBC62C. The image must NOT include any humans. 

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>RNN</title>
+    <link href="static/styles.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+        rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Jacquard+24&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+        rel="stylesheet">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-76T6H7WDC6"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-76T6H7WDC6');
+    </script>
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="/">
+                <h1>Rat News Network</h1>
+            </a>
+        </div>
+    </header>
+
+    <div class="container content">
+        <h1>{{ title }}</h1>
+        <div>
+            <div class="overview">{{ overview|safe }}</div>
+            {% if img_path != None %}
+            <img src="static/img/{{img_path}}" alt="article image">
+            {% endif %}
+        </div>
+        <br>
+        <span class="article-body">
+            {{ body|safe }}
+        </span>
+    </div>
+
+    <footer>
+        <p>AI Generated. &copy; 2024 Rat News Network. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

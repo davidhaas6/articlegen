@@ -1,0 +1,10 @@
+venv/
+.venv/
+.vscode/
+__pycache__/
+
+samples/
+*.log
+static/
+out/
+prompts/feedback.md
