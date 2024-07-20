@@ -51,11 +51,8 @@ outline2: |-
   1. Determine the main message or theme of the article based on the idea provided.
   2. Define the target audience for the article.
   3. Create a bullet-pointed outline following the inverted pyramid structure.
-  4. Include at least three quotes from citizens of Ratopolis.
+  4. Include at two three quotes from citizens of Ratopolis.
   5. Ensure the outline supports a 3-5 minute read and maintains high-quality journalism standards.
-
-
-
 
 
 summary: |-
@@ -185,7 +182,6 @@ article_gen4: |-
   - **Structured Writing**: Adhere to the inverted pyramid structure: the most fundamental facts—appear at the top of the story, in the lead paragraph. Non-essential information appears in the following paragraphs, or “nut” graphs, in order of importance.
   - **Flexible Paragraphs**: Keep paragraphs concise and focused, with flexible length for content suitability.
   - **Inclusion of Data**: Integrate relevant data or statistics for credibility and depth.
-  - **Visual Elements**: Suggest appropriate visual elements like photographs or infographics.
   - **Ethical Journalism**: Uphold journalistic ethics, respecting privacy and avoiding sensationalism.
   - **Cultural Sensitivity**: Ensure content is culturally sensitive and inclusive.
   - **Reader Engagement**: Implement strategies to engage readers, like posing questions or inviting feedback.
@@ -221,10 +217,7 @@ article_gen5: |-
   - **Varied Vocabulary**: Avoid repetition.
   - **Structured Writing**: Follow the inverted pyramid model: the most fundamental facts—appear at the top of the story, in the lead paragraph. Non-essential information appears in the following paragraphs, or “nut” graphs, in order of importance.
   - **Paragraph Length**: Keep paragraphs concise; length as per content.
-  - **Data and Visuals**: Incorporate relevant data and suggest visuals.
-  - **Ethical Standards**: Uphold journalism ethics and cultural sensitivity.
   - **Engage Readers**: Use strategies like questions or feedback prompts.
-  - **SEO Practices**: Apply SEO basics for online content.
   - **Word Count**: Target around {{num_words}} words.
 
 
