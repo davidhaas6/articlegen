@@ -1,0 +1,378 @@
+:root {
+    --color1: #FBC62C;
+    --color3: #010100;
+    --color2: #FAF9F6;
+
+
+    --golden-yellow: #fbc62c;
+    --deep-black: #010100;
+    --cream: #FFF4D5;
+    --dark-gray: #3E3E3E;
+    --brownish-gray: #5A5551;
+}
+
+/* Gets rid of horizontal scroll-bar */
+* {
+    box-sizing: border-box;
+}
+
+body, html, .site {
+    font-family: Arial, sans-serif;
+    color: var(--color2);
+    background: var(--color3);
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-family: "Merriweather", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+   
+}
+
+.site {
+    max-width: 1600px;
+}
+
+header {
+    background: var(--color1);
+    color: var(--color3);
+    min-height: 70px;
+    padding: 0;
+    
+    margin: 0;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header a {
+    color: var(--color3);
+    text-decoration: none;
+    font-size: 16px;
+    padding: 0;
+    
+}
+
+h1  {
+    margin: 0;
+}
+
+header h1 {
+    font-size: 60px;
+    padding: 0px 20px;
+    text-transform: uppercase;
+    flex: 3;
+    /* width: fit-content; */
+}
+
+
+
+.sub-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 0px 0px;
+    background-color: var(--deep-black);
+    color: var(--cream);
+}
+
+.submenu-button {
+    width: 100%;
+    text-align: center;
+    border-right: 2px solid var(--cream);
+    border-bottom: 5px solid var(--cream) ;
+    /* width: fit-content; */
+    /* padding: 30px5px; */
+    transition: 0.3s;
+    /* set text weight */
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+.submenu-button a {
+    color: var(--cream);
+    text-decoration: inherit;
+}
+
+.rounded-button {
+    background-color: var(--deep-black);
+    color: var(--golden-yellow);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px; /* this creates the rounded corners */
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+    /* Optional: add some hover effect for better UX */
+}
+
+.rounded-button:hover {
+    background-color: #111100; /* slightly lighter black when hovered */
+}
+
+.rounded-button-ylw {
+    background-color: var(--golden-yellow);
+    color: var(--deep-black);
+    padding: 8px 8px;
+    border: none;
+    border-radius: 10px; /* this creates the rounded corners */
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+
+    /* Optional: add some hover effect for better UX */
+}
+
+
+.no-right-border{
+    border-right: none;
+}
+
+.submenu-button:hover {
+    border-bottom: 5px solid var(--color1) ;
+    color: var(--color1);
+    translate: 0px 1px;
+}
+
+.menu-blurb {
+    flex: 2;
+    text-overflow: ellipsis;
+    font-size: 10px;
+    text-align: center;
+    max-height: 60px;
+
+    padding: 0px 10px;
+}
+
+.menu-button {
+    flex: 1;
+    text-align: center;
+    vertical-align: middle;
+}
+
+footer {
+    background: var(--color3);
+    color: var(--color2);
+    text-align: center;
+    margin: 20px 0px;
+    padding: 5px;
+    width: 100%;
+}
+
+.container {
+    max-width: 1200px;
+    width: 95%;
+    margin: auto;
+}
+
+/* Front page
+ -
+ -
+ -
+*/
+
+.frontpage {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: start;
+    justify-content: flex-start;
+    padding: 20px 0px;
+}
+
+.preview {
+    max-width: 80%;
+    min-height: 20vh;
+
+    color: var(--color2);
+    font-size: small;
+    
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: start;
+    justify-content: space-evenly;
+
+    text-align: left;
+    margin-top: 10px;
+}
+
+
+.preview img {
+    height: 300px;
+    width: auto;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-left: 0px;
+}
+
+.preview a {
+    color: var(--color2);
+    text-decoration: inherit;
+}
+
+.preview a h1 {
+    color: var(--color2) !important;
+    font-size: 30px;
+    font-weight: 700;
+    min-height: 50%;
+    /* max-width: 50%; */
+}
+
+.preview a p {
+    color: var(--color2) !important;
+
+    font-size: 20px;
+    font-weight: 400;
+    min-height: 50%;
+}
+
+
+
+/* Article
+ -
+ -
+ -
+*/
+.content {
+    padding: 20px;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.content h1 {
+    font-size: 50px;
+}
+
+.content p {
+    line-height: 1.6;
+}
+
+
+.content img {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+    max-width: 100%;
+}
+
+.overview {
+    color: var(--color2);
+    font-weight: 500;
+    width: 100%;
+    font-size: 1.4em;
+    line-height: 1.2;
+    font-weight: 500;
+    padding: 15px 0px;
+}
+
+.article-container {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items:center;
+    justify-content:center;
+    padding: 20px;
+    width: 100%;
+}
+
+.article-body {
+    overflow-wrap: normal;
+    width: 80%;    
+    font-size: 1.3em;
+    background: var(--color3);
+    line-height: 1.4;
+    text-align: left;
+    max-width: 1000px;
+}
+
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+
+    .hide-on-small {
+        display: none;
+    }
+
+    header {
+        justify-content: center;
+    }
+    header h1 {
+        font-size: 50px;
+        padding: 5px;
+    }
+
+    .frontpage {
+        align-items: center;
+    }
+
+    .preview {
+        flex-flow: row wrap;
+        align-items: center;
+        justify-content: space-around;
+        min-height: 30vh;
+        /* min-width: 100%; */
+    }
+
+    .preview img {
+        /* width: 40%; */
+        height: auto;
+        width: 100%;
+        max-height: 450px;
+
+        padding: 5px;
+    }
+
+    .preview h1 {
+        font-size: 35px;
+        font-weight: 700;
+        /* min-height: 50%; */
+        text-align: center;
+        /* max-width: 50%; */
+    }
+
+    .content {
+        align-items: center;
+        padding: 5px;
+        align-content: start;
+
+    }
+
+    .content img {
+        padding-top: 20px;
+        padding-bottom: 0px;
+        margin: 5px;
+        max-width: 95%;
+    }
+
+    .article-body {
+        width: 100%;
+        font-size: 1.2em;
+    }
+    
+}
+
+@media (max-width: 550px) {
+    header h1 {
+        font-size: 35px;
+        padding: 5px;
+    }
+}
+
+@media (max-width: 500px) {
+    header h1 {
+        font-size: 35px;
+        padding: 5px;
+    }
+    .content h1 {
+        font-size: 40px;
+    }
+}
