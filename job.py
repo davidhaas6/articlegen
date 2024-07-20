@@ -17,11 +17,22 @@ ARTICLE_PATH = (Path(__file__).parent.parent / "static" / "articles" ).as_posix(
 
 
 def main():
-    if len(sys.argv) > 1:
-        start=time.time()
-        n = int(sys.argv[1])
-        write_articles(n)
-        logging.info(f'Generated {n} articles in {round(time.time()-start,2)} seconds')
+    if len(sys.argv) <= 1:
+        print('usage: python job.py <number of articles> <optional: article directory>')
+        sys.exit(1)
+
+    start=time.time()
+    n = int(sys.argv[1])
+    if len(sys.argv) > 2:
+        article_dir = str(sys.argv[2])
+        output_dir = write_articles(n, article_dir)
+        if output_dir != article_dir:
+            logging.error(f'Did not write articles to specified input directory:{article_dir}')
+    else:
+        output_dir = write_articles(n)
+    
+    logging.info(f'Generated {n} articles in {round(time.time()-start,2)} seconds')
+    logging.info(f'Output directory: {output_dir}')
 
 
 def write_articles(n: int, article_dir=None) -> str:
@@ -39,6 +50,8 @@ def write_articles(n: int, article_dir=None) -> str:
     
     if not os.path.isdir(article_dir):
         os.makedirs(article_dir)
+    
+    print(f'Writing {n} articles to {article_dir}')
 
     try:
         article_jsons = gen.new_articles(n)
