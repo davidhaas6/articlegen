@@ -15,7 +15,7 @@ import pathlib
 from pathlib import Path
 from groq import Groq
 
-VERBOSE = True
+VERBOSE = False
 journalist1_system = {
     "role": "system",
     "content": "Your name is Whisker Walters. You are a famous journalist and the chief news editor for Rat News Network. Your job is to come up with the next juicy story."   # noqa: E501
@@ -56,7 +56,14 @@ def _cli_main():
         print("\n***INITIAL IDEAS:")
         ideas = article_ideas(1)
     elif 'full' in action:
-        logger.info(new_articles(int(sys.argv[2]) if len(sys.argv) > 1 else 2))
+        if len(sys.argv) > 2:
+            idea = ' '.join(sys.argv[2:])
+        elif len(sys.argv) < 3:
+            print('usage: gen.py full <idea>')
+            return
+        logger.info(f'Generating article from idea: {idea}')
+        article = article_from_idea(idea)
+        logger.info(f'Article created: {article}')
     elif 'image' in action:
         if len(sys.argv) < 4:
             print('usage: gen.py image <title> <outline>')
@@ -66,9 +73,6 @@ def _cli_main():
         logger.info(url)
     elif 'topic' in action:
         article_from_idea(sys.argv[2])
-    
-
-
 
 
 def new_articles(num: int, ideas=None) -> List[dict]:
@@ -113,12 +117,19 @@ def article_from_idea(idea: str) -> dict:
                 timestamp -> article timestamp 
     """
     try:
+        logging.info(f'Creating article from idea: {idea}')
         outline = article_outline(idea.strip())
+        logging.info(f'Generating body')
         article = article_body(idea, outline)
-        article['img_path'] = article_image(article['title'], outline)
+        logging.info('creating image')
+        try:
+            article['img_path'] = article_image(article['title'], outline)
+        except Exception as e:
+            logging.error(f'Error creating image: {e}')
+            article['img_path'] = ""
         article['timestamp'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         logger.info(f'*Article created*\nTitle: {article["title"]}\nImage: {article["img_path"]}\nOverview:{article["overview"]}')
-        article['article_id'] = str(uuid.uuid4())
+        article['article_id'] = str(uuid.uuid4())[:8]
     except Exception as e:
         logger.error(e)
         logger.error(traceback.format_exc())
