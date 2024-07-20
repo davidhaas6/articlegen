@@ -2,9 +2,7 @@ venv/
 .venv/
 .vscode/
 __pycache__/
-
-samples/
 *.log
-static/
+samples/
 out/
 prompts/feedback.md
