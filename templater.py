@@ -29,7 +29,6 @@ class ArticleSiteGenerator:
             article["img_path"] = os.path.basename(article["img_path"])
 
         if isinstance(articles, list):
-            print("Articles: ", articles)
             for article in articles:
                 _process_article(article)
         else:
@@ -86,7 +85,6 @@ class ArticleSiteGenerator:
             flags=re.MULTILINE
         )
 
-
         # Convert **bold** to <strong>bold</strong>
         text = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", text)
 
@@ -95,6 +93,10 @@ class ArticleSiteGenerator:
 
         # Convert line breaks to <br>
         text = text.replace("\n", "<br>")
+        text = text.replace('</h3><br><br>', '</h3>')
+
+        # Convert --- to <hr>
+        text = re.sub(r"---", "<hr>", text)
 
         return text
 
