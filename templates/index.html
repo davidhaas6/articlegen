@@ -29,19 +29,37 @@
 
 <body>
     <header>
-        <div class="container">
-            <a href="/"><h1>Rat News Network</h1></a>
+        <a href="/"><h1>Rat News Network</h1></a>
+        <div class="menu-blurb hide-on-small">
+            <h3>BREAKING: Chicago Rat Hole Still There</h3>
+        </div>
+        <div class="menu-blurb hide-on-small">
+            <h3>68°F (20°C)</h3>
+            <h3>Ratopolis</h3>
+        </div>
+        <div class="menu-button hide-on-small">
+            <button class="rounded-button">Subscribe</button>
         </div>
     </header>
+
+    <!-- Sub-header -->
+    <section class="sub-header">
+        <div class="submenu-button">BANKER RAT THINGS</div>
+        <div class="submenu-button">RODENT READS</div>
+        <div class="submenu-button">RAT RIDES</div>
+        <div class="submenu-button">WHISKER WAGERS</div>
+        <div class="submenu-button">RAT TV</div>
+        <div class="submenu-button no-right-border"><a href="http://www.tailegraph.co.uk/">THE TAILEGRAPH</a></div>
+    </section>
 
     <div class="container frontpage">
         {% for article in articles %}
         {% set articlesize = "md" if (loop.index0 % 2 == 0) else "sm" %}
         <div class="preview">
-            <a href="{{article.id}}.html">
+            <a href="{{article.article_id}}.html">
                 <img src="static/img/{{article.img_path}}" alt="article image">
             </a>
-            <a href="{{article.id}}.html">
+            <a href="{{article.article_id or article.id}}.html">
                 <h1>{{article.title}}</h1>
                 <p>{{article.overview}}</p>
             </a>
