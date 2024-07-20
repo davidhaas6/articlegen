@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{% block title %}Rat News Network{% endblock %}</title>
+    <link href="static/styles.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-76T6H7WDC6"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-76T6H7WDC6');
+    </script>
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+    <header>
+        <a href="/"><h1>Rat News Network</h1></a>
+        <div class="menu-blurb hide-on-small">
+            <h3>BREAKING: Rats Discovered in New York City</h3>
+        </div>
+        <div class="menu-blurb hide-on-small">
+            <h3>84°F (934°R)</h3>
+            <h3>Ratopolis</h3>
+        </div>
+        <div class="menu-button hide-on-small">
+            <button class="rounded-button">Subscribe</button>
+        </div>
+    </header>
+
+    <!-- Sub-header -->
+    <section class="sub-header">
+        <div class="submenu-button hide-on-small">BANKER RAT THINGS</div>
+        <div class="submenu-button">RODENT READS</div>
+        <div class="submenu-button">RAT RIDES</div>
+        <div class="submenu-button hide-on-small">WHISKER WAGERS</div>
+        <div class="submenu-button">RAT TV</div>
+        <div class="submenu-button no-right-border"><a href="http://www.tailegraph.co.uk/"><span class="hide-on-small">THE </span>TAILEGRAPH</a></div>
+    </section>
+
+    <main>
+        {% block content %}
+        <!-- This is where the content of child templates will be inserted -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>AI Generated. &copy; 2024 Rat News Network. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
