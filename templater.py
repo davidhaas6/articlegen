@@ -40,7 +40,7 @@ class ArticleSiteGenerator:
                         article = json.load(f)
                         _process_article(article)
                         articles.append(article)
-                    
+
         return sorted(articles, key=lambda x: x["timestamp"], reverse=True)
 
     def generate_article_pages(self, articles):
@@ -78,11 +78,11 @@ class ArticleSiteGenerator:
     @staticmethod
     def markdown_to_html(text: str) -> str:
         # Convert headers to h1, h2, h3 based on the number of #s
-        text = re.sub( 
-            r'^(#{1,6})\s(.+)$', 
-            lambda m: f"<h{len(m.group(1))}>{m.group(2)}</h{len(m.group(1))}>", 
-            text, 
-            flags=re.MULTILINE
+        text = re.sub(
+            r"^(#{1,6})\s(.+)$",
+            lambda m: f"<h{len(m.group(1))}>{m.group(2)}</h{len(m.group(1))}>",
+            text,
+            flags=re.MULTILINE,
         )
 
         # Convert **bold** to <strong>bold</strong>
@@ -93,7 +93,7 @@ class ArticleSiteGenerator:
 
         # Convert line breaks to <br>
         text = text.replace("\n", "<br>")
-        text = text.replace('</h3><br><br>', '</h3>')
+        text = text.replace("</h3><br><br>", "</h3>")
 
         # Convert --- to <hr>
         text = re.sub(r"---", "<hr>", text)
@@ -107,13 +107,13 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Generate a static website from article JSON files.")
     parser.add_argument("articles_dir", help="Directory containing article JSON files")
-    parser.add_argument("template_dir", help="Directory containing HTML templates")
     parser.add_argument(
         "output_dir",
         help="Directory to output the generated site",
         default=f"out/site_{datetime.now().strftime('%m%d%H%M%S')}",
         nargs="?",
     )
+    parser.add_argument("template_dir", help="Directory containing HTML templates", default=f"templates/", nargs="?")
     args = parser.parse_args()
 
     ArticleSiteGenerator(args.articles_dir, args.template_dir, f"{args.output_dir}").generate_site()
