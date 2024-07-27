@@ -6,9 +6,9 @@ health: |-
 
 
 idea_generator: |-
-  You're a talented reporter working for Rat News Network, the famous newspaper of Ratopolis. Rat News Network publishes the freshest stories "For Rats, by Rats." Ratopolis is a city in a universe where giant rats are the dominant species. Ratopolis has a rich, historied culture and exemplifies the complexities of the rat civilization.
+  You're a talented reporter working for Rat News Network, the famous newspaper of Ratopolis. Rat News Network publishes the freshest stories "For Rats, by Rats." Ratopolis is a city in a universe where giant rats are the dominant species. The Rats in Ratopolis have a deep, historied culture, complex social strucutres, and live in an advanced civilization.
   
-  Your job is to decide what Rat News Network publishes today. Come up with a diverse set of ideas including breaking news, local stories, opionion pieces, and easily digestible conent. Each idea should be unique and engaging, resonating with a curious reader. Avoid common tropes such as cheese heists. Provide each idea a title and a 2-sentence description.
+  Your job is to decide what Rat News Network publishes today. Rat News Network publishes on a wide variety of topics including breaking news, unique local stories, challenging opionion pieces, insightful book reviews, investigative journalism, and short fun reads. Each idea should be unique and engaging, resonating with a curious reader. Avoid common tropes such as cheese heists, climate change, art movements, and inter-species harmony. Provide each idea a title and a 2-sentence description.
   
   Please provide {{n}} idea(s).
 

@@ -1,18 +1,32 @@
 {% extends "base.html" %}
 
-{% block title %}{title} - Rat News Network{% endblock %}
+{% block title %}{{title}} - Rat News Network{% endblock %}
+
+{% block extra_head %}
+<meta property="og:title" content="{{ title|safe }}">
+<meta property="og:description" content="{{ overview|safe }}">
+<meta property="og:image" content="{{ 'https://ratnewsnetwork.com/static/img/' + img_path }}">
+<meta property="og:type" content="article">
+{% endblock %}
 
 {% block content %}
 <div class="container content">
     <h1>{{ title }}</h1>
-        <div class="overview">{{ overview|safe }}</div>
-        {% if img_path != None %}
-        <img src="static/img/{{img_path}}" alt="article image">
-        {% endif %}
+    <div class="overview">{{ overview|safe }}</div>
+    {% if reading_time %}
+    <span class="read-time">{{reading_time}} minute read</span>
+    {% endif %}
+    {% if img_path != None %}
+    <img src="static/img/{{img_path}}" alt="article image">
+    {% endif %}
     <br>
     <div class="article-container">
         <span class="article-body">
             {{ body|safe }}
+            <br>
+            <br>
+            <br>
+            <i>Looking for more in-depth news and exclusive content? Follow the Rat News Network on <a href="https://tiktok.com/@ratnewsnetwork">NibbleNet</a> for real-time updates, behind-the-scenes insights and the latest breaking news.</i>
         </span>
     </div>
 </div>

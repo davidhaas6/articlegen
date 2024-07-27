@@ -5,6 +5,8 @@ from jinja2 import Environment, FileSystemLoader
 import shutil
 import re
 
+import text_processing
+
 
 class ArticleSiteGenerator:
     def __init__(self, articles_dir, template_dir, output_dir):
@@ -22,11 +24,15 @@ class ArticleSiteGenerator:
         self.generate_article_pages(articles)
         self.generate_index_page(articles)
         self.copy_images(articles)
+        self.generate_qr_code_page(articles)
 
     def load_articles(self, articles=None):
         def _process_article(article):
             article["timestamp"] = datetime.strptime(article["timestamp"], "%Y-%m-%d %H:%M:%S")
             article["img_path"] = os.path.basename(article["img_path"])
+            if 'reading_time_minutes' not in article:
+                article['reading_time_minutes'] = text_processing.estimate_reading_time(article['body'])
+            article['reading_time_minutes'] = round(article['reading_time_minutes'])
 
         if isinstance(articles, list):
             for article in articles:
@@ -45,13 +51,15 @@ class ArticleSiteGenerator:
 
     def generate_article_pages(self, articles):
         template = self.env.get_template("article.html")
+        
         for article in articles:
             output = template.render(
                 title=article["title"],
                 overview=article["overview"],
                 # lead=article['overview'],  # Using overview as lead, adjust if needed
-                body=ArticleSiteGenerator.markdown_to_html(article["body"]),
+                body=text_processing.markdown_to_html(article["body"]),
                 img_path=article["img_path"],
+                reading_time=article["reading_time_minutes"],
             )
             filename = f"{article['article_id']}.html"
             with open(os.path.join(self.output_dir, filename), "w") as f:
@@ -75,46 +83,28 @@ class ArticleSiteGenerator:
         with open(os.path.join(self.output_dir, "index.html"), "w") as f:
             f.write(output)
 
-    @staticmethod
-    def markdown_to_html(text: str) -> str:
-        # Convert headers to h1, h2, h3 based on the number of #s
-        text = re.sub(
-            r"^(#{1,6})\s(.+)$",
-            lambda m: f"<h{len(m.group(1))}>{m.group(2)}</h{len(m.group(1))}>",
-            text,
-            flags=re.MULTILINE,
-        )
-
-        # Convert **bold** to <strong>bold</strong>
-        text = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", text)
-
-        # Convert *italic* to <em>italic</em>
-        text = re.sub(r"\*(.+?)\*", r"<em>\1</em>", text)
-
-        # Convert line breaks to <br>
-        text = text.replace("\n", "<br>")
-        text = text.replace("</h3><br><br>", "</h3>")
-
-        # Convert --- to <hr>
-        text = re.sub(r"---", "<hr>", text)
-
-        return text
-
+    def generate_qr_code_page(self, articles):
+        template = self.env.get_template("qr.html")
+        output = template.render(articles=articles)
+        with open(os.path.join(self.output_dir, "qr.html"), "w") as f:
+            f.write(output)
 
 # Usage
 if __name__ == "__main__":
     import argparse
+    day_timestamp = datetime.now().strftime("%Y-%m-%d")
+    full_timestamp = datetime.now().strftime("%Y-%m-%d-%H%M%S")
 
     parser = argparse.ArgumentParser(description="Generate a static website from article JSON files.")
-    parser.add_argument("articles_dir", help="Directory containing article JSON files")
+    parser.add_argument("--articles", help="Directory containing article JSON files")
     parser.add_argument(
         "output_dir",
         help="Directory to output the generated site",
-        default=f"out/site_{datetime.now().strftime('%m%d%H%M%S')}",
+        default=f"out/templater-out/{day_timestamp}/site_{full_timestamp}",
         nargs="?",
     )
     parser.add_argument("template_dir", help="Directory containing HTML templates", default=f"templates/", nargs="?")
     args = parser.parse_args()
 
-    ArticleSiteGenerator(args.articles_dir, args.template_dir, f"{args.output_dir}").generate_site()
+    ArticleSiteGenerator(args.articles, args.template_dir, f"{args.output_dir}").generate_site()
     print(args.output_dir)

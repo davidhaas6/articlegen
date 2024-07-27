@@ -66,14 +66,15 @@ summary: |-
 
   This process will result in an high-quality summary that is clear, concise, and reader-friendly manner.
 
-  # Article
-  ### {{title}}
+  # Article:
+
+  ## {{title}}
+  
   {{body}}
 
 
 article_gen: |-
-  You're a talented journalist for Rat News Network working on a captivating article.
-  
+  You're a talented journalist for Rat News Network working on a captivating article. You must write a great article from an outline. 
   # Article idea:
   {{idea}}
 
@@ -83,11 +84,10 @@ article_gen: |-
 
 
   # Task: 
-  As an expert rat journalist, write an engaging story following this outline. The article is published in Rat News Network, a fictional rat-produced news paper. The story should be at an eigth-grade reading level, use short paragraphs typical of a news story, and be about {{num_words}} words long. This is your final draft, so it must be high quality and a compelling piece of journalism. If you do well, you'll get a $5,000 bonus.
+  As an expert rat journalist, write an engaging story following this outline. The article is published in Rat News Network, a fictional rat-produced news paper. The story should be at an eigth-grade reading level, use short paragraphs typical of a news story, and be about {{num_words}} words long. This is your final draft, so it must be high quality and a compelling piece of journalism.
 
   Requirements:
-   - Start the article with an interesting and compelling first sentence and hook.
-   - The first sentence should be 30-45 words long and summarize the main points of the story.
+   - Start the article with a compelling 20-30 word long sentence that hooks the audience in and summarizes the main points of the story.
    - You must include relevant quotes from fictional interviews throughout the article.
    - The conclusion of the article must be thought provoking. Leave the reader with a lasting impression or call to action.
    - Include and address potential counterarguments to provide a balanced perspective on complex issues
@@ -95,8 +95,9 @@ article_gen: |-
    - The tone should be informative and professional while remaining engaging and interesting.
    - Use varied language to avoid repetition.
    - The article must use an inverted pyramid writing structure, meaning the most fundamental facts—appear at the top of the story, in the lead paragraph. Non-essential information appears in the following paragraphs, or “nut” graphs, in order of importance.
-   - Each paragraph must be SHORT. Between 15-30 words.
+   - Each paragraph must be less than 50 words.
    - The article must be around {{num_words}} words long.
+   - Do not include section headers in the article.
 
 
 article_gen2: |-
@@ -150,46 +151,11 @@ article_gen3: |-
   - Maintain an informative, professional tone that is also engaging.
   - Use diverse vocabulary to prevent repetition.
   - Adhere to the inverted pyramid structure: the most fundamental facts—appear at the top of the story, in the lead paragraph. Non-essential information appears in the following paragraphs, or “nut” graphs, in order of importance.
-  - Keep each paragraph within 10-30 words.
+  - Keep each paragraph within 20-40 words.
   - Ensure the total word count is around {{num_words}}.
+  - Use 1 or 2 subheaders to divide the article into logical sections.
 
   Focus on these elements to create a story that not only informs but captivates the audience, showcasing your exceptional skills in journalism.
-
-
-article_gen4: |-
-  You are a renowned journalist at Rat News Network, known for your ability to weave compelling narratives that captivate rat audiences. Your next assignment is to create an article that stands out in its depth, engagement, and journalistic integrity.
-
-  # Article Idea:
-  {{idea}}
-
-
-  # Article Outline:
-  {{outline}}
-
-
-  # Task: 
-  Craft an engrossing and informative story based on the provided outline. Your article will be a feature piece in Rat News Network, a platform acclaimed for insightful rat-centric journalism. Target an eighth-grade reading level with succinct, news-style paragraphs. The article should be approximately {{num_words}} words in length. Excellence in this task will be rewarded with a $5,000 bonus.
-
-  ## Requirements:
-
-  - **Engaging Opening**: Start with a compelling first sentence (30-45 words) that summarizes the main elements of the story.
-  - **Depth Through Interviews**: Include fictional quotes from a diverse range of characters for depth and perspective.
-  - **Impactful Conclusion**: Conclude with a thought-provoking statement or call to action.
-  - **Balanced Reporting**: Address counterarguments for a balanced view on complex topics.
-  - **Clarity and Accessibility**: Use clear, concise language, avoiding jargon and complex structures.
-  - **Professional Yet Engaging Tone**: Maintain an informative and professional tone while keeping the content engaging.
-  - **Varied Vocabulary**: Use diverse vocabulary to prevent repetition and maintain interest.
-  - **Structured Writing**: Adhere to the inverted pyramid structure: the most fundamental facts—appear at the top of the story, in the lead paragraph. Non-essential information appears in the following paragraphs, or “nut” graphs, in order of importance.
-  - **Flexible Paragraphs**: Keep paragraphs concise and focused, with flexible length for content suitability.
-  - **Inclusion of Data**: Integrate relevant data or statistics for credibility and depth.
-  - **Ethical Journalism**: Uphold journalistic ethics, respecting privacy and avoiding sensationalism.
-  - **Cultural Sensitivity**: Ensure content is culturally sensitive and inclusive.
-  - **Reader Engagement**: Implement strategies to engage readers, like posing questions or inviting feedback.
-  - **SEO Basics**: Follow SEO-friendly practices for online content.
-  - **Interactivity Options**: Include interactive elements for digital versions.
-  - **Word Count**: Aim for around {{num_words}} words, adjusting as needed.
-
-  This comprehensive guideline is designed to ensure that your article not only informs and engages but also meets the highest standards of journalistic excellence and ethical responsibility.
 
 
 article_gen5: |-
@@ -204,7 +170,7 @@ article_gen5: |-
 
 
   # Task: 
-  Create a story for Rat News Network, targeting an eighth-grade reading level, with a length of about {{num_words}} words. A $5,000 bonus awaits exceptional work.
+  Create a story for Rat News Network, targeting an eighth-grade reading level, with a length of about {{num_words}} words.
 
   ## Requirements:
 
@@ -219,6 +185,7 @@ article_gen5: |-
   - **Paragraph Length**: Keep paragraphs concise; length as per content.
   - **Engage Readers**: Use strategies like questions or feedback prompts.
   - **Word Count**: Target around {{num_words}} words.
+  - Do not use sub-headers within the article.
 
 
 articleToJson: |-

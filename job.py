@@ -1,17 +1,17 @@
 
 from datetime import datetime
-from multiprocessing import Pool
-from typing import List
 import os
 from pathlib import Path
 import gen
 import traceback
 import sys
-import uuid
 import json
 import requests
 import logging
 import time
+
+from PIL import Image
+from io import BytesIO
 
 ARTICLE_PATH = (Path(__file__).parent.parent / "static" / "articles" ).as_posix()
 
