@@ -135,7 +135,7 @@ def git_deploy(repo_url: str, site_dir: str, branch_name: str = "main", keep_loc
         commit_message = f"Daily site update {datetime.now().strftime('%Y-%m-%d')}"
         run_command(f'git commit -m "{commit_message}"')
         run_command(f"git status")
-        should_push = force or input("Do you want to push the changes to the remote repository? (y/n): ").lower() == "y"
+        should_push = force or input(f"Push to the remote '{branch_name}' branch? (y/n): ").lower() == "y"
         if should_push:
             run_command(f"git push origin {branch_name}")
             print("Changes pushed.")
