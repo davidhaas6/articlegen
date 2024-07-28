@@ -3,16 +3,19 @@
 
 <head>
     <title>{% block title %}Rat News Network{% endblock %}</title>
+
+    <script src="static/script/temperature-updater.js"></script>
+
     <link href="static/styles.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-76T6H7WDC6"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-    gtag('config', 'G-76T6H7WDC6');
+        gtag('config', 'G-76T6H7WDC6');
     </script>
 
     <meta property="og:site_name" content="Rat News Network">
@@ -21,14 +24,14 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    
+
     <!-- Apple Touch Icon -->
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    
+
     <!-- Android Chrome Icons -->
     <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    
+
     <!-- Web App Manifest -->
     <link rel="manifest" href="/site.webmanifest">
 
@@ -36,28 +39,39 @@
 </head>
 
 <body>
-    <header>
-        <a href="/"><h1>Rat News Network</h1></a>
-        <div class="menu-blurb hide-on-small">
-            <h4>ALERT: Cheddar Wheel-Running Dual Enters 48th Hour</h4>
-        </div>
-        <div class="menu-blurb hide-on-small">
-            <h3>87°F (900°R)</h3>
-        </div>
-        <div class="menu-button hide-on-small">
-            <button class="rounded-button">Subscribe</button>
-        </div>
-    </header>
+    <div class="sticky-header">
+        <header>
+            <a href="/">
+                <h1><span class="site-title">RAT NEWS NETWORK</span></h1>
+            </a>
+            <div class="menu-blurb hide-on-small">
+                <h3>Ancient Cheese Discovered in Rodenmark</h3>
+            </div>
+            <div class="menu-blurb hide-on-small">
+                <h3 id="temperature">900°R</h3>
+            </div>
+            <div class="menu-button hide-on-small">
+                <button class="rounded-button">Subscribe</button>
+            </div>
+        </header>
 
-    <!-- Sub-header -->
-    <section class="sub-header">
-        <div class="submenu-button"><a href="https://tiktok.com/@ratnewsnetwork">RAT TV</a></div> 
-        <div class="submenu-button "><a href="http://www.tailegraph.co.uk/"><span class="hide-on-small">THE </span>TAILEGRAPH</a></div>
-        <div class="submenu-button hide-on-small" id="banker-rat">BANKER RAT THINGS</div>
-        <div class="submenu-button">RODENT READS</div>
-        <div class="submenu-button hide-on-small">RAT GAMBLING</div>
-        <div class="submenu-button no-right-border">CHEDDAR COIN</div>
-    </section>
+        <!-- Sub-header -->
+        <section class="sub-header">
+            <div class="submenu-button"><a href="https://tiktok.com/@ratnewsnetwork">RAT TV</a></div>
+            <div class="submenu-button "><a href="http://www.tailegraph.co.uk/"><span class="hide-on-small">THE
+                    </span>TAILEGRAPH</a></div>
+            <div class="submenu-button hide-on-small" id="banker-rat">
+                <a href="https://nypost.com/wp-content/uploads/sites/2/2018/06/180622-rat-eats-money-india-feature.jpg?resize=744,496&quality=75&strip=all">BANKER RAT THINGS</a>
+            </div>
+            <div class="submenu-button">
+                <a href="https://i.pinimg.com/originals/47/0d/06/470d062c0c645398e0bf81eeb3e794d3.jpg">
+                RODENT READS
+            </a>
+            </div>
+            <div class="submenu-button hide-on-small">RAT GAMBLING</div>
+            <div class="submenu-button no-right-border">CHEDDAR COIN</div>
+        </section>
+    </div>
 
     <main>
         {% block content %}

@@ -12,11 +12,11 @@ import sys
 import random
 import traceback
 import uuid
-import pathlib
 from pathlib import Path
 from groq import Groq
 
 import text_processing
+import util
 
 VERBOSE = True
 journalist1_system = {
@@ -70,6 +70,8 @@ def _cli_main():
         logger.info(f"Generating article from idea: {idea}")
         article = article_from_idea(idea)
         logger.info(f"Article created: {article}")
+        util.download_and_compress_image(article["img_path"], f'out/articles/{article["article_id"]}.webp')
+        article["img_path"] = f'{article["article_id"]}.webp'
         # save to out/articles
         with open(f'out/articles/{article["article_id"]}.json', "w") as f:
             json.dump(article, f)

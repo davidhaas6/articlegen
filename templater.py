@@ -100,7 +100,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "output_dir",
         help="Directory to output the generated site",
-        default=f"out/templater-out/{day_timestamp}/site_{full_timestamp}",
+        default=f"out/templater-output/{day_timestamp}/site_{full_timestamp}",
         nargs="?",
     )
     parser.add_argument("template_dir", help="Directory containing HTML templates", default=f"templates/", nargs="?")

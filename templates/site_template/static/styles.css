@@ -31,8 +31,21 @@ body, html, .site {
    
 }
 
+body {
+    /* Adjust this value based on the combined height of your header and sub-header */
+    padding-top: 120px; 
+}
+
 .site {
     max-width: 1600px;
+}
+
+.sticky-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
 }
 
 header {
@@ -63,12 +76,19 @@ h1  {
 header h1 {
     font-size: 60px;
     padding: 0px 20px;
-    text-transform: uppercase;
     flex: 3;
+    white-space: nowrap;
+    overflow: hidden;
     /* width: 100%; */
     /* width: fit-content; */
 }
 
+.site-title {
+    display: inline-block;
+    font-size: 60px; /* Starting font size */
+    line-height: 1;
+    text-transform: uppercase;
+}
 
 
 .sub-header {
@@ -327,9 +347,9 @@ footer {
     header {
         justify-content: center;
     }
-    header h1 {
-        font-size: 50px;
-        padding: 5px;
+
+    .site-title {
+        font-size: calc(34px + 2vw); /* Smaller base size for mobile */
     }
 
     .frontpage {
@@ -382,17 +402,19 @@ footer {
     
 }
 
-@media (max-width: 550px) {
-    header h1 {
-        font-size: 35px;
-        padding: 5px;
+
+@media (max-width: 480px) {
+    .site-title {
+        font-size: calc(30px + 2vw); /* Even smaller for very small screens */
+    }
+    .content h1 {
+        font-size: 40px;
     }
 }
 
-@media (max-width: 500px) {
-    header h1 {
-        font-size: 35px;
-        padding: 5px;
+@media (max-width: 420px) {
+    .site-title {
+        font-size: calc(24px + 2vw); /* Even smaller for very small screens */
     }
     .content h1 {
         font-size: 40px;
