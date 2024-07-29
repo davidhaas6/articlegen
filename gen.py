@@ -152,6 +152,7 @@ def article_from_idea(idea: str) -> dict:
         num_words = max(300, min(1200, num_words))
 
         article = article_body(idea, outline, num_words)
+        article["Outline"] = outline
         article["reading_time_minutes"] = text_processing.estimate_reading_time(article["body"])
 
         logging.info("creating image")
@@ -558,6 +559,7 @@ def make_article_id(title: str, body: str) -> str:
     semantic_id = re.sub(r"[^\w\s]", "", semantic_id)
     semantic_id = re.sub(r"\s+", "-", semantic_id)
     return semantic_id + '-' + str(uuid.uuid4())[:3]
+
 
 def _get_text(chat_completion) -> str:
     text = chat_completion.choices[0].message.content

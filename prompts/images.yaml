@@ -35,7 +35,7 @@ brainstorming2: |-
   
 
 select: |-
-  Discuss the qualities of each idea in a well-written 7-sentence paragraph, analyzing their design, appeal, and adherence to the art style. At the very **end** of the paragraph, pick the best idea. The best idea should add context and intruge to the story, while also resulting in a high-quality visual. A good idea is striking yet simple. The selected image must adhere to RNN's flat art style with a black and gold color scheme.
+  Discuss the qualities of each idea in a well-written 7-sentence paragraph, analyzing their design, appeal, and adherence to the art style. This discussion should relate to your previous paragraph discussing intriguing aspects of the article. Synthesize this information at the very **end** of the paragraph to pick the **best idea**. The best idea should add context and intruge to the story, while also resulting in a high-quality visual. It must be striking yet simple. The selected image must adhere to RNN's flat art style with a black and gold color scheme.
   
   Once the best idea is identified, create a JSON containing the idea. The json should have the following keys: 
   {
