@@ -188,7 +188,7 @@ article_gen5: |-
 
 
 comments: |-
-  Simulate the comments section for an article. The comments should be argumentative and contain name-calling but also suprisingly insightful, making nuanced critiques of both the article and its greater context. The goal is to parody the stereotype of arguments in internet comment sections and provide interesting insights into the article. You will be provided with the article, and you must output a JSON list of {{num_comments}} comment(s). 
+  Simulate the comments section for an article in a fictional rat universe. The comments should be argumentative and contain name-calling but also suprisingly insightful, making nuanced critiques of both the article and its greater context. The goal is to parody the stereotype of arguments in internet comment sections and provide interesting insights into the article. You will be provided with the article, and you must output a JSON list of {{num_comments}} comment(s). 
 
   ---
 

@@ -332,6 +332,17 @@ footer {
     max-width: 1000px;
 }
 
+.comments-link {
+    color: var(--golden-yellow);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.comments-link:hover {
+    color: var(--cream);
+    text-decoration: underline;
+}
 
 .article-comments {
     display: flex;
@@ -396,6 +407,12 @@ footer {
 
 /* Responsive design */
 @media (max-width: 768px) {
+    body {
+        /* Adjust this value based on the combined height of your header and sub-header */
+        padding-top: 140px; 
+    }
+
+    
     .container {
         width: 95%;
     }
@@ -458,6 +475,10 @@ footer {
     .article-body {
         width: 100%;
         font-size: 1.2em;
+    }
+
+    .article-comments {
+        width: 100%;
     }
     
 }

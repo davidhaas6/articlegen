@@ -13,9 +13,9 @@
 <div class="container content">
     <h1>{{ title }}</h1>
     <div class="overview">{{ overview|safe }}</div>
-    {% if reading_time %}
-    <span class="read-time">{{reading_time}} minute read</span>
-    {% endif %}
+    <span class="read-time">{{reading_time}} minute read • 
+        <a href="#comments-section" id="scroll-to-comments" class="comments-link">Comments</a><span>
+    </span>
     {% if img_path != None %}
     <img src="static/img/{{img_path}}" alt="article image">
     {% endif %}
@@ -29,7 +29,8 @@
             <i>Looking for more in-depth news and exclusive content? Follow <a href="https://tiktok.com/@ratnewsnetwork">RAT TV</a> for real-time updates, behind-the-scenes insights and the latest breaking news.</i>
         </span>
     </div>
-    <div class="article-comments">
+    {% if comments|length > 0 %}
+    <div id="comments-section" class="article-comments">
         <h1>Comments</h1>
         {% for comment in comments %}
         <div class="comment">
@@ -42,6 +43,7 @@
         </div>
         {% endfor %}
     </div>
+    {% endif %}
 </div>
 </div>
 
@@ -63,6 +65,14 @@
     document.querySelectorAll('.vote-down-count').forEach(button => {
         button.addEventListener('click', () => {
             incrementButton(button, '-');
+        });
+    });
+
+    // smooth scrolling
+    document.getElementById('scroll-to-comments').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent the default link behavior
+        document.getElementById('comments-section').scrollIntoView({
+            behavior: 'smooth'
         });
     });
 </script>
