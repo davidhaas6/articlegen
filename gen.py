@@ -99,7 +99,14 @@ def _cli_main():
         article_id = make_article_id(sys.argv[2], sys.argv[3])
         # print(article_id)
         logger.info(article_id)
-
+    elif 'comments' in action:
+        if len(sys.argv) < 3:
+            print("usage: gen.py comments <article_path>")
+            return
+        with open(sys.argv[2], "r") as f:
+            article = json.load(f)
+        comments = get_comments(article, sys.argv[3] if len(sys.argv) > 3 else 5)
+        logger.info(comments)
 
 def new_articles(num: int, ideas=None) -> List[dict]:
     """Generates a list of new articles
@@ -148,12 +155,17 @@ def article_from_idea(idea: str) -> dict:
         logging.info(f"Generating body")
 
         # sample from normal distribution for word count within limits
-        num_words = int(random.gauss(550, 150))
-        num_words = max(300, min(1200, num_words))
+        num_words = int(random.gauss(650, 150))
+        num_words = max(300, min(10000, num_words))
 
         article = article_body(idea, outline, num_words)
         article["Outline"] = outline
         article["reading_time_minutes"] = text_processing.estimate_reading_time(article["body"])
+
+        # comments
+        num_comments = random.gauss(3, 2.7)
+        num_comments = round(max(0, num_comments))
+        article["comments"] = get_comments(article, num_comments)
 
         logging.info("creating image")
         try:
@@ -307,7 +319,7 @@ def article_image(title: str, outline: str) -> str:
     convo_1_ideas = [
         {
             "role": "user",
-            "content": prompts["brainstorming"].replace("{{title}}", title).replace("{{overview}}", outline),
+            "content": prompts["brainstorming2"].replace("{{title}}", title).replace("{{overview}}", outline),
         }
     ]
     chat_completion = client.chat.completions.create(messages=convo_1_ideas, model=heavy_llm, temperature=0.7)
@@ -485,6 +497,48 @@ def article_body(idea: str, outline: str, num_words: int) -> str:
     article_json["generator"] = article_generator
     return article_json
 
+
+def get_comments(article: dict, num_comments: int, model=light_llm) -> str:
+    with open(prompts_dir / "article.yaml", "rb") as f:
+        prompts = yaml.safe_load(f)
+
+    chat_completion = client.chat.completions.create(
+        messages=[
+            # {
+            #     "role": "system",
+            #     "content": systems["whisker"],
+            # },
+            {
+                "role": "user",
+                "content": prompts["comments"]
+                .replace("{{title}}", article["title"])
+                .replace("{{body}}", article["body"])
+                .replace("{{num_comments}}", str(num_comments)),
+            },
+        ],
+        response_format={ "type": "json_object" },
+        model=model,
+        temperature=1,
+    )
+    raw_comments = _get_text(chat_completion)
+    try:
+        json_comments = json.loads(_extract_jsonstr(raw_comments))
+        # extract the list
+        comments_list = []
+        if type(json_comments) == dict:
+            for key in json_comments.keys():
+                if (isinstance(json_comments[key], list)
+                        and len(json_comments[key]) > 0
+                        and isinstance(json_comments[key][0], dict)):
+                    comments_list = json_comments[key]
+                    break
+        return comments_list
+    except json.JSONDecodeError as e:
+        logger.error(f"Json decode error: {e}")
+        logger.error(traceback.format_exc())
+        logger.debug("Raw comments: %s", raw_comments)
+        return []
+    
 
 def article_to_json(article_text: str, model=light_llm) -> dict:
     with open(prompts_dir / "article.yaml", "rb") as f:

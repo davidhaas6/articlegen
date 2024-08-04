@@ -74,6 +74,7 @@ summary: |-
 
 article_gen: |-
   You're a talented journalist for Rat News Network working on a captivating article. You must write a great article from an outline. 
+
   # Article idea:
   {{idea}}
 
@@ -83,7 +84,7 @@ article_gen: |-
 
 
   # Task: 
-  As an expert rat journalist, write an engaging story following this outline. The article is published in Rat News Network, a fictional rat-produced news paper. The story should be at an eigth-grade reading level, use short paragraphs typical of a news story, and be about {{num_words}} words long. This is your final draft, so it must be high quality and a compelling piece of journalism.
+  As an expert journalist, write an engaging story following this outline. The article is published in Rat News Network, a fictional rat-produced news paper. The story should be at an eigth-grade reading level, use short paragraphs typical of a news story, and be about {{num_words}} words long.
 
   Requirements:
    - Start the article with a compelling 20-30 word long sentence that hooks the audience in and summarizes the main points of the story.
@@ -111,7 +112,7 @@ article_gen2: |-
 
 
   # Task: 
-  As an expert rat journalist, write an engaging story following this outline. The article is published in Rat News Network, a fictional rat-produced news paper. The story should be at an eigth-grade reading level, use short paragraphs typical of a news story, and be about {{num_words}} words long. This is your final draft, so it must be high quality and a compelling piece of journalism. If you do well, you'll get a $5,000 bonus.
+  As an expert rat journalist, write an engaging story following this outline. The article is published in Rat News Network, a fictional rat-produced news paper. The story should use short paragraphs typical of a news story, and be about {{num_words}} words long.
 
   Requirements:
    - Start the article with an interesting and compelling first sentence and hook.
@@ -123,7 +124,7 @@ article_gen2: |-
    - The tone should be informative and professional while remaining engaging and interesting.
    - Use varied language to avoid repetition.
    - The article must use an inverted pyramid writing structure: the most fundamental facts—appear at the top of the story, in the lead paragraph. Non-essential information appears in the following paragraphs, or “nut” graphs, in order of importance.
-   - Each paragraph must be 10-30 words long.
+   - Each paragraph must be 20-50 words long.
    - The article must be around {{num_words}} long.
 
 
@@ -152,7 +153,6 @@ article_gen3: |-
   - Adhere to the inverted pyramid structure: the most fundamental facts—appear at the top of the story, in the lead paragraph. Non-essential information appears in the following paragraphs, or “nut” graphs, in order of importance.
   - Keep each paragraph within 20-40 words.
   - Ensure the total word count is around {{num_words}}.
-  - Use 1 or 2 subheaders to divide the article into logical sections.
 
   Focus on these elements to create a story that not only informs but captivates the audience, showcasing your exceptional skills in journalism.
 
@@ -186,6 +186,35 @@ article_gen5: |-
   - **Word Count**: Target around {{num_words}} words.
   - Do not use sub-headers within the article.
 
+
+comments: |-
+  Simulate the comments section for an article. The comments should be argumentative and contain name-calling but also suprisingly insightful, making nuanced critiques of both the article and its greater context. The goal is to parody the stereotype of arguments in internet comment sections and provide interesting insights into the article. You will be provided with the article, and you must output a JSON list of {{num_comments}} comment(s). 
+
+  ---
+
+  # Article:
+
+  ## Title: {{title}}
+
+  {{body}}
+
+  ---
+
+  # Task:
+  Simulate {{num_comments}} comment(s) for this article. Format your response with this JSON structure: 
+  ```json
+  {
+    [
+      {
+        "username": "string",
+        "text": "string",
+        "upvotes": "int",
+        "downvotes": "int",
+      }
+      ...
+    ]
+  }
+  ```
 
 articleToJson: |-
   # Task:
