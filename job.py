@@ -9,8 +9,6 @@ import requests
 import logging
 import time
 
-from PIL import Image
-from io import BytesIO
 
 ARTICLE_PATH = (Path(__file__).parent.parent / "static" / "articles").as_posix()
 
@@ -41,7 +39,8 @@ def write_articles(n: int, article_dir=None) -> str:
 
     Args:
         n (int): The number of articles to generate
-        article_dir (str, optional): The directory to write the articles to. Defaults to None.
+        article_dir (str, optional): The directory to write the articles to.
+                                     If None, it will write to _daily_article_dir() 
 
     Returns:
         str: The directory where the articles were written
@@ -96,7 +95,7 @@ def get_article_paths(article_dir=None):
     return paths
 
 
-def download_file(url: str, file_path: str) -> str:
+def download_file(url: str, file_path: str) -> bool:
     response = requests.get(url)
     if response.status_code == 200:
         os.makedirs(os.path.dirname(file_path), exist_ok=True)

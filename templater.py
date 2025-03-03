@@ -3,7 +3,6 @@ import os
 from datetime import datetime
 from jinja2 import Environment, FileSystemLoader
 import shutil
-import re
 
 import text_processing
 
@@ -136,7 +135,8 @@ class ArticleSiteGenerator:
         Args:
             article (dict): The article to insert into the template.
             out_dir (str): The directory to write the file to.
-            template (jinja2.Template): The template to use. If None, uses the default template.
+            template (jinja2.Template): The template to use. 
+                                        If None, uses the default template.
         Returns:
             str: The rendered template as a string.
         """
@@ -178,15 +178,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "template_dir",
         help="Directory containing HTML templates",
-        default=f"templates/",
+        default="templates/",
         nargs="?",
     )
     args = parser.parse_args()
 
-    # ArticleSiteGenerator(args.articles, args.template_dir, f"{args.output_dir}").generate_site()
     generator = ArticleSiteGenerator(
         args.articles, args.template_dir, f"{args.output_dir}"
     )
     generator.generate_site()
-    # generator.generate_archive("/home/dhaas/projects/rat-news-network-backend/articlegen/out/flat_articles")
     print(args.output_dir)

@@ -1,3 +1,4 @@
+from typing import Optional
 import gen
 import util
 import templater
@@ -55,7 +56,7 @@ def main():
 def generate_and_push_articles(
     repo_url: str,
     num_articles: int = 0,
-    article_dir: str = None,
+    article_dir: Optional[str] = None,
     branch: str = "main",
     keep_local: bool = False,
     force: bool = False,
@@ -160,7 +161,7 @@ def git_deploy(
     if result.returncode == 1:  # Changes are staged
         commit_message = f"Daily site update {datetime.now().strftime('%Y-%m-%d')}"
         run_command(f'git commit -m "{commit_message}"')
-        run_command(f"git status")
+        run_command("git status")
         should_push = (
             force
             or input(f"Push to the remote '{branch_name}' branch? (y/n): ").lower()

@@ -43,10 +43,10 @@ def estimate_reading_time(text, words_per_minute=200):
     syllables = sum(count_syllables(word) for word in words)
 
     if sentences == 0 or word_count == 0:
-        flesch_reading_ease = 0
+        _flesch_reading_ease = 0
         flesch_kincaid_grade = 0
     else:
-        flesch_reading_ease = (
+        _flesch_reading_ease = (
             206.835 - 1.015 * (word_count / sentences) - 84.6 * (syllables / word_count)
         )
         flesch_kincaid_grade = (
@@ -88,6 +88,3 @@ def markdown_to_html(text: str) -> str:
 
     return text
 
-
-if __name__ == "__main__":
-    main()
