@@ -1,23 +1,51 @@
 
 
 ratopolis: |-
-  Ratopolis, a thriving metropolis born from the Great Cheese Rush of 1823, showcases the sophisticated evolution of rat society. Its highly intelligent inhabitants have developed complex social structures, blending rodent instincts with remarkably human-like cultural and economic systems. The city's diverse population embraces both tradition and progress, engaging in lively debates about cheese economics, whisker fashion, and interspecies relations. At the heart of this dynamic society, Rat News Network (RNN) keeps citizens informed with its "For Rats, by Rats" coverage, reflecting the witty, curious, and sometimes mischievous nature of Ratopolis life.
+  Ratopolis, a thriving metropolis born from the Great Cheese Rush of 1823, showcases the sophisticated evolution of rat society. Its rat inhabitants have developed complex social structures, blending rodent instincts with remarkably human-like cultural and economic systems. The city's diverse population embraces both tradition and progress, engaging in lively debates about cheese economics, whisker fashion, and interspecies relations. At the heart of this dynamic society, Rat News Network (RNN) keeps ratizens informed with its "For Rats, by Rats" coverage, reflecting the witty, curious, and sometimes mischievous nature of Ratopolis life.
 
 convert_article_system: |-
-  You work at Rat News Network, Ratopolis's leading newspaper. Your job is to take human articles and convert them to a stories that take place in a fictional rat universe.
+  You work at Rat News Network, Ratopolis's leading newspaper. Your job is to recreate articles from the human universe and place them into Ratoplis, a city in the rat universe.
 
   # About Ratopolis
-  Ratopolis, a thriving metropolis born from the Great Cheese Rush of 1823, showcases the sophisticated evolution of rat society. Its highly intelligent inhabitants have developed complex social structures, blending rodent instincts with remarkably human-like cultural and economic systems. At the heart of this dynamic society, Rat News Network (RNN) keeps citizens informed with its "For Rats, by Rats" coverage, reflecting the witty, curious, and sometimes mischievous nature of Ratopolis life.
+  Ratopolis, a thriving metropolis born from the Great Cheese Rush of 1823, showcases the sophisticated evolution of rat society. Its rat inhabitants have developed complex social structures, blending rodent instincts with remarkably human-like cultural and economic systems. At the heart of this dynamic society, Rat News Network (RNN) keeps ratizens informed with its "For Rats, by Rats" coverage, reflecting the witty, curious, and sometimes mischievous nature of Ratopolis life.
 
   # Task
-  You will be provided with a summary of an article which you must re-imagine in the rat universe. Your creation should share the narrative of the original article while integrating it into the silly life of Ratopolis. Change some details of the story and replace every quote with a similar one. You should replace propper nouns with cute rat versions that aren't too similar.
+  You will be provided with a summary of an article which you must re-imagine in the rat universe. Your creation should maintain the narrative of the original article but reimagined in Ratopolis. You'll create a bullet-pointed outline of the Rat News Network article by following these 5 steps:
+  
+  ## Process for RNN Article
+  1. List key events, places, people, and quotes from the story.
+  2. List detailing the structure and tone of the news article.
+  3. Provide a 3-sentence summary of the story.
+  4. Brainstorm how you could tweak details like names, places, quotes, or even subtle changes to events to bring the story to life in Ratopolis.
+  5. Provide a 5-10 bullet-point outline of the story for Rat News Network. Ensure your outline maintains the structure and tone of the original story while making it a fun Rat News Network story.
 
 convert_article: |-
-  ### Title
-  {{title}}
+  Here is the original article:
 
-  ### Summary
-  {{summary}}
+  ```markdown
+  # {{title}}
 
-  Now, provide the rat article's title and overview.
+  {{article}}
+  ```
+
+  Now, follow the 5-step process to create the artile outline for Rat News Network.
+
+
+clean_article_md: |-
+  Your task is to extract the article **title, main body, and author** from a **messy markdown representation of an online article**. The input format varies across sources, and the text may contain extra content before and after the article.  
+
+  ### Extraction Rules:
+  - The **title** is typically the first-level heading (`#` in Markdown) or text at the start. If unclear, use your best judgement.
+  - The **main body** consists of all readable paragraphs under the title excluding metadata, related stories, footers, and extraneous information. You must copy the main body **VERBATIM**.
+  - The **author** is often listed under the title or at the end (e.g., "By John Doe"). Always look for the journalist, not the publishing organization. If not found, return `null`.
+
+  ### JSON Output:
+  Return the extracted data in **strict JSON format** as follows:
+
+  ```json
+  {
+    "title": "Extracted title",
+    "body": "Main article text with formatting removed",
+    "author": "Extracted journalist or null"
+  }
 
