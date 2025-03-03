@@ -284,6 +284,7 @@ footer {
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
+    color: var(--color2);
 }
 
 .content h1 {
@@ -304,7 +305,7 @@ footer {
 }
 
 .overview {
-    color: var(--color2);
+    color: var(--cream);
     font-weight: 500;
     width: 100%;
     font-size: 1.4em;
@@ -316,19 +317,21 @@ footer {
 .article-container {
     display: flex;
     flex-flow: column nowrap;
-    align-items:center;
-    justify-content:center;
-    padding: 20px;
+    align-items: start;
+    justify-content: center;
+    padding: 20px 0px;
     width: 100%;
 }
 
 .article-body {
     overflow-wrap: normal;
     width: 80%;    
-    font-size: 1.3em;
-    background: var(--color3);
+    font-size: 1.1em;
+    /* background: var(--color3); */
+    color: var(--color2);
     line-height: 1.4;
     text-align: left;
+    width: 100%;
     max-width: 1000px;
 }
 
@@ -361,12 +364,14 @@ footer {
     padding: 20px;
     width: 100%;
     height: 10%;
+
+    color: var(--color2);
 }
 
 .comment-author {
     font-weight: 700;
     font-size: 1.1em;
-    color: var(--color2);
+    color: var(--cream);
     /* padding: 2.5px 0px; */
 }
 
