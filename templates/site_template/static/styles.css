@@ -438,6 +438,11 @@ footer {
         align-items: center;
     }
 
+    marquee {
+        height: 30px;
+        width: 100%;
+    }
+
     .preview {
         flex-flow: row wrap;
         align-items: center;

@@ -69,7 +69,9 @@ def _cli_main():
         logger.info(f"Generating article from idea: {idea}")
         article = article_from_idea(idea)
         logger.info(f"Article created: {article}")
-        util.download_and_compress_image(article["img_path"], f'out/articles/{article["article_id"]}.webp')
+        util.download_and_compress_image(
+            article["img_path"], f'out/articles/{article["article_id"]}.webp'
+        )
         article["img_path"] = f'{article["article_id"]}.webp'
         # save to out/articles
         with open(f'out/articles/{article["article_id"]}.json', "w") as f:
@@ -91,14 +93,14 @@ def _cli_main():
             json.dump(article, f)
             logger.info(f'Article saved to out/articles/{article["article_id"]}.json')
         print(article)
-    elif 'articleid' in action:
+    elif "articleid" in action:
         if len(sys.argv) < 4:
             print("usage: gen.py articleid <title> <body>")
             return
         article_id = make_article_id(sys.argv[2], sys.argv[3])
         # print(article_id)
         logger.info(article_id)
-    elif 'comments' in action:
+    elif "comments" in action:
         if len(sys.argv) < 3:
             print("usage: gen.py comments <article_path>")
             return
@@ -106,6 +108,7 @@ def _cli_main():
             article = json.load(f)
         comments = get_comments(article, sys.argv[3] if len(sys.argv) > 3 else 5)
         logger.info(comments)
+
 
 def new_articles(num: int, ideas=None) -> List[dict]:
     """Generates a list of new articles
@@ -159,7 +162,9 @@ def article_from_idea(idea: str) -> dict:
 
         article = article_body(idea, outline, num_words)
         article["Outline"] = outline
-        article["reading_time_minutes"] = text_processing.estimate_reading_time(article["body"])
+        article["reading_time_minutes"] = text_processing.estimate_reading_time(
+            article["body"]
+        )
 
         # comments
         num_comments = random.gauss(3, 2.7)
@@ -211,7 +216,6 @@ def article_from_article(title: str, body: str, model=heavy_llm) -> dict:
         # get rat overview
         with open(prompts_dir / "parody.yaml", "rb") as f:
             prompts = yaml.safe_load(f)
-        
 
         chat_completion = client.chat.completions.create(
             messages=[
@@ -221,8 +225,7 @@ def article_from_article(title: str, body: str, model=heavy_llm) -> dict:
                 },
                 {
                     "role": "user",
-                    "content": prompts["convert_article"]
-                    .replace("{{title}}", title)
+                    "content": prompts["convert_article"].replace("{{title}}", title)
                     # .replace("{{overview}}", overview)
                     .replace("{{summary}}", summary),
                 },
@@ -267,7 +270,10 @@ def adhoc_article(topic: str, title=None, model=heavy_llm, temp=0) -> dict:
                         "role": "system",
                         "content": "You are one of the world's best journalists, currently working at Rat News Network. You are known for writing articles that are well-structured, easy to read, and interesting.",
                     },
-                    {"role": "user", "content": f"Write a high-quality article for the following topic: {topic}"},
+                    {
+                        "role": "user",
+                        "content": f"Write a high-quality article for the following topic: {topic}",
+                    },
                 ],
                 model=model,
                 temperature=temp,
@@ -318,10 +324,14 @@ def article_image(title: str, outline: str) -> str:
     convo_1_ideas = [
         {
             "role": "user",
-            "content": prompts["brainstorming2"].replace("{{title}}", title).replace("{{overview}}", outline),
+            "content": prompts["brainstorming2"]
+            .replace("{{title}}", title)
+            .replace("{{overview}}", outline),
         }
     ]
-    chat_completion = client.chat.completions.create(messages=convo_1_ideas, model=heavy_llm, temperature=0.7)
+    chat_completion = client.chat.completions.create(
+        messages=convo_1_ideas, model=heavy_llm, temperature=0.7
+    )
     ideas = _get_text(chat_completion)
 
     convo_2_discretize = convo_1_ideas + [
@@ -329,12 +339,16 @@ def article_image(title: str, outline: str) -> str:
         # {"role": "system", "content": systems["discretize"]},
         {"role": "user", "content": prompts["select"]},
     ]
-    chat_completion = client.chat.completions.create(messages=convo_2_discretize, model=json_llm, temperature=0)
+    chat_completion = client.chat.completions.create(
+        messages=convo_2_discretize, model=json_llm, temperature=0
+    )
     img_idea_json = _extract_jsonstr(_get_text(chat_completion))
 
     response = image_client.images.generate(
         model="dall-e-3",
-        prompt=prompts["create"].replace("{{image_idea}}", img_idea_json).replace("{{title}}", title),
+        prompt=prompts["create"]
+        .replace("{{image_idea}}", img_idea_json)
+        .replace("{{title}}", title),
         quality="standard",
         n=1,
     )
@@ -365,14 +379,18 @@ def article_ideas(n, system_prompt="whisker") -> str:
         },
         {"role": "user", "content": prompts["idea_generator"].replace("{{n}}", str(n))},
     ]
-    chat_completion = client.chat.completions.create(messages=convo_1_ideas, model=heavy_llm, temperature=1)
+    chat_completion = client.chat.completions.create(
+        messages=convo_1_ideas, model=heavy_llm, temperature=1
+    )
     ideas = _get_text(chat_completion)
 
     convo_2_discretize = convo_1_ideas + [
         {"role": "assistant", "content": ideas},
         {"role": "user", "content": prompts["json_formatter"]},
     ]
-    chat_completion2 = client.chat.completions.create(messages=convo_2_discretize, model=json_llm, temperature=0)
+    chat_completion2 = client.chat.completions.create(
+        messages=convo_2_discretize, model=json_llm, temperature=0
+    )
 
     discrete_ideas = _get_text(chat_completion2)
     return _extract_jsonstr(discrete_ideas)
@@ -470,8 +488,15 @@ def article_body(idea: str, outline: str, num_words: int) -> str:
     with open(prompts_dir / "article.yaml", "rb") as f:
         prompts = yaml.safe_load(f)
 
-    article_generator = random.choice([k for k in prompts.keys() if k.startswith("article_gen")])
-    author_names = ["Whisker Walters", "Squeaky McSqueak", "Ratbert Rattington", "Ratilda Rattington"]
+    article_generator = random.choice(
+        [k for k in prompts.keys() if k.startswith("article_gen")]
+    )
+    author_names = [
+        "Whisker Walters",
+        "Squeaky McSqueak",
+        "Ratbert Rattington",
+        "Ratilda Rattington",
+    ]
 
     chat_completion = client.chat.completions.create(
         messages=[
@@ -497,7 +522,7 @@ def article_body(idea: str, outline: str, num_words: int) -> str:
     return article_json
 
 
-def get_comments(article: dict, num_comments: int, model=light_llm) -> str:
+def get_comments(article: dict, num_comments: int, model=heavy_llm) -> str:
     with open(prompts_dir / "article.yaml", "rb") as f:
         prompts = yaml.safe_load(f)
 
@@ -515,7 +540,7 @@ def get_comments(article: dict, num_comments: int, model=light_llm) -> str:
                 .replace("{{num_comments}}", str(num_comments)),
             },
         ],
-        response_format={ "type": "json_object" },
+        response_format={"type": "json_object"},
         model=model,
         temperature=1,
     )
@@ -526,9 +551,11 @@ def get_comments(article: dict, num_comments: int, model=light_llm) -> str:
         comments_list = []
         if type(json_comments) == dict:
             for key in json_comments.keys():
-                if (isinstance(json_comments[key], list)
-                        and len(json_comments[key]) > 0
-                        and isinstance(json_comments[key][0], dict)):
+                if (
+                    isinstance(json_comments[key], list)
+                    and len(json_comments[key]) > 0
+                    and isinstance(json_comments[key][0], dict)
+                ):
                     comments_list = json_comments[key]
                     break
         return comments_list
@@ -537,7 +564,7 @@ def get_comments(article: dict, num_comments: int, model=light_llm) -> str:
         logger.error(traceback.format_exc())
         logger.debug("Raw comments: %s", raw_comments)
         return []
-    
+
 
 def article_to_json(article_text: str, model=light_llm) -> dict:
     with open(prompts_dir / "article.yaml", "rb") as f:
@@ -547,7 +574,12 @@ def article_to_json(article_text: str, model=light_llm) -> dict:
         client.chat.completions.create(
             messages=[
                 {"role": "system", "content": systems["article_to_json"]},
-                {"role": "user", "content": prompts["articleToJson"].replace("{{article}}", article_text).strip()},
+                {
+                    "role": "user",
+                    "content": prompts["articleToJson"]
+                    .replace("{{article}}", article_text)
+                    .strip(),
+                },
             ],
             model=model,
             temperature=0,
@@ -606,7 +638,7 @@ def make_article_id(title: str, body: str) -> str:
     semantic_id = semantic_id.lower()
     semantic_id = re.sub(r"[^\w\s]", "", semantic_id)
     semantic_id = re.sub(r"\s+", "-", semantic_id)
-    return semantic_id + '-' + str(uuid.uuid4())[:3]
+    return semantic_id + "-" + str(uuid.uuid4())[:3]
 
 
 def _get_text(chat_completion) -> str:

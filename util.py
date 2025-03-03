@@ -15,10 +15,10 @@ def download_and_compress_image(url: str, webp_path: str, quality=85) -> bool:
         return False
 
     img = Image.open(BytesIO(response.content))
-    if img.mode != 'RGB':
-        img = img.convert('RGB')
+    if img.mode != "RGB":
+        img = img.convert("RGB")
 
     # Save as WebP
-    img.save(webp_path, 'WEBP', quality=quality)
-    logging.info(f'Downloaded file to {webp_path}')
+    img.save(webp_path, "WEBP", quality=quality)
+    logging.info(f"Downloaded file to {webp_path}")
     return True

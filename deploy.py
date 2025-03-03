@@ -13,27 +13,43 @@ import sys
 
 import text_processing
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 def main():
     import argparse
 
-    parser = argparse.ArgumentParser(description="Generate and deploy articles to a GitHub Pages site")
+    parser = argparse.ArgumentParser(
+        description="Generate and deploy articles to a GitHub Pages site"
+    )
     parser.add_argument(
         "--repo",
         help="URL of the repository to deploy to",
         default="https://github.com/davidhaas6/rat-news-network-frontend.git",
         nargs="?",
     )
-    parser.add_argument("--num", type=int, default=0, help="Number of articles to generate")
+    parser.add_argument(
+        "--num", type=int, default=0, help="Number of articles to generate"
+    )
     parser.add_argument("--articles", help="Directory to save or load articles")
-    parser.add_argument("--branch", help="Branch to deploy to", default="main", nargs="?")
-    parser.add_argument("--keep-local", help="Keep the local repository after deployment", action="store_true")
-    parser.add_argument("--auto", help="Automatically deploy without user input", action="store_true")
+    parser.add_argument(
+        "--branch", help="Branch to deploy to", default="main", nargs="?"
+    )
+    parser.add_argument(
+        "--keep-local",
+        help="Keep the local repository after deployment",
+        action="store_true",
+    )
+    parser.add_argument(
+        "--auto", help="Automatically deploy without user input", action="store_true"
+    )
     args = parser.parse_args()
 
-    generate_and_push_articles(args.repo, args.num, args.articles, args.branch, args.keep_local, args.auto)
+    generate_and_push_articles(
+        args.repo, args.num, args.articles, args.branch, args.keep_local, args.auto
+    )
 
 
 def generate_and_push_articles(
@@ -69,7 +85,9 @@ def generate_and_push_articles(
 
     # Generate site
     os.makedirs(site_dir, exist_ok=True)
-    templater.ArticleSiteGenerator(article_dir, "templates/", site_dir).generate_site(articles)
+    templater.ArticleSiteGenerator(article_dir, "templates/", site_dir).generate_site(
+        articles
+    )
     print(site_dir)
 
     if not os.path.exists(site_dir) or not os.listdir(site_dir):
@@ -91,10 +109,18 @@ def process_article(article: dict, article_dir: str):
             print("Error downloading images" + str(e))
 
     if "reading_time_minutes" not in article:
-        article["reading_time_minutes"] = text_processing.estimate_reading_time(article["body"])
+        article["reading_time_minutes"] = text_processing.estimate_reading_time(
+            article["body"]
+        )
 
 
-def git_deploy(repo_url: str, site_dir: str, branch_name: str = "main", keep_local: bool = False, force=False) -> None:
+def git_deploy(
+    repo_url: str,
+    site_dir: str,
+    branch_name: str = "main",
+    keep_local: bool = False,
+    force=False,
+) -> None:
     # Ensure the site directory exists
     site_dir = os.path.abspath(site_dir)
     if not os.path.isdir(site_dir):
@@ -135,7 +161,11 @@ def git_deploy(repo_url: str, site_dir: str, branch_name: str = "main", keep_loc
         commit_message = f"Daily site update {datetime.now().strftime('%Y-%m-%d')}"
         run_command(f'git commit -m "{commit_message}"')
         run_command(f"git status")
-        should_push = force or input(f"Push to the remote '{branch_name}' branch? (y/n): ").lower() == "y"
+        should_push = (
+            force
+            or input(f"Push to the remote '{branch_name}' branch? (y/n): ").lower()
+            == "y"
+        )
         if should_push:
             run_command(f"git push origin {branch_name}")
             print("Changes pushed.")
@@ -157,7 +187,9 @@ def auth_repo_url(repo_url: str) -> str:
 
     token = os.environ.get("GITHUB_PAT")
     if not token:
-        raise ValueError("GitHub Personal Access Token not found in environment variables")
+        raise ValueError(
+            "GitHub Personal Access Token not found in environment variables"
+        )
 
     return f"https://{token}@github.com/{username}/{repo_name}.git"
 
@@ -165,7 +197,12 @@ def auth_repo_url(repo_url: str) -> str:
 def run_command(command):
     try:
         output = subprocess.run(
-            command, check=True, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True
+            command,
+            check=True,
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True,
         )
         logging.info(f"{command} -> {output.stdout.strip()}")
     except subprocess.CalledProcessError as e:

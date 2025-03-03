@@ -26,10 +26,13 @@ class ArticleSiteGenerator:
         self.copy_images(articles)
         self.generate_qr_code_page(articles)
 
-    
     def copy_template_dir(self):
         """Copies the template directory to the output directory."""
-        shutil.copytree(os.path.join(self.template_dir, "site_template"), self.output_dir, dirs_exist_ok=True)
+        shutil.copytree(
+            os.path.join(self.template_dir, "site_template"),
+            self.output_dir,
+            dirs_exist_ok=True,
+        )
 
     def generate_article_pages(self, articles, dst_dir=None):
         if dst_dir is None:
@@ -60,7 +63,7 @@ class ArticleSiteGenerator:
         output = template.render(articles=articles)
         with open(os.path.join(self.output_dir, "qr.html"), "w") as f:
             f.write(output)
-    
+
     def generate_archive(self, src_article_dir: str):
         # UNFINISHED
 
@@ -76,7 +79,7 @@ class ArticleSiteGenerator:
             # article = self._process_article(article)
             # get the day of the week
             # day = article['timestamp'].strftime('%A')
-            date = article['timestamp'].strftime('%Y-%m-%d')
+            date = article["timestamp"].strftime("%Y-%m-%d")
             if date not in articles_by_date:
                 articles_by_date[date] = []
             articles_by_date[date].append(article)
@@ -89,7 +92,6 @@ class ArticleSiteGenerator:
                 # print(f"  {article['article_id']} {article['title']}")
                 self._write_article(article, dst_dir)
 
-    
     def _load_articles(self, articles=None, article_dir=None):
         if article_dir is None:
             article_dir = self.articles_dir
@@ -108,7 +110,7 @@ class ArticleSiteGenerator:
                         articles.append(article)
 
         return sorted(articles, key=lambda x: x["timestamp"], reverse=True)
-        
+
     def _process_article(self, article):
         """Does misc cleaning, data conversion, and imputation on an article object
         Args:
@@ -116,13 +118,17 @@ class ArticleSiteGenerator:
         Returns:
             dict: The processed article.
         """
-        article["timestamp"] = datetime.strptime(article["timestamp"], "%Y-%m-%d %H:%M:%S")
+        article["timestamp"] = datetime.strptime(
+            article["timestamp"], "%Y-%m-%d %H:%M:%S"
+        )
         article["img_path"] = os.path.basename(article["img_path"])
-        if 'reading_time_minutes' not in article:
-            article['reading_time_minutes'] = text_processing.estimate_reading_time(article['body'])
-        article['reading_time_minutes'] = round(article['reading_time_minutes'])
-        if 'comments' not in article:
-            article['comments'] = []
+        if "reading_time_minutes" not in article:
+            article["reading_time_minutes"] = text_processing.estimate_reading_time(
+                article["body"]
+            )
+        article["reading_time_minutes"] = round(article["reading_time_minutes"])
+        if "comments" not in article:
+            article["comments"] = []
         return article
 
     def _write_article(self, article, out_dir, template=None):
@@ -134,10 +140,10 @@ class ArticleSiteGenerator:
         Returns:
             str: The rendered template as a string.
         """
-        
+
         if template is None:
             template = self.env.get_template("article.html")
-        
+
         output = template.render(
             title=article["title"],
             overview=article["overview"],
@@ -151,13 +157,17 @@ class ArticleSiteGenerator:
             f.write(output)
         return output
 
+
 # Usage
 if __name__ == "__main__":
     import argparse
+
     day_timestamp = datetime.now().strftime("%Y-%m-%d")
     full_timestamp = datetime.now().strftime("%Y-%m-%d-%H%M%S")
 
-    parser = argparse.ArgumentParser(description="Generate a static website from article JSON files.")
+    parser = argparse.ArgumentParser(
+        description="Generate a static website from article JSON files."
+    )
     parser.add_argument("--articles", help="Directory containing article JSON files")
     parser.add_argument(
         "output_dir",
@@ -165,11 +175,18 @@ if __name__ == "__main__":
         default=f"out/templater-output/{day_timestamp}/site_{full_timestamp}",
         nargs="?",
     )
-    parser.add_argument("template_dir", help="Directory containing HTML templates", default=f"templates/", nargs="?")
+    parser.add_argument(
+        "template_dir",
+        help="Directory containing HTML templates",
+        default=f"templates/",
+        nargs="?",
+    )
     args = parser.parse_args()
 
     # ArticleSiteGenerator(args.articles, args.template_dir, f"{args.output_dir}").generate_site()
-    generator = ArticleSiteGenerator(args.articles, args.template_dir, f"{args.output_dir}")
+    generator = ArticleSiteGenerator(
+        args.articles, args.template_dir, f"{args.output_dir}"
+    )
     generator.generate_site()
     # generator.generate_archive("/home/dhaas/projects/rat-news-network-backend/articlegen/out/flat_articles")
     print(args.output_dir)

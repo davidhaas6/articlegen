@@ -18,9 +18,16 @@ def count_syllables(word):
         count += 1
     return count
 
+
 def count_sentences(text):
     # More robust sentence counting
-    return len(re.findall(r'\w+[.!?](?:\s|$)(?<![A-Z][a-z]\.)(?<!Mr\.)(?<!Mrs\.)(?<!Ms\.)(?<!Dr\.)', text))
+    return len(
+        re.findall(
+            r"\w+[.!?](?:\s|$)(?<![A-Z][a-z]\.)(?<!Mr\.)(?<!Mrs\.)(?<!Ms\.)(?<!Dr\.)",
+            text,
+        )
+    )
+
 
 def estimate_reading_time(text, words_per_minute=200):
     if not isinstance(text, str) or not text.strip():
@@ -34,18 +41,25 @@ def estimate_reading_time(text, words_per_minute=200):
     # Method 3: Flesch-Kincaid
     sentences = count_sentences(text)
     syllables = sum(count_syllables(word) for word in words)
-    
+
     if sentences == 0 or word_count == 0:
         flesch_reading_ease = 0
         flesch_kincaid_grade = 0
     else:
-        flesch_reading_ease = 206.835 - 1.015 * (word_count / sentences) - 84.6 * (syllables / word_count)
-        flesch_kincaid_grade = 0.39 * (word_count / sentences) + 11.8 * (syllables / word_count) - 15.59
+        flesch_reading_ease = (
+            206.835 - 1.015 * (word_count / sentences) - 84.6 * (syllables / word_count)
+        )
+        flesch_kincaid_grade = (
+            0.39 * (word_count / sentences) + 11.8 * (syllables / word_count) - 15.59
+        )
 
     # Adjust word count estimate based on Flesch-Kincaid Grade Level
-    fk_adjusted_estimate = word_count_estimate * (1 + max(0, flesch_kincaid_grade) / 100)
+    fk_adjusted_estimate = word_count_estimate * (
+        1 + max(0, flesch_kincaid_grade) / 100
+    )
 
     return fk_adjusted_estimate
+
 
 # Example usage
 
