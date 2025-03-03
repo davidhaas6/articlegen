@@ -13,7 +13,6 @@ import random
 import traceback
 import uuid
 from pathlib import Path
-from groq import Groq
 
 import text_processing
 import util
@@ -543,11 +542,6 @@ def get_comments(article: dict, num_comments: int, model=light_llm) -> str:
 def article_to_json(article_text: str, model=light_llm) -> dict:
     with open(prompts_dir / "article.yaml", "rb") as f:
         prompts = yaml.safe_load(f)
-
-    other_args = {}
-    if type(client) == Groq:
-        print("groq")
-        other_args["response_format"] = {"type": "json_object"}
 
     article_json_str = _get_text(
         client.chat.completions.create(
