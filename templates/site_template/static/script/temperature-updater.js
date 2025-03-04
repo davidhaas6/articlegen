@@ -5,24 +5,40 @@ function updateTemperature() {
     const rankine = Math.round(fahrenheit + 459.67);
     const ratCities = [
         "Ratopolis",
-        "Whiskerburg",
-        "New Squeakton",
-        "Rodentia Falls",
-        "Cheeseville",
-        "Furrington",
-        "Tailsville",
-        "Nibbleton",
-        "Scurry City",
-        "Gnawopolis",
-        "Port Whisker"
+        "Squeattle",         // (Seattle)
+        "Cheesago",         // (Chicago)
+        "Los Ratos",        // (Los Angeles / Los Gatos)
+        "Gnawleans",        // (New Orleans)
+        "Rodentsterdam",    // (Amsterdam)
+        "Scamperino",       // (San Marino)
+        "Squeakramento",    // (Sacramento)
+        "Rat Vegas",        // (Las Vegas)
+        "San Cheesco",      // (San Francisco)
+        "Scurrybrook",      // (Lynchburg or Harrisburg)
+        "Montcheesery",     // (Montgomery)
+        "Ratsonville",      // (Jacksonville)
+        "Scritchmond",      // (Richmond)
+        "Ratislava",        // (Bratislava, Slovakia)
+        "Squeakterdam",     // (Amsterdam, Netherlands)
+        "Gnaw York",        // (New York, USA, but international rats dream of it too!)
+        "Cheeseburg",       // (Hamburg, Germany)
+        "Ratcelona",        // (Barcelona, Spain)
+        "Squeakjing",       // (Beijing, China)
+        "Rodentograd",      // (Volgograd, Russia)
+        "São Pawlo",        // (São Paulo, Brazil)
+        "Scurrybourg",      // (Strasbourg, France)
+        "Tailin",           // (Taipei, Taiwan)
+        "Gnawnich",         // (Munich, Germany)
+        "Mouscow",          // (Moscow, Russia)
+        "Zurwhisk",         // (Zurich, Switzerland)
+        "Banggnawk",        // (Bangkok, Thailand)
+        "Naplesqueak",      // (Naples, Italy)
     ];
 
     const randomIndex = Math.floor(Math.random() * ratCities.length);
 
     // Update the DOM
     const temperatureElement = document.getElementById('temperature');
-    console.log(temperatureElement);
-    console.log(`${rankine}°R, ${ratCities[randomIndex]}`);
     if (temperatureElement) {
         temperatureElement.textContent = `${rankine}°R, ${ratCities[randomIndex]}`;
     }
