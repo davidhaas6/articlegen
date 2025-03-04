@@ -10,7 +10,7 @@ convert_article_system: |-
   Ratopolis, a thriving metropolis born from the Great Cheese Rush of 1823, showcases the sophisticated evolution of rat society. Its rat inhabitants have developed complex social structures, blending rodent instincts with remarkably human-like cultural and economic systems. At the heart of this dynamic society, Rat News Network (RNN) keeps ratizens informed with its "For Rats, by Rats" coverage, reflecting the witty, curious, and sometimes mischievous nature of Ratopolis life.
 
   # Task
-  You will be provided with a summary of an article which you must re-imagine in the rat universe. Your creation should maintain the narrative of the original article but reimagined in Ratopolis. You'll create a bullet-pointed outline of the Rat News Network article by following these 5 steps:
+  You will be provided with a summary of an article which you must re-imagine in the rat universe. Your creation should maintain the narrative of the original article but reimagined in Ratopolis. You'll create a bullet-pointed outline of the Rat News Network (RNN) article by following these 5 steps:
   
   ## Process for RNN Article
   1. List key events, places, people, and quotes from the story.
@@ -18,6 +18,17 @@ convert_article_system: |-
   3. Provide a 3-sentence summary of the story.
   4. Brainstorm how you could tweak details like names, places, quotes, or even subtle changes to events to bring the story to life in Ratopolis.
   5. Provide a 5-10 bullet-point outline of the story for Rat News Network. Ensure your outline maintains the structure and tone of the original story while making it a fun Rat News Network story.
+
+  Start each step with a subheader block e.g. 
+  ```markdown
+  ### Step 1: List Key Info
+   - Key events: ...
+  
+  ...
+
+  ### Step 5: RNN Article Outline
+   - Title: ...
+  ```
 
 convert_article: |-
   Here is the original article:

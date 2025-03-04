@@ -1,13 +1,22 @@
 import argparse
+import os
+import random
+from typing import List
 from docling.document_converter import DocumentConverter
 from docling.datamodel.base_models import InputFormat
 from openai import OpenAI
 from pydantic import BaseModel
 import sys
+import requests
 import yaml
 from pathlib import Path
+import dotenv
+import re
+
 print("done importing")
 
+if not dotenv.load_dotenv('.env'):
+    print("WARNING: Could not load env file")
 client = OpenAI()
 PROMPT_PATH = Path(__file__).parent.parent / 'prompts' / 'parody.yaml'
 with open(PROMPT_PATH) as f:
@@ -121,6 +130,47 @@ def generate_parody_outline(article: CleanArticle) -> str:
     return ''
 
 
+def generate_top_story_outlines(num: int) -> List[str]:
+    api_key = os.environ.get('NEWS_API_KEY')
+    if not api_key:
+        raise ValueError("NEWS_API_KEY environment variable must be set to your newsapi.org key")
+    url = 'https://newsapi.org/v2/top-headlines'
+    params = {
+        'country': 'us',
+        'apiKey': api_key,
+        'pageSize': max(5, num),
+
+    }
+
+    response = requests.get(url, params=params)
+    data = response.json()
+
+    selected_articles = random.sample(data.get('articles', []), num)
+    outlines = []
+    for article in selected_articles:
+        url = article.get('url')
+        if url:
+            md_text = article_to_md(url)
+            article = clean_article_md(md_text)
+            outline_full_text = generate_parody_outline(article)
+            outline = extract_step_5(outline_full_text)
+            if not outline:
+                print("Could not extract outline!!!\nText:\n",outline_full_text)
+            else:
+                outlines.append(outline)
+
+    return outlines
+
+
+def extract_step_5(text) -> str|None:
+    pattern = re.compile(
+        r"^#+\s*Step\s*5\b.*?$\n(.*?)(?=^#+\s*Step\s*\d+\b|\Z)", 
+        re.IGNORECASE | re.MULTILINE | re.DOTALL
+    )
+    
+    match = pattern.search(text)
+    return match.group(1).strip() if match else None
+
 
 def main():
     """CLI entrypoint"""
@@ -130,13 +180,10 @@ def main():
     args = parser.parse_args()
 
     try:
-        # Convert article to markdown
         md_text = article_to_md(args.url)
         
-        # Extract clean article data
         article = clean_article_md(md_text)
         
-        # Format output
         output = f"# {article.title}\n\nBy {article.author or 'Unknown'}\n\n{article.body}"
         
         # Write or print result
@@ -163,4 +210,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    print(generate_top_story_outlines(2))
