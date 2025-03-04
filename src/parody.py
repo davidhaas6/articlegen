@@ -2,7 +2,7 @@ import argparse
 import os
 import random
 from typing import List
-from docling.document_converter import DocumentConverter
+from docling.document_converter import DocumentConverter  # slow import..
 from docling.datamodel.base_models import InputFormat
 from openai import OpenAI
 from pydantic import BaseModel
@@ -75,7 +75,6 @@ def clean_article_md(website_md: str) -> CleanArticle:
         ArticleExtractionError: If extraction fails
     """
     try:
-        print("starting completion...")
         chat_completion = client.beta.chat.completions.parse(
             messages=[
                 {

@@ -1,8 +1,9 @@
-from typing import Optional
 import gen
 import util
 import templater
 
+import dotenv
+from typing import Optional
 import os
 from datetime import datetime
 import shutil
@@ -14,6 +15,7 @@ import sys
 
 import text_processing
 
+dotenv.load_dotenv()
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
@@ -61,6 +63,7 @@ def generate_and_push_articles(
     keep_local: bool = False,
     force: bool = False,
 ) -> str:
+    NUM_PARODY = 2
     day_timestamp = datetime.now().strftime("%Y-%m-%d")
     full_timestamp = datetime.now().strftime("%Y-%m-%d-%H%M%S")
     site_dir = f"out/site/{day_timestamp}/{full_timestamp}"
@@ -70,7 +73,12 @@ def generate_and_push_articles(
     os.makedirs(article_dir, exist_ok=True)
 
     if num_articles > 0:
-        articles = gen.new_articles(num_articles)
+        if num_articles > NUM_PARODY: # only generate if theres a certain number of articles
+            parody_articles = gen.new_parody_articles(NUM_PARODY)
+            articles = parody_articles + gen.new_articles(num_articles-NUM_PARODY)
+        else:
+            articles = gen.new_articles(num_articles)
+
         for article in articles:
             process_article(article, article_dir)
             # write to disk

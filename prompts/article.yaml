@@ -3,9 +3,8 @@ outline: |-
   ## Task:
   As an expert journalist and writer, write an interesting or engaging outline for an article on Rat News Network. This article takes place in the rat universe, where Rat News Network (RNN) is the predominant publication.
 
-  ## Article idea:
+  ## Article Description:
   {{idea}}
-
 
   ## Task:
   First, refine the idea: determine the main message or theme you wish to convey, and state the target audience of the article. This will set help the writing style and content. Second, create a **bullet-pointed outline** for the article.
@@ -23,7 +22,7 @@ outline2: |-
   ## Task:
   As an expert journalist and writer, write an interesting and engaging outline for an article on Rat News Network (RNN). This article takes place in the rat universe, where RNN is the predominant publication.
 
-  ## Article idea:
+  ## Article Description:
   {{idea}}
 
   ## Task:
@@ -75,7 +74,7 @@ summary: |-
 article_gen: |-
   You're a talented journalist for Rat News Network working on a captivating article. You must write a great article from an outline. 
 
-  # Article idea:
+  # Article description:
   {{idea}}
 
 
@@ -103,7 +102,7 @@ article_gen: |-
 article_gen2: |-
   You're a talented journalist for Rat News Network working on a captivating article.
   
-  # Article idea:
+  # Article Description:
   {{idea}}
 
 
@@ -131,7 +130,7 @@ article_gen2: |-
 article_gen3: |-
   As a distinguished journalist at Rat News Network, you're tasked with crafting an enthralling article. Your reputation for creating stories that resonate with rat audiences is well-known.
 
-  # Article Idea:
+  # Article Description:
   {{idea}}
 
 
@@ -160,7 +159,7 @@ article_gen3: |-
 article_gen5: |-
   As a top journalist at Rat News Network, your task is to write an engaging and informative article. Your target audience is rats living in Ratopolis.
 
-  # Article Idea:
+  # Article Description:
   {{idea}}
 
 

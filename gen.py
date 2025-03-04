@@ -2,7 +2,7 @@
 from datetime import datetime
 from multiprocessing import Pool
 import re
-from typing import List
+from typing import Dict, List
 import logging
 import os
 from openai import OpenAI
@@ -18,10 +18,6 @@ import text_processing
 import util
 
 VERBOSE = True
-journalist1_system = {
-    "role": "system",
-    "content": "Your name is Whisker Walters. You are a famous journalist and the chief news editor for Rat News Network. Your job is to come up with the next juicy story.",  # noqa: E501
-}
 
 prompts_dir = Path(__file__).resolve().parent / "prompts"
 with open(prompts_dir / "system.yaml") as f:
@@ -33,6 +29,8 @@ image_client = OpenAI()
 json_llm = "gpt-4o-mini"
 light_llm = "gpt-4o-mini"
 heavy_llm = "gpt-4o"
+
+PARODY_CATEGORY = 'Featured'
 
 logging.basicConfig(
     # filename='logs/generator.log',
@@ -85,14 +83,19 @@ def _cli_main():
         print(url)
         logger.info(url)
     elif "parody" in action:
-        if len(sys.argv) < 4:
-            print("usage: gen.py parody <title> <body>")
+        if len(sys.argv) < 3:
+            print("usage: gen.py parody <num>")
             return
-        article = article_from_article(sys.argv[2], sys.argv[3])
-        with open(f'out/articles/{article["article_id"]}.json', "w") as f:
-            json.dump(article, f)
-            logger.info(f'Article saved to out/articles/{article["article_id"]}.json')
-        print(article)
+        # article = article_from_article(sys.argv[2], sys.argv[3])
+        num = int(sys.argv[2])
+        articles = new_parody_articles(num)
+        for article in articles:
+            if article is None:
+                print("Error generating article")
+            with open(f'out/articles/{article["article_id"]}.json', "w") as f:
+                json.dump(article, f)
+                logger.info(f'Article saved to out/articles/{article["article_id"]}.json')
+            print(article)
     elif "articleid" in action:
         if len(sys.argv) < 4:
             print("usage: gen.py articleid <title> <body>")
@@ -106,7 +109,7 @@ def _cli_main():
             return
         with open(sys.argv[2], "r") as f:
             article = json.load(f)
-        comments = get_comments(article, sys.argv[3] if len(sys.argv) > 3 else 5)
+        comments = get_comments(article, int(sys.argv[3]) if len(sys.argv) > 3 else 5)
         logger.info(comments)
 
 
@@ -124,23 +127,37 @@ def new_articles(num: int, ideas=None) -> List[dict]:
     if ideas is None:
         ideas_str = article_ideas(num)
         ideas = json.loads(ideas_str)
-        ideas = ideas[list(ideas.keys())[0]]  # output json has a single key
+        primary_key = list(ideas.keys())[0] # output json has a single key
+        ideas = ideas.get(primary_key)
 
-    num_cpus = min(6, os.cpu_count())
+    num_cpus = min(8, os.cpu_count())
     n_threads = min(num, num_cpus)
     with Pool(n_threads) as pool:
-        string_ideas = map(json.dumps, ideas)
-        print("Generating articles. Ideas:", string_ideas)
-        articles = pool.map(article_from_idea, string_ideas)
+        # string_ideas = map(json.dumps, ideas)
+        print("Generating articles. Ideas:", ideas)
+        articles = pool.map(article_from_idea, ideas)
 
     return articles
 
+def new_parody_articles(num: int) -> List[dict]:
+    from src.parody import generate_top_story_outlines # this is a slow import, so only use it if we need it
+    if num <= 0:
+        return []
+    ideas = []
+    for outline in generate_top_story_outlines(num):
+        ideas.append({
+            'title': '',
+            'description': outline,
+            'category': PARODY_CATEGORY
+        })
+    return new_articles(len(ideas), ideas)
 
-def article_from_idea(idea: str) -> dict:
+
+def article_from_idea(idea: dict) -> dict|None:
     """Create an article from an idea
 
     Args:
-        idea (str): A description of the article
+        idea (dict): An article idea with three keys: "title", "description", "category"
 
     Returns:
         dict: an article object. returns empty dict on error.
@@ -153,22 +170,25 @@ def article_from_idea(idea: str) -> dict:
     """
     try:
         logging.info(f"Creating article from idea: {idea}")
-        outline = article_outline(idea.strip())
-        logging.info(f"Generating body")
-
+        idea_str = f'Title: {idea.get("title")}\nDescription: {idea.get("description")}'
+        outline = article_outline(idea_str)
+        logging.info("Generating body")
         # sample from normal distribution for word count within limits
         num_words = int(random.gauss(650, 150))
         num_words = max(300, min(10000, num_words))
 
-        article = article_body(idea, outline, num_words)
+        article = article_body(idea_str, outline, num_words)
         article["Outline"] = outline
         article["reading_time_minutes"] = text_processing.estimate_reading_time(
             article["body"]
         )
+        article['category'] = idea.get('category')
 
         # comments
-        num_comments = random.gauss(3, 2.7)
-        num_comments = round(max(0, num_comments))
+        num_comments = random.gauss(4, 2.7)
+        min_comments = 2 if article['category'] == PARODY_CATEGORY else 0
+        num_comments = round(max(min_comments, num_comments))
+        logging.info(f"Generating with {num_comments} comments")
         article["comments"] = get_comments(article, num_comments)
 
         logging.info("creating image")
@@ -189,7 +209,7 @@ def article_from_idea(idea: str) -> dict:
     return article
 
 
-def article_from_article(title: str, body: str, model=heavy_llm) -> dict:
+def article_from_article(title: str, body: str, model=heavy_llm) -> dict|None:
     """Transform a normal article into a Rat News Network article
 
     Args:
@@ -207,11 +227,10 @@ def article_from_article(title: str, body: str, model=heavy_llm) -> dict:
     """
     try:
         # extract the first sentence as the overview
-        match = re.search(r"[^.!?]+[.!?]", body)
-        overview = match.group().strip() if match else body.strip()
+        # match = re.search(r"[^.!?]+[.!?]", body)
 
-        summary = summarize_article(title, body, 3)
-        print("summary: \n\n", summary)
+        # summary = summarize_article(title, body, 3)
+        # print("summary: \n\n", summary)
 
         # get rat overview
         with open(prompts_dir / "parody.yaml", "rb") as f:
@@ -225,9 +244,9 @@ def article_from_article(title: str, body: str, model=heavy_llm) -> dict:
                 },
                 {
                     "role": "user",
-                    "content": prompts["convert_article"].replace("{{title}}", title)
-                    # .replace("{{overview}}", overview)
-                    .replace("{{summary}}", summary),
+                    "content": prompts["convert_article"]
+                    .replace("{{title}}", title)
+                    .replace("{{article}}", body),
                 },
             ],
             model=heavy_llm,
@@ -317,7 +336,7 @@ def get_ad_prompt(article: str) -> str:
     pass
 
 
-def article_image(title: str, outline: str) -> str:
+def article_image(title: str, outline: str) -> str | None:
     with open(prompts_dir / "images.yaml") as f:
         prompts = yaml.safe_load(f)
 
@@ -330,7 +349,7 @@ def article_image(title: str, outline: str) -> str:
         }
     ]
     chat_completion = client.chat.completions.create(
-        messages=convo_1_ideas, model=heavy_llm, temperature=0.7
+        messages=convo_1_ideas, model=heavy_llm, temperature=0.7 # type: ignore
     )
     ideas = _get_text(chat_completion)
 
@@ -467,7 +486,7 @@ def article_outline(idea: str) -> str:
     return _get_text(chat_completion)
 
 
-def article_body(idea: str, outline: str, num_words: int) -> str:
+def article_body(idea: str, outline: str, num_words: int) -> Dict:
     """Generate the actual text for an article
 
     Args:
@@ -478,11 +497,11 @@ def article_body(idea: str, outline: str, num_words: int) -> str:
         reading_level (int): The complexity of the article's structure and vocabulary
 
     Returns:
-        str: an article json string:
+        Dict: an object containing the article data:
                title -> article title
                overview -> article overview
                body -> article body
-        str: generator version
+               generator -> generator version
     """
 
     with open(prompts_dir / "article.yaml", "rb") as f:
@@ -522,7 +541,7 @@ def article_body(idea: str, outline: str, num_words: int) -> str:
     return article_json
 
 
-def get_comments(article: dict, num_comments: int, model=heavy_llm) -> str:
+def get_comments(article: dict, num_comments: int, model=heavy_llm) -> List[str]:
     with open(prompts_dir / "article.yaml", "rb") as f:
         prompts = yaml.safe_load(f)
 

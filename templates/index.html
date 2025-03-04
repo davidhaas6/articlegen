@@ -11,18 +11,21 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container frontpage">
-        {% for article in articles %}
-        <div class="preview">
-            <a href="{{article.article_id}}">
-                <img src="static/img/{{article.img_path or 'https://ratnewsnetwork.com/static/img/rat-news-network-logo.png'}}" alt="article image">
-            </a>
-            <a class="preview-body" href="{{article.article_id or article.id}}">
-                <h1>{{article.title}}</h1>
-                <p>{{article.overview}}</p>
-                <span class="read-time">{{article.reading_time_minutes}} min read • {{article.comments|length}} comments</span>
-            </a>
-        </div>
-        {% endfor %}
+<div class="container frontpage">
+    {% for article in articles %}
+    <div class="preview {% if article.category == 'Featured' %}featured{% endif %}">
+        <a href="{{article.article_id}}" class="preview-img-link">
+            <img src="static/img/{{article.img_path or 'https://ratnewsnetwork.com/static/img/rat-news-network-logo.png'}}"
+                alt="article image">
+        </a>
+        <a class="preview-body"
+            href="{{article.article_id or article.id}}">
+            <h1>{{article.title}}</h1>
+            <p>{{article.overview}}</p>
+            <span class="read-time">{{article.category}} • {{article.reading_time_minutes}} min read • {{ "1 comment" if
+                article.comments|length == 1 else article.comments|length ~ " comments" }}</span>
+        </a>
     </div>
+    {% endfor %}
+</div>
 {% endblock %}

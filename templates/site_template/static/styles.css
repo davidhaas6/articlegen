@@ -204,7 +204,7 @@ footer {
     flex-flow: column wrap;
     align-items: start;
     justify-content: flex-start;
-    padding: 20px 0px;
+    padding: 10px 0px;
 }
 
 .preview {
@@ -273,6 +273,17 @@ footer {
     min-height: 50%;
     margin: 0;
 }
+
+.preview-img-link {
+    height: 100%;
+}
+
+/* .featured {
+    border-color: var(--color1);
+    border-radius: 10px;
+    border-width: 2px;
+    border-style: solid;
+} */
 
 /* Article
  -

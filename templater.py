@@ -108,7 +108,7 @@ class ArticleSiteGenerator:
                         self._process_article(article)
                         articles.append(article)
 
-        return sorted(articles, key=lambda x: x["timestamp"], reverse=True)
+        return sorted(articles, key=lambda x: x.get("category") != 'Featured')
 
     def _process_article(self, article):
         """Does misc cleaning, data conversion, and imputation on an article object
