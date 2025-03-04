@@ -137,7 +137,7 @@ def git_deploy(
         sys.exit(1)
 
     # Clone the repository
-    logging.info(f"Cloning repository {repo_url}...")
+    logging.info(f"Cloning repository {repo_url[repo_url.find('@github'):]}...")
     run_command(f"git clone {repo_url} repo")
     os.chdir("repo")
 
