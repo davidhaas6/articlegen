@@ -400,17 +400,22 @@ footer {
 .vote-up-count {
     background-color: var(--golden-yellow);
     font-weight: 700;
-    padding: 2.5px 0px;
+    padding: 3px 0px;
+    min-width: 30px;
+    border-color: var(--brownish-gray);
+    /* border-color: var(--cream); */
 }
 
 .vote-down-count {
     background-color: var(--deep-black);
     color: var(--color2);
     font-weight: 700;
-    padding: 2.5px 0px;
+    padding: 3px 0px;
+    min-width: 30px;
+    border-color: var(--brownish-gray);
 }
 
-.clicked .vote-down-count {
+.vote-up-count.clicked {
     border-color: var(--cream) !important;
 }
 

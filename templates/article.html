@@ -48,25 +48,49 @@
 </div>
 
 <script>
-     function incrementButton(button, prefix) {
-        if (button.classList.contains('clicked')) {
-                button.innerHTML = prefix + (parseInt(button.innerHTML.replace(prefix, "")) - 1);
-                button.classList.remove('clicked');
-                return;
-        }
-        button.classList.add('clicked');
-        button.innerHTML = prefix + (parseInt(button.innerHTML.replace(prefix, "")) + 1);
+    // Helper to update the vote count on a button.
+    function updateVoteText(button, prefix, diff) {
+        const currentCount = parseInt(button.textContent.replace(prefix, ''));
+        button.textContent = prefix + (currentCount + diff);
     }
-    document.querySelectorAll('.vote-up-count').forEach(button => {
-        button.addEventListener('click', () => {
-            incrementButton(button, '+');
+
+    // Handler for a vote click.
+    // currentButton: The button that was clicked.
+    // oppositeButton: The other vote button for the same comment.
+    // prefix: '+' for upvotes, '-' for downvotes.
+    function handleVoteClick(currentButton, oppositeButton, prefix) {
+        if (currentButton.classList.contains('clicked')) {
+            // If already clicked, remove the vote.
+            updateVoteText(currentButton, prefix, -1);
+            currentButton.classList.remove('clicked');
+        } else {
+            // If the opposite button is active, remove its vote.
+            if (oppositeButton.classList.contains('clicked')) {
+                const oppositePrefix = prefix === '+' ? '-' : '+';
+                updateVoteText(oppositeButton, oppositePrefix, -1);
+                oppositeButton.classList.remove('clicked');
+            }
+            // Add the vote for the current button.
+            updateVoteText(currentButton, prefix, 1);
+            currentButton.classList.add('clicked');
+        }
+    }
+
+    // Set up voting for a single comment.
+    function setupCommentVoting(comment) {
+        const upvoteBtn = comment.querySelector('.vote-up-count');
+        const downvoteBtn = comment.querySelector('.vote-down-count');
+        
+        upvoteBtn.addEventListener('click', () => {
+            handleVoteClick(upvoteBtn, downvoteBtn, '+');
         });
-    });
-    document.querySelectorAll('.vote-down-count').forEach(button => {
-        button.addEventListener('click', () => {
-            incrementButton(button, '-');
+        downvoteBtn.addEventListener('click', () => {
+            handleVoteClick(downvoteBtn, upvoteBtn, '-');
         });
-    });
+    }
+
+    // Iterate through each comment container and set up voting.
+    document.querySelectorAll('.comment').forEach(setupCommentVoting);
 
     // smooth scrolling
     document.getElementById('scroll-to-comments').addEventListener('click', function(e) {
