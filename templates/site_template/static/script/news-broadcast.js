@@ -2,11 +2,6 @@
 
 // Get the container element
 const main_container = document.getElementById('pixi-container');
-const renderer = await PIXI.autoDetectRenderer({
-  width: 800,
-  height: 600,
-  antialias: false,
-});
 
 const app = new PIXI.Application();
 
@@ -14,10 +9,16 @@ await app.init({
   width: main_container.clientWidth,
   height: main_container.clientHeight,
   background: '#FFF4D5',
-  renderer: renderer
 });
 
 main_container.appendChild(app.canvas);
+
+// // background
+// const office_texture = await PIXI.Assets.load('static/img/office.jpg')
+// const office_sprite = new PIXI.Sprite(office_texture)
+// office_sprite.filters = [new PIXI.filters.PixelateFilter()]
+// app.stage.addChild(office_sprite)
+
 
 // Load sprite visuals
 const SPRITE_PX = 256;
@@ -89,6 +90,8 @@ try {
   console.error("Error loading spritesheet:", error);
 }
 
+// LIVE indicator
+const live_container = new PIXI.Container()
 const liveColor = 0xFBC62C;
 const startX = app.screen.width - 95;
 const startY = 22;
@@ -117,7 +120,7 @@ x_text.y = 5
 
 x_button.addChild(x_text);
 app.stage.addChild(x_button);
-var SOUND_GLO = null;  // we'll set this later
+var SOUND_GLO = null; // we'll set this later
 function onXButtonClick() {
   if (SOUND_GLO) {
     SOUND_GLO.unload()
@@ -149,17 +152,14 @@ async function addSoundButton(sound) {
 
   const muted_texture = await PIXI.Assets.load('static/img/muted.png')
   const playing_texture = await PIXI.Assets.load('static/img/playing.png')
-  const muted_sprite = new PIXI.Sprite(muted_texture)
-  const playing_sprite = new PIXI.Sprite(playing_texture)
+  const sound_sprite = new PIXI.Sprite(muted_texture)
 
   const x = 45;
-  const y = 14;
-  muted_sprite.x = x;
-  muted_sprite.y = y;
-  playing_sprite.x = x;
-  playing_sprite.y = y;
+  const y = 15;
+  sound_sprite.x = x;
+  sound_sprite.y = y;
 
-  sound_button.addChild(playing_sprite);
+  sound_button.addChild(sound_sprite);
   app.stage.addChild(sound_button)
 
   // audio control
@@ -175,18 +175,17 @@ async function addSoundButton(sound) {
     sound.play(sound_id);
   });
 
-  function onSoundButtonClick(x) {
+  function onSoundButtonClick() {
     console.log("button press")
     SOUND_ON = !SOUND_ON;
-    sound_button.removeChildAt(0);
 
     if(SOUND_ON) {
-      sound_button.addChild(muted_sprite)
+      sound_sprite.texture = playing_texture;
       console.log(sound)
       const sound_id = sprite_keys[Math.floor(Math.random() * sprite_keys.length)];
       sound.play(sound_id);
     } else {
-      sound_button.addChild(playing_sprite)
+      sound_sprite.texture = muted_texture;
       if (sound.playing())
         sound.stop();
     }
