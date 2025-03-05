@@ -117,25 +117,28 @@ x_text.y = 5
 
 x_button.addChild(x_text);
 app.stage.addChild(x_button);
-
+var SOUND_GLO = null;  // we'll set this later
 function onXButtonClick() {
+  if (SOUND_GLO) {
+    SOUND_GLO.unload()
+  }
   app.destroy({ removeView: true })
   if (main_container)
     main_container.remove();
 }
 
 // sound button
+var SOUND_ON = false;
 
 fetch('static/audio/output.json')
   .then(response => response.json())
   .then(async (data) => {
     console.log(data); // JSON data as a JavaScript object
     var sound = new Howl(data);
+    SOUND_GLO = sound;
     await addSoundButton(sound);
   })
   .catch(error => console.error('Error loading JSON:', error));
-
-var SOUND_ON = false;
 
 async function addSoundButton(sound) {
   // visuals
