@@ -21,6 +21,7 @@
 {% block content %}
 
 <div class="container frontpage">
+    <div id="pixi-container"></div>
     {% for article in articles %}
     <div class="preview {% if article.category == 'Featured' %}featured{% endif %}">
         <a href="{{article.article_id}}" class="preview-img-link">
@@ -36,6 +37,5 @@
         </a>
     </div>
     {% endfor %}
-    <div id="pixi-container"></div>
 </div>
 {% endblock %}

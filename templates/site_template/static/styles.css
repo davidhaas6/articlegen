@@ -526,7 +526,7 @@ footer {
     #pixi-container {
         position: static;
         width: 256px;
-        height: 256px;
+        height: 290px;
         border-radius: 5px;
         border-width: 5px;
         border-color: var(--color1);
