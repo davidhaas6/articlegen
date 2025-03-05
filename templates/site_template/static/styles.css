@@ -531,6 +531,7 @@ footer {
         border-width: 5px;
         border-color: var(--color1);
         border-style: solid;
+        z-index: 0;
     }    
 }
 

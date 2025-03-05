@@ -2,15 +2,24 @@
 
 // Get the container element
 const main_container = document.getElementById('pixi-container');
-const app = new PIXI.Application();
-await app.init({ 
-  width: main_container.clientWidth, 
-  height: main_container.clientHeight,
-  background: '#FFF4D5' 
+const renderer = await PIXI.autoDetectRenderer({
+  width: 800,
+  height: 600,
+  antialias: false,
 });
 
-// Append the canvas to the main_container
+const app = new PIXI.Application();
+
+await app.init({
+  width: main_container.clientWidth,
+  height: main_container.clientHeight,
+  background: '#FFF4D5',
+  renderer: renderer
+});
+
 main_container.appendChild(app.canvas);
+
+// Load sprite visuals
 const SPRITE_PX = 256;
 const NUM_SPRITES = 9;
 
@@ -90,8 +99,8 @@ app.stage.addChild(circle)
 const font = new FontFaceObserver('Silkscreen');
 await font.load();
 
-const text1 = new PIXI.Text({ text: 'LIVE',  style: { fontFamily: 'Silkscreen', fontSize: 25, fill: liveColor, fontStyle: "bold" }});
-text1.y = startY - text1.height/2 - 3;
+const text1 = new PIXI.Text({ text: 'LIVE', style: { fontFamily: 'Silkscreen', fontSize: 25, fill: liveColor, fontStyle: "bold" } });
+text1.y = startY - text1.height / 2 - 3;
 text1.x = startX + 10
 app.stage.addChild(text1);
 
@@ -102,15 +111,82 @@ x_button.eventMode = 'static';
 x_button.on('pointerdown', onXButtonClick);
 x_button.cursor = 'pointer';
 
-const x_text = new PIXI.Text({ text: 'X',  style: { fontFamily: 'Silkscreen', fontSize: 25, fill: liveColor, fontStyle: "bold" }});
+const x_text = new PIXI.Text({ text: 'X', style: { fontFamily: 'Silkscreen', fontSize: 25, fill: liveColor, fontStyle: "bold" } });
 x_text.x = 10
 x_text.y = 5
 
 x_button.addChild(x_text);
 app.stage.addChild(x_button);
 
-function onXButtonClick(){
-  app.destroy({removeView: true})
+function onXButtonClick() {
+  app.destroy({ removeView: true })
   if (main_container)
     main_container.remove();
+}
+
+// sound button
+
+fetch('static/audio/output.json')
+  .then(response => response.json())
+  .then(async (data) => {
+    console.log(data); // JSON data as a JavaScript object
+    var sound = new Howl(data);
+    await addSoundButton(sound);
+  })
+  .catch(error => console.error('Error loading JSON:', error));
+
+var SOUND_ON = false;
+
+async function addSoundButton(sound) {
+  // visuals
+  const sound_button = new PIXI.Container()
+  sound_button.eventMode = 'static';
+  sound_button.on('pointerdown', onSoundButtonClick);
+  sound_button.cursor = 'pointer';
+
+  const muted_texture = await PIXI.Assets.load('static/img/muted.png')
+  const playing_texture = await PIXI.Assets.load('static/img/playing.png')
+  const muted_sprite = new PIXI.Sprite(muted_texture)
+  const playing_sprite = new PIXI.Sprite(playing_texture)
+
+  const x = 45;
+  const y = 14;
+  muted_sprite.x = x;
+  muted_sprite.y = y;
+  playing_sprite.x = x;
+  playing_sprite.y = y;
+
+  sound_button.addChild(playing_sprite);
+  app.stage.addChild(sound_button)
+
+  // audio control
+  const sprite_keys = Object.keys(sound._sprite);
+  const base_volume = 0.5;
+  Howler.volume(base_volume);
+
+  sound.on('end', function(){
+    const sound_id = sprite_keys[Math.floor(Math.random() * sprite_keys.length)];
+    console.log(sound_id)
+    sound.rate(Math.random()*3, sound_id); 
+    sound.volume(base_volume + (Math.random() - 0.5) / 4)
+    sound.play(sound_id);
+  });
+
+  function onSoundButtonClick(x) {
+    console.log("button press")
+    SOUND_ON = !SOUND_ON;
+    sound_button.removeChildAt(0);
+
+    if(SOUND_ON) {
+      sound_button.addChild(muted_sprite)
+      console.log(sound)
+      const sound_id = sprite_keys[Math.floor(Math.random() * sprite_keys.length)];
+      sound.play(sound_id);
+    } else {
+      sound_button.addChild(playing_sprite)
+      if (sound.playing())
+        sound.stop();
+    }
+
+  }
 }
