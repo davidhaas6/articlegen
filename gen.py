@@ -6,6 +6,7 @@ from typing import Dict, List
 import logging
 import os
 from openai import OpenAI
+from pydantic import BaseModel
 import yaml
 import json
 import sys
@@ -30,7 +31,7 @@ json_llm = "gpt-4o-mini"
 light_llm = "gpt-4o-mini"
 heavy_llm = "gpt-4o"
 
-PARODY_CATEGORY = 'Featured'
+PARODY_CATEGORY = "Featured"
 
 logging.basicConfig(
     # filename='logs/generator.log',
@@ -41,6 +42,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+
+class ArticleIdea(BaseModel):
+    description: str
+    category: str
+    title: str
+
+class IdeaResponse(BaseModel):
+    ideas: List[ArticleIdea]
 
 def _cli_main():
     """Command line interface main function"""
@@ -54,7 +63,7 @@ def _cli_main():
         if len(sys.argv) < 3:
             print("usage: gen.py idea <num_ideas>")
             return
-        num_ideas = sys.argv[2]
+        num_ideas = int(sys.argv[2])
         print("\n***INITIAL IDEAS:")
         ideas = article_ideas(num_ideas)
         print(ideas)
@@ -65,7 +74,7 @@ def _cli_main():
             print("usage: gen.py full <idea>")
             return
         logger.info(f"Generating article from idea: {idea}")
-        article = article_from_idea(idea)
+        article = article_from_idea(ArticleIdea(description=idea,title='',category=''))
         logger.info(f"Article created: {article}")
         util.download_and_compress_image(
             article["img_path"], f'out/articles/{article["article_id"]}.webp'
@@ -94,7 +103,9 @@ def _cli_main():
                 print("Error generating article")
             with open(f'out/articles/{article["article_id"]}.json', "w") as f:
                 json.dump(article, f)
-                logger.info(f'Article saved to out/articles/{article["article_id"]}.json')
+                logger.info(
+                    f'Article saved to out/articles/{article["article_id"]}.json'
+                )
             print(article)
     elif "articleid" in action:
         if len(sys.argv) < 4:
@@ -125,10 +136,7 @@ def new_articles(num: int, ideas=None) -> List[dict]:
     if num <= 0:
         return []
     if ideas is None:
-        ideas_str = article_ideas(num)
-        ideas = json.loads(ideas_str)
-        primary_key = list(ideas.keys())[0] # output json has a single key
-        ideas = ideas.get(primary_key)
+        ideas = article_ideas(num)
 
     num_cpus = min(8, os.cpu_count())
     n_threads = min(num, num_cpus)
@@ -139,21 +147,21 @@ def new_articles(num: int, ideas=None) -> List[dict]:
 
     return articles
 
+
 def new_parody_articles(num: int) -> List[dict]:
-    from src.parody import generate_top_story_outlines # this is a slow import, so only use it if we need it
+    from src.parody import (
+        generate_top_story_outlines,
+    )  # this is a slow import, so only use it if we need it
+
     if num <= 0:
         return []
     ideas = []
     for outline in generate_top_story_outlines(num):
-        ideas.append({
-            'title': '',
-            'description': outline,
-            'category': PARODY_CATEGORY
-        })
+        ideas.append(ArticleIdea(title='', description=outline, category=PARODY_CATEGORY))
     return new_articles(len(ideas), ideas)
 
 
-def article_from_idea(idea: dict) -> dict|None:
+def article_from_idea(idea: ArticleIdea) -> dict | None:
     """Create an article from an idea
 
     Args:
@@ -170,7 +178,7 @@ def article_from_idea(idea: dict) -> dict|None:
     """
     try:
         logging.info(f"Creating article from idea: {idea}")
-        idea_str = f'Title: {idea.get("title")}\nDescription: {idea.get("description")}'
+        idea_str = f'Title: {idea.title}\nDescription: {idea.description}'
         outline = article_outline(idea_str)
         logging.info("Generating body")
         # sample from normal distribution for word count within limits
@@ -182,11 +190,11 @@ def article_from_idea(idea: dict) -> dict|None:
         article["reading_time_minutes"] = text_processing.estimate_reading_time(
             article["body"]
         )
-        article['category'] = idea.get('category')
+        article["category"] = idea.category
 
         # comments
         num_comments = random.gauss(4, 2.7)
-        min_comments = 2 if article['category'] == PARODY_CATEGORY else 0
+        min_comments = 2 if article["category"] == PARODY_CATEGORY else 0
         num_comments = round(max(min_comments, num_comments))
         logging.info(f"Generating with {num_comments} comments")
         article["comments"] = get_comments(article, num_comments)
@@ -202,61 +210,6 @@ def article_from_idea(idea: dict) -> dict|None:
             f'*Article created*\nTitle: {article["title"]}\nImage: {article["img_path"]}\nOverview:{article["overview"]}'
         )
         article["article_id"] = make_article_id(article["title"], article["overview"])
-    except Exception as e:
-        logger.error(e)
-        logger.error(traceback.format_exc())
-        return None
-    return article
-
-
-def article_from_article(title: str, body: str, model=heavy_llm) -> dict|None:
-    """Transform a normal article into a Rat News Network article
-
-    Args:
-        title (str): The title of the article
-        body (str): The text of the article
-
-    Returns:
-        dict: an article object. returns empty dict on error.
-              keys:
-                img_path -> image url
-                title -> article title
-                overview -> article overview
-                body -> article body
-                timestamp -> article timestamp
-    """
-    try:
-        # extract the first sentence as the overview
-        # match = re.search(r"[^.!?]+[.!?]", body)
-
-        # summary = summarize_article(title, body, 3)
-        # print("summary: \n\n", summary)
-
-        # get rat overview
-        with open(prompts_dir / "parody.yaml", "rb") as f:
-            prompts = yaml.safe_load(f)
-
-        chat_completion = client.chat.completions.create(
-            messages=[
-                {
-                    "role": "system",
-                    "content": prompts["convert_article_system"],
-                },
-                {
-                    "role": "user",
-                    "content": prompts["convert_article"]
-                    .replace("{{title}}", title)
-                    .replace("{{article}}", body),
-                },
-            ],
-            model=heavy_llm,
-            temperature=0.3,
-        )
-        rat_article_overview = _get_text(chat_completion)
-        print(rat_article_overview)
-        article = rat_article_overview
-        # rrn-ify the article
-        article = article_from_idea(rat_article_overview)
     except Exception as e:
         logger.error(e)
         logger.error(traceback.format_exc())
@@ -349,7 +302,7 @@ def article_image(title: str, outline: str) -> str | None:
         }
     ]
     chat_completion = client.chat.completions.create(
-        messages=convo_1_ideas, model=heavy_llm, temperature=0.7 # type: ignore
+        messages=convo_1_ideas, model=heavy_llm, temperature=0.7  # type: ignore
     )
     ideas = _get_text(chat_completion)
 
@@ -379,7 +332,7 @@ def article_image(title: str, outline: str) -> str | None:
     return image_url
 
 
-def article_ideas(n, system_prompt="whisker") -> str:
+def article_ideas(n: int) -> List[ArticleIdea]:
     """Generate n 1-sentence article ideas
 
     Args:
@@ -394,25 +347,19 @@ def article_ideas(n, system_prompt="whisker") -> str:
     convo_1_ideas = [
         {
             "role": "system",
-            "content": systems[system_prompt],
+            "content": prompts["idea_generator"].replace("{{n}}", str(n)),
         },
-        {"role": "user", "content": prompts["idea_generator"].replace("{{n}}", str(n))},
     ]
-    chat_completion = client.chat.completions.create(
-        messages=convo_1_ideas, model=heavy_llm, temperature=1
+    chat_completion = client.beta.chat.completions.parse(
+        messages=convo_1_ideas,
+        model=heavy_llm,
+        temperature=1,
+        response_format=IdeaResponse,
     )
-    ideas = _get_text(chat_completion)
-
-    convo_2_discretize = convo_1_ideas + [
-        {"role": "assistant", "content": ideas},
-        {"role": "user", "content": prompts["json_formatter"]},
-    ]
-    chat_completion2 = client.chat.completions.create(
-        messages=convo_2_discretize, model=json_llm, temperature=0
-    )
-
-    discrete_ideas = _get_text(chat_completion2)
-    return _extract_jsonstr(discrete_ideas)
+    obj = chat_completion.choices[0].message.parsed
+    if isinstance(obj, IdeaResponse):
+        return obj.ideas
+    return []
 
 
 def select_idea(ideas: str) -> str:
