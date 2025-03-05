@@ -7,3 +7,5 @@ samples/
 out/
 prompts/feedback.md
 repo/
+.env
+.DS_Store
