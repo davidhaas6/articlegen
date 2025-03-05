@@ -8,9 +8,14 @@
 <meta property="og:image" content="https://ratnewsnetwork.com/static/img/rat-news-network-logo.png">
 <meta property="og:url" content="https://ratnewsnetwork.com/">
 <meta property="og:type" content="website">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fontfaceobserver/2.3.0/fontfaceobserver.standalone.js" integrity="sha512-AtGkQVw5dVZR8URiScMJF/O46VB5I4JRo+wsLSwCKvtnlCwlWV/59excjg1+hFmuXuQhwYvoADflVbN4fMAKNg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://pixijs.download/release/pixi.js"></script>
+<script type="module" src="static/script/news-broadcast.js" defer></script>
 {% endblock %}
 
 {% block content %}
+
 <div class="container frontpage">
     {% for article in articles %}
     <div class="preview {% if article.category == 'Featured' %}featured{% endif %}">
@@ -27,5 +32,6 @@
         </a>
     </div>
     {% endfor %}
+    <div id="pixi-container"></div>
 </div>
 {% endblock %}

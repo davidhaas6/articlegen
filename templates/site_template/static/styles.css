@@ -11,6 +11,13 @@
     --brownish-gray: #5A5551;
 }
 
+@font-face {
+    font-family: 'Silkscreen';
+    src: url('fonts/Silkscreen-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
 /* Gets rid of horizontal scroll-bar */
 * {
     box-sizing: border-box;
@@ -285,6 +292,20 @@ footer {
     border-style: solid;
 } */
 
+#pixi-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 256px;
+    height: 256px;
+    z-index: 1000; /* Ensures it's above other content */
+    border-radius: 5px;
+    border-width: 5px;
+    border-color: var(--color1);
+    border-style: solid;
+}
+
+
 /* Article
  -
  -
@@ -454,11 +475,6 @@ footer {
         align-items: center;
     }
 
-    marquee {
-        height: 30px;
-        width: 100%;
-    }
-
     .preview {
         flex-flow: row wrap;
         align-items: center;
@@ -507,6 +523,15 @@ footer {
         width: 100%;
     }
     
+    #pixi-container {
+        position: static;
+        width: 256px;
+        height: 256px;
+        border-radius: 5px;
+        border-width: 5px;
+        border-color: var(--color1);
+        border-style: solid;
+    }    
 }
 
 
