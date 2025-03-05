@@ -1,4 +1,5 @@
-// import * as PIXI from "https://pixijs.download/release/pixi.js";
+const TEXT_BG_HEIGHT = 45;
+const ANCHOR_RAT_Y = -15;
 
 // Get the container element
 const main_container = document.getElementById('pixi-container');
@@ -12,6 +13,9 @@ await app.init({
 });
 
 main_container.appendChild(app.canvas);
+
+const graphics = new PIXI.Graphics();
+app.stage.addChild(graphics)
 
 // // background
 // const office_texture = await PIXI.Assets.load('static/img/office.jpg')
@@ -70,7 +74,7 @@ try {
   const spritesheet = new PIXI.Spritesheet(texture, spritesheetData);
   await spritesheet.parse();
   const anim = new PIXI.AnimatedSprite(spritesheet.animations.animation_2);
-
+  anim.y = ANCHOR_RAT_Y;
   anim.animationSpeed = 0.3;
   anim.loop = false;
 
@@ -95,7 +99,7 @@ const live_container = new PIXI.Container()
 const liveColor = 0xFBC62C;
 const startX = app.screen.width - 95;
 const startY = 22;
-const circle = new PIXI.Graphics().circle(startX, startY, 6).fill({ color: liveColor });
+const circle = graphics.circle(startX, startY, 6).fill({ color: liveColor });
 app.stage.addChild(circle)
 
 // wait for the font to be loaded by the browser
@@ -136,7 +140,6 @@ var SOUND_ON = false;
 fetch('static/audio/output.json')
   .then(response => response.json())
   .then(async (data) => {
-    console.log(data); // JSON data as a JavaScript object
     data['html5'] = false;
     var sound = new Howl(data);
     SOUND_GLO = sound;
@@ -176,12 +179,10 @@ async function addSoundButton(sound) {
   });
 
   function onSoundButtonClick() {
-    console.log("Sound button press")
     SOUND_ON = !SOUND_ON;
 
     if(SOUND_ON) {
       sound_sprite.texture = playing_texture;
-      console.log(sound)
       const sound_id = sprite_keys[Math.floor(Math.random() * sprite_keys.length)];
       sound.play(sound_id);
     } else {
@@ -193,5 +194,120 @@ async function addSoundButton(sound) {
   }
 }
 
+// live transcript
 
-// transcript
+const transcript = `Good evening, Ratopolis! This is your RNN Daily Briefing, bringing you the biggest stories in just one minute!
+
+Aldrin Cheddar wins big, but his emotional speech wasn’t just about acting—it was about family, community, and the ongoing drama with Havarti Wheezecheese!
+
+A blast from the past! The iconic skating game returns this July, now with Cheese Slayer mode. Will you land that 900?
+
+Athletics? Theater? Chaos? The new rat wrestling craze is taking the city by storm—but is it all just for show?
+
+From alleyways to green havens—Ratopolis’ young eco-warriors are turning concrete into paradise.
+
+New factions, shifting alliances—small but mighty political players are changing the game in City Hall.
+
+The silent crisis in our workforce—mental health advocates are speaking out, and change is coming.
+
+That’s today’s news, Ratopolis! Stay sharp, stay squeaky, and we’ll see you tomorrow on RNN!`;
+
+
+function estimateReadingSeconds(text, wordsPerMinute = 200) {
+  if (typeof text !== 'string' || text.trim() === '') {
+      throw new Error("Input must be a non-empty string");
+  }
+
+  // Method 1: Word count
+  const words = text.split(/\s+/);
+  const wordCount = words.length;
+  const wordCountEstimate = wordCount / wordsPerMinute;
+
+  // Method 3: Flesch-Kincaid
+  const sentences = countSentences(text);
+  const syllables = words.reduce((sum, word) => sum + countSyllables(word), 0);
+
+  let fleschKincaidGrade = 0;
+  
+  if (sentences > 0 && wordCount > 0) {
+      fleschKincaidGrade = 0.39 * (wordCount / sentences) + 11.8 * (syllables / wordCount) - 15.59;
+  }
+
+  // Adjust word count estimate based on Flesch-Kincaid Grade Level
+  const fkAdjustedEstimate = wordCountEstimate * (1 + Math.max(0, fleschKincaidGrade) / 100);
+
+  return fkAdjustedEstimate * 60;
+}
+
+function countSentences(text) {
+  return (text.match(/[.!?]+/g) || []).length || 1;
+}
+
+function countSyllables(word) {
+  word = word.toLowerCase();
+  if (word.length <= 3) return 1; // Simple heuristic for short words
+  const syllableMatches = word.match(/[aeiouy]{1,2}/g);
+  return syllableMatches ? syllableMatches.length : 1;
+}
+
+function chunkTextForSubtitles(text, maxChunkLength = 30) {
+  const sentences = text.match(/[^.!?]+[.!?]/g) || [text]; // Split by sentence boundaries
+  let chunks = [];
+  let currentChunk = "";
+
+  for (let sentence of sentences) {
+      let words = sentence.trim().split(/\s+/);
+      for (let word of words) {
+          if ((currentChunk + " " + word).trim().length > maxChunkLength) {
+              if (currentChunk) chunks.push(currentChunk.trim());
+              currentChunk = word; // Start new chunk with the current word
+          } else {
+              currentChunk += " " + word;
+          }
+      }
+      
+      if (currentChunk.length <= maxChunkLength) {
+          chunks.push(currentChunk.trim());
+          currentChunk = "";
+      }
+  }
+  
+  if (currentChunk.trim()) {
+      chunks.push(currentChunk.trim());
+  }
+  
+  return chunks;
+}
+
+const subtitles = chunkTextForSubtitles(transcript);
+
+
+const backdrop = graphics.rect(0, app.screen.height-TEXT_BG_HEIGHT, app.screen.width,TEXT_BG_HEIGHT)
+backdrop.fill(0)
+
+let sub = new PIXI.Text({ text: subtitles[0], style: 
+  { fontFamily: 'Silkscreen', fontSize: 15, fill: liveColor, wordWrap: true, wordWrapWidth: app.screen.width-20} 
+})
+
+sub.y = app.screen.height - TEXT_BG_HEIGHT + 5;
+sub.x = 10;
+
+app.stage.addChild(sub);
+
+let transcript_timer_s = 0;
+let subtitle_idx = 0;
+let read_time_s = estimateReadingSeconds(subtitles[subtitle_idx])
+
+app.ticker.add((time) =>{
+  transcript_timer_s += time.elapsedMS / 1000;
+  if (transcript_timer_s > read_time_s) {
+    transcript_timer_s = 0;
+    subtitle_idx += 1;
+    if (subtitle_idx == subtitles.length) {
+      subtitle_idx = 0;
+    }
+    sub.text = subtitles[subtitle_idx];
+    read_time_s = estimateReadingSeconds(subtitles[subtitle_idx]);
+    read_time_s = Math.max(1, read_time_s);
+  }
+});
