@@ -71,7 +71,7 @@ try {
   await spritesheet.parse();
   const anim = new PIXI.AnimatedSprite(spritesheet.animations.animation_2);
 
-  anim.animationSpeed = 0.09;
+  anim.animationSpeed = 0.3;
   anim.loop = false;
 
   anim.onComplete = () => {
@@ -137,6 +137,7 @@ fetch('static/audio/output.json')
   .then(response => response.json())
   .then(async (data) => {
     console.log(data); // JSON data as a JavaScript object
+    data['html5'] = false;
     var sound = new Howl(data);
     SOUND_GLO = sound;
     await addSoundButton(sound);
@@ -169,14 +170,13 @@ async function addSoundButton(sound) {
 
   sound.on('end', function(){
     const sound_id = sprite_keys[Math.floor(Math.random() * sprite_keys.length)];
-    console.log(sound_id)
-    sound.rate(Math.random()*3, sound_id); 
-    sound.volume(base_volume + (Math.random() - 0.5) / 4)
-    sound.play(sound_id);
+    const playback_id = sound.play(sound_id);
+    sound.rate(0.9 + Math.random() / 2, playback_id); 
+    sound.volume(base_volume + (Math.random() - 0.5) / 4, playback_id);
   });
 
   function onSoundButtonClick() {
-    console.log("button press")
+    console.log("Sound button press")
     SOUND_ON = !SOUND_ON;
 
     if(SOUND_ON) {
@@ -192,3 +192,6 @@ async function addSoundButton(sound) {
 
   }
 }
+
+
+// transcript
