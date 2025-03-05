@@ -1,16 +1,16 @@
 // import * as PIXI from "https://pixijs.download/release/pixi.js";
 
 // Get the container element
-const container = document.getElementById('pixi-container');
+const main_container = document.getElementById('pixi-container');
 const app = new PIXI.Application();
 await app.init({ 
-  width: container.clientWidth, 
-  height: container.clientHeight,
+  width: main_container.clientWidth, 
+  height: main_container.clientHeight,
   background: '#FFF4D5' 
 });
 
-// Append the canvas to the container
-container.appendChild(app.canvas);
+// Append the canvas to the main_container
+main_container.appendChild(app.canvas);
 const SPRITE_PX = 256;
 const NUM_SPRITES = 9;
 
@@ -82,7 +82,7 @@ try {
 
 const liveColor = 0xFBC62C;
 const startX = app.screen.width - 95;
-const startY = 25;
+const startY = 22;
 const circle = new PIXI.Graphics().circle(startX, startY, 6).fill({ color: liveColor });
 app.stage.addChild(circle)
 
@@ -94,3 +94,23 @@ const text1 = new PIXI.Text({ text: 'LIVE',  style: { fontFamily: 'Silkscreen', 
 text1.y = startY - text1.height/2 - 3;
 text1.x = startX + 10
 app.stage.addChild(text1);
+
+
+// add a close button
+const x_button = new PIXI.Container()
+x_button.eventMode = 'static';
+x_button.on('pointerdown', onXButtonClick);
+x_button.cursor = 'pointer';
+
+const x_text = new PIXI.Text({ text: 'X',  style: { fontFamily: 'Silkscreen', fontSize: 25, fill: liveColor, fontStyle: "bold" }});
+x_text.x = 10
+x_text.y = 5
+
+x_button.addChild(x_text);
+app.stage.addChild(x_button);
+
+function onXButtonClick(){
+  app.destroy({removeView: true})
+  if (main_container)
+    main_container.remove();
+}
