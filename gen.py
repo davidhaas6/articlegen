@@ -14,12 +14,14 @@ import random
 import traceback
 import uuid
 from pathlib import Path
+import dotenv
 
 import text_processing
 import util
 
 VERBOSE = True
 
+dotenv.load_dotenv()
 prompts_dir = Path(__file__).resolve().parent / "prompts"
 with open(prompts_dir / "system.yaml") as f:
     systems = yaml.safe_load(f)
@@ -47,6 +49,10 @@ class ArticleIdea(BaseModel):
     description: str
     category: str
     title: str
+
+class ParodyIdea(ArticleIdea):
+    src_url: str
+    category:str =PARODY_CATEGORY
 
 class IdeaResponse(BaseModel):
     ideas: List[ArticleIdea]
@@ -149,15 +155,18 @@ def new_articles(num: int, ideas=None) -> List[dict]:
 
 
 def new_parody_articles(num: int) -> List[dict]:
-    from src.parody import (
-        generate_top_story_outlines,
-    )  # this is a slow import, so only use it if we need it
+    from src.parody import generate_top_story_outlines
 
     if num <= 0:
         return []
     ideas = []
-    for outline in generate_top_story_outlines(num):
-        ideas.append(ArticleIdea(title='', description=outline, category=PARODY_CATEGORY))
+    for idea in generate_top_story_outlines(num):
+        if isinstance(idea, dict):
+            ideas.append(ParodyIdea(
+                title='',
+                description=idea.get('description'),   # type: ignore
+                src_url=idea.get('src_url','')   # type: ignore
+            ))
     return new_articles(len(ideas), ideas)
 
 
@@ -191,6 +200,8 @@ def article_from_idea(idea: ArticleIdea) -> dict | None:
             article["body"]
         )
         article["category"] = idea.category
+        if isinstance(idea,ParodyIdea):
+            article['parody_src'] = idea.src_url
 
         # comments
         num_comments = random.gauss(4, 2.7)

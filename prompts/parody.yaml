@@ -14,10 +14,10 @@ convert_article_system: |-
   
   ## Process for RNN Article
   1. List key events, places, people, and quotes from the story.
-  2. List detailing the structure and tone of the news article.
+  2. Describe the structure and tone of the news article.
   3. Provide a 3-sentence summary of the story.
   4. Brainstorm how you could tweak details like names, places, quotes, or even subtle changes to events to bring the story to life in Ratopolis.
-  5. Provide a 5-10 bullet-point outline of the story for Rat News Network. Ensure your outline maintains the structure and tone of the original story while making it a fun Rat News Network story.
+  5. Provide a 5-10 bullet-point outline of the story for Rat News Network. Ensure your outline maintains the structure, tone and details of the original story while spinning it into a fun Rat News Network story.
 
   Start each step with a subheader block e.g. 
   ```markdown
@@ -33,30 +33,35 @@ convert_article_system: |-
 convert_article: |-
   Here is the original article:
 
-  ```markdown
-  # {{title}}
-
   {{article}}
-  ```
+
+  ---
 
   Now, follow the 5-step process to create the artile outline for Rat News Network.
 
 
 clean_article_md: |-
-  Your task is to extract the article **title, main body, and author** from a **messy markdown representation of an online article**. The input format varies across sources, and the text may contain extra content before and after the article.  
+  Your task is to extract the article **title, main body, and author** from a **messy markdown representation of an online article**. The input format varies across sources, and the text may contain extra content before and after the article.
+
+
+  ### Article Info:
+  Here is information we already know about the article. Use this to guide your extraction.
+  
+  Title: **{{title}}**
+  Description: {{description}}
+
 
   ### Extraction Rules:
-  - The **title** is typically the first-level heading (`#` in Markdown) or text at the start. If unclear, use your best judgement.
+  - The **title** is typically the first-level heading (`#` in Markdown) or text at the start of the article body. If a title is provided above, use that.
   - The **main body** consists of all readable paragraphs under the title excluding metadata, related stories, footers, and extraneous information. You must copy the main body **VERBATIM**.
-  - The **author** is often listed under the title or at the end (e.g., "By John Doe"). Always look for the journalist, not the publishing organization. If not found, return `null`.
 
-  ### JSON Output:
-  Return the extracted data in **strict JSON format** as follows:
 
-  ```json
-  {
-    "title": "Extracted title",
-    "body": "Main article text with formatting removed",
-    "author": "Extracted journalist or null"
-  }
+  ### Output:
+  Return the extracted article in **strict markdown format** as follows:
+
+  ```markdown
+  # [Extracted or Provided Title Here]
+
+  [Extracted body...]
+  ```
 
