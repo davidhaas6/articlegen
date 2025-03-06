@@ -217,78 +217,6 @@ def article_from_idea(idea: ArticleIdea) -> dict | None:
     return article
 
 
-def adhoc_article(topic: str, title=None, model=heavy_llm, temp=0) -> dict:
-    """Create an article from an idea
-
-    Args:
-        topic (str): A description of the article
-        model (str): the model to use for generation
-        temp (float): the temperature to use for generation
-
-    Returns:
-        dict: an article object. returns empty dict on error.
-              keys:
-                img_path -> image url
-                title -> article title
-                overview -> article overview
-                body -> article body
-                timestamp -> article timestamp
-    """
-    try:
-        article_text = _get_text(
-            client.chat.completions.create(
-                messages=[
-                    {
-                        "role": "system",
-                        "content": "You are one of the world's best journalists, currently working at Rat News Network. You are known for writing articles that are well-structured, easy to read, and interesting.",
-                    },
-                    {
-                        "role": "user",
-                        "content": f"Write a high-quality article for the following topic: {topic}",
-                    },
-                ],
-                model=model,
-                temperature=temp,
-            )
-        )
-        article = article_to_json(article_text)
-
-        # create the image
-        with open(prompts_dir / "article.yaml") as f:
-            prompts = yaml.safe_load(f)
-
-        summary = _get_text(
-            client.chat.completions.create(
-                messages=[
-                    {
-                        "role": "user",
-                        "content": prompts["summary"]
-                        .replace("{{num_sentences}}", "3")
-                        .replace("{{title}}", article["title"])
-                        .replace("{{body}}", article["title"]),
-                    }
-                ],
-                model=light_llm,
-                temperature=temp,
-            )
-        )
-        # article["summary"] = summary  # unused rn
-        article["img_path"] = article_image(article["title"], summary)
-        article["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        logger.info(
-            f'*Article created*\nTitle: {article["title"]}\nImage: {article["img_path"]}\nOverview:{article["overview"]}'
-        )
-    except Exception as e:
-        logger.error(e)
-        logger.error(traceback.format_exc())
-        return None
-    return article
-
-
-def get_ad_prompt(article: str) -> str:
-    pass
-
-
 def article_image(title: str, outline: str) -> str | None:
     with open(prompts_dir / "images.yaml") as f:
         prompts = yaml.safe_load(f)
@@ -362,48 +290,6 @@ def article_ideas(n: int) -> List[ArticleIdea]:
     return []
 
 
-def select_idea(ideas: str) -> str:
-    chat_completion = client.chat.completions.create(
-        messages=[
-            {
-                "role": "system",
-                "content": "As an expert AI news editor for Rat News Network, please analyze each of these article ideas and select the idea that will make the best article.",  # noqa: E501
-            },
-            {
-                "role": "user",
-                "content": f"# Article Ideas:\n\n{ideas}",
-            },
-        ],
-        model=heavy_llm,
-    )
-    best_article = _get_text(chat_completion)
-
-    chat_completion = client.chat.completions.create(
-        messages=[
-            {
-                "role": "system",
-                "content": "As an expert AI news editor for Rat News Network, please analyze each of these article ideas and select the idea that will make the best article.",  # noqa: E501
-            },
-            {
-                "role": "user",
-                "content": f"# Article Ideas:\n\n{ideas}",
-            },
-            {
-                "role": "assistant",
-                "content": best_article,
-            },
-            {
-                "role": "user",
-                "content": "Thank you! Now, please **copy** the article's title, description, and a summary of your editorial analysis into a *valid* JSON formatted string.",  # noqa: E501
-            },
-        ],
-        model=light_llm,
-    )
-    idea_json = _get_text(chat_completion)
-    idea_json = idea_json[idea_json.find("{") : idea_json.rfind("}") + 1]
-    return idea_json
-
-
 def article_outline(idea: str) -> str:
     """Create an outline for an article
 
@@ -418,12 +304,8 @@ def article_outline(idea: str) -> str:
 
     chat_completion = client.chat.completions.create(
         messages=[
-            # {
-            #     "role": "system",
-            #     "content": systems['whisker'],
-            # },
             {
-                "role": "user",
+                "role": "system",
                 "content": prompts["outline2"].replace("{{idea}}", idea.strip()),
             }
         ],
@@ -457,12 +339,6 @@ def article_body(idea: str, outline: str, num_words: int) -> Dict:
     article_generator = random.choice(
         [k for k in prompts.keys() if k.startswith("article_gen")]
     )
-    author_names = [
-        "Whisker Walters",
-        "Squeaky McSqueak",
-        "Ratbert Rattington",
-        "Ratilda Rattington",
-    ]
 
     chat_completion = client.chat.completions.create(
         messages=[
@@ -488,18 +364,14 @@ def article_body(idea: str, outline: str, num_words: int) -> Dict:
     return article_json
 
 
-def get_comments(article: dict, num_comments: int, model=heavy_llm) -> List[str]:
+def get_comments(article: dict, num_comments: int, model=light_llm) -> List[str]:
     with open(prompts_dir / "article.yaml", "rb") as f:
         prompts = yaml.safe_load(f)
 
     chat_completion = client.chat.completions.create(
         messages=[
-            # {
-            #     "role": "system",
-            #     "content": systems["whisker"],
-            # },
             {
-                "role": "user",
+                "role": "system",
                 "content": prompts["comments"]
                 .replace("{{title}}", article["title"])
                 .replace("{{body}}", article["body"])
@@ -598,26 +470,19 @@ def ultra_short_summary(title, body, num_words=3, model=light_llm):
 
 
 def make_article_id(title: str, body: str) -> str:
-    semantic_id = ultra_short_summary(title, body, 4)
+    semantic_id = ultra_short_summary(title, body, 3)
     # clean the string for a url
     # remove punctuation and replace spaces with dashes
     semantic_id = semantic_id.lower()
     semantic_id = re.sub(r"[^\w\s]", "", semantic_id)
     semantic_id = re.sub(r"\s+", "-", semantic_id)
-    return semantic_id + "-" + str(uuid.uuid4())[:3]
+    return semantic_id + "-" + str(uuid.uuid4())[:2]
 
 
 def _get_text(chat_completion) -> str:
     text = chat_completion.choices[0].message.content
     print("TEXT:", text)
     if True:
-        logger.debug("\n%s", text)
-    return text
-
-
-def query_llm(chat_completion) -> str:
-    text = chat_completion.choices[0].message.content
-    if VERBOSE:
         logger.debug("\n%s", text)
     return text
 
