@@ -10,3 +10,4 @@ typing-extensions
 typing-inspect
 urllib3
 tqdm
+markitdown

@@ -13,8 +13,12 @@
 <div class="container content">
     <h1>{{ title }}</h1>
     <div class="overview">{{ overview|safe }}</div>
-    <span class="read-time">{{reading_time}} minute read • 
-        <a href="#comments-section" id="scroll-to-comments" class="comments-link">Comments</a><span>
+    <span class="read-time">
+        {{reading_time}} minute read •
+        <a href="#comments-section" id="scroll-to-comments" class="comments-link">Comments</a>
+        {% if parody_src != None %}
+            <span> • </span><a href="{{parody_src}}" class="comments-link">Source Article</a>
+        {% endif %}
     </span>
     {% if img_path != None %}
     <img src="static/img/{{img_path}}" alt="article image">
@@ -26,7 +30,9 @@
             <br>
             <br>
             <br>
-            <i>Looking for more in-depth news and exclusive content? Follow <a href="https://tiktok.com/@ratnewsnetwork">RAT TV</a> for real-time updates, behind-the-scenes insights and the latest breaking news.</i>
+            <i>Looking for more in-depth news and exclusive content? Follow <a
+                    href="https://tiktok.com/@ratnewsnetwork">RAT TV</a> for real-time updates, behind-the-scenes
+                insights and the latest breaking news.</i>
         </span>
     </div>
     {% if comments|length > 0 %}
@@ -80,7 +86,7 @@
     function setupCommentVoting(comment) {
         const upvoteBtn = comment.querySelector('.vote-up-count');
         const downvoteBtn = comment.querySelector('.vote-down-count');
-        
+
         upvoteBtn.addEventListener('click', () => {
             handleVoteClick(upvoteBtn, downvoteBtn, '+');
         });
@@ -93,7 +99,7 @@
     document.querySelectorAll('.comment').forEach(setupCommentVoting);
 
     // smooth scrolling
-    document.getElementById('scroll-to-comments').addEventListener('click', function(e) {
+    document.getElementById('scroll-to-comments').addEventListener('click', function (e) {
         e.preventDefault(); // Prevent the default link behavior
         document.getElementById('comments-section').scrollIntoView({
             behavior: 'smooth'

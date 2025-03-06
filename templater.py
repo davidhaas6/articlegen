@@ -159,6 +159,7 @@ class ArticleSiteGenerator:
             img_path=article["img_path"],
             reading_time=article["reading_time_minutes"],
             comments=article.get("comments", []),
+            parody_src=article.get('parody_src')
         )
         filename = f"{article['article_id']}.html"
         with open(os.path.join(out_dir, filename), "w") as f:
