@@ -24,6 +24,7 @@ class ArticleSiteGenerator:
         self.generate_index_page(articles)
         self.copy_images(articles)
         self.generate_qr_code_page(articles)
+        self.generate_subscribe_page()
 
     def copy_template_dir(self):
         """Copies the template directory to the output directory."""
@@ -61,6 +62,13 @@ class ArticleSiteGenerator:
         template = self.env.get_template("qr.html")
         output = template.render(articles=articles)
         with open(os.path.join(self.output_dir, "qr.html"), "w") as f:
+            f.write(output)
+
+    def generate_subscribe_page(self):
+        """Generates the subscription page."""
+        template = self.env.get_template("subscribe.html")
+        output = template.render(title="Subscribe")
+        with open(os.path.join(self.output_dir, "subscribe.html"), "w") as f:
             f.write(output)
 
     def generate_archive(self, src_article_dir: str):
