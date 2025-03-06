@@ -445,7 +445,43 @@ footer {
     border-color: var(--golden-yellow) !important;
 }
 
+/* Subscribe page
+ *
+*
+*/
 
+.subscribe-page {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 100%;
+    /* padding: 10px 0px; */
+}
+
+.subscription-package {
+    border: 5px solid var(--color1);
+
+    min-width: 200px;
+    max-width: 50%;
+
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: start;
+    justify-content: flex-start;
+}
+
+.subscription-features {
+
+}
+
+.subscription-price {
+
+}
+
+.subscription-buy-btn {
+
+}
 
 /* Responsive design */
 @media (max-width: 768px) {
