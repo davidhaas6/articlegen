@@ -116,7 +116,7 @@ python deploy.py --articles my/article/dir/ --branch test
 To generate three articles and deploy them to a different repository:
 
 ```
-python deploy.py --num 3 --repo https://github.com/username/rat-news-network-frontend.git
+python deploy.py --num 3 --repo https://github.com/username/my-static-frontent.git
 ```
 
 ##### 4. Generate Articles with Parodies
@@ -141,7 +141,7 @@ python deploy.py --num 3 --auto
 
 ### gen.py Usage Instructions
 
-gen.py is the core content generation script in the AI-Powered Static Site Generator. It provides several functions for generating different parts of an article or complete articles.
+gen.py is the core content generation script in the rat news generator. It provides several functions for generating different parts of an article or complete articles.
 
 #### Command Structure
 ```
@@ -210,14 +210,9 @@ python gen.py [action] [parameters]
    python gen.py parody 3
    ```
 
-#### gen.py Notes
-- The script uses OpenAI's GPT models for text generation and DALL-E 3 for image generation.
-- Generated articles are saved as JSON files in the output directory.
-- Image URLs are included in the article JSON data.
-- The script requires proper setup of API keys for OpenAI services.
-- Parody articles transform real news into rat-themed versions.
-
 ## Future Vision
+- More interactivity
+  - Enabling the users to further interact with and customize the site
 - Generating non-RNN content 
   - i.e. use some other system to create the prompts that gen.py uses, for topics or publications other than Rat News Network.
 
