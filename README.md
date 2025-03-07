@@ -1,6 +1,6 @@
 # Rat News Network Generator
 
-A static site generator that creates content with LLMs instead of humans.
+A static site generator that creates content via LLMs instead of humans.
 
 ## Table of Contents
 - [System Overview](#system-overview)
@@ -16,7 +16,7 @@ A static site generator that creates content with LLMs instead of humans.
 
 The Rat News Network Generator is a Python-based pipeline that:
 
-- Generates satirical news articles using OpenAI's GPT models
+- Generates rat news articles using OpenAI's GPT models
 - Creates accompanying images using DALL-E
 - Renders content into a static website using Jinja2 templates
 - Deploys the site to GitHub Pages via CI/CD
@@ -72,27 +72,10 @@ articlegen/
 ├── util.py                # General utilities
 ├── job.py                 # Scheduled job functionality
 ├── docs/                  # Documentation
-│   ├── ARCHITECTURE.md    # Technical architecture details
-│   ├── parody.md          # Parody system documentation
-│   └── subscribe.md       # Subscription feature documentation
 ├── prompts/               # LLM prompt templates
-│   ├── article.yaml       # Article generation prompts
-│   ├── ideas.yaml         # Idea generation prompts
-│   ├── images.yaml        # Image generation prompts
-│   ├── parody.yaml        # Parody generation prompts
-│   └── system.yaml        # System prompts
-├── src/                   # Source modules
-│   └── parody.py          # Parody article generation
-├── templates/             # Jinja2 templates
-│   ├── article.html       # Article page template
-│   ├── base.html          # Base template with common elements
-│   ├── index.html         # Homepage template
-│   ├── qr.html            # QR code page template
-│   ├── subscribe.html     # Subscription page template
-│   └── site_template/     # Static site assets
+├── src/                   # More source modules
+├── templates/             # Jinja2 HTML templates and other static site files
 └── tests/                 # Unit tests
-    ├── test_deploy.py     # Deployment tests
-    └── test_parody.py     # Parody system tests
 ```
 
 ## Usage Instructions
