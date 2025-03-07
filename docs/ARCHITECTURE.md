@@ -13,11 +13,11 @@ The RNN static site generator is a Python-based system that:
 ### High-Level Architecture
 
 ```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   Content   │     │    Site     │     │   GitHub    │     │  Published  │
-│ Generation  │────▶│ Generation  │────▶│ Repository  │────▶│   Website   │
+┌─────────────┐     ┌──────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Content   │     │     Site     │     │   GitHub    │     │  Published  │
+│ Generation  │────▶│  Generation  │────▶│ Repository  │────▶│   Website   │
 │  (gen.py)   │     │(templater.py)│     │ Deployment  │     │             │
-└─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
+└─────────────┘     └──────────────┘     └─────────────┘     └─────────────┘
 ```
 
 ### Core Components
