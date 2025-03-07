@@ -10,12 +10,18 @@
 <meta property="og:type" content="website">
 
 <!-- Stuff for the live news broadcast -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fontfaceobserver/2.3.0/fontfaceobserver.standalone.js" integrity="sha512-AtGkQVw5dVZR8URiScMJF/O46VB5I4JRo+wsLSwCKvtnlCwlWV/59excjg1+hFmuXuQhwYvoADflVbN4fMAKNg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js" integrity="sha512-xi/RZRIF/S0hJ+yJJYuZ5yk6/8pCiRlEXZzoguSMl+vk2i3m6UjUO/WcZ11blRL/O+rnj94JRGwt/CHbc9+6EA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fontfaceobserver/2.3.0/fontfaceobserver.standalone.js"
+    integrity="sha512-AtGkQVw5dVZR8URiScMJF/O46VB5I4JRo+wsLSwCKvtnlCwlWV/59excjg1+hFmuXuQhwYvoADflVbN4fMAKNg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"
+    integrity="sha512-xi/RZRIF/S0hJ+yJJYuZ5yk6/8pCiRlEXZzoguSMl+vk2i3m6UjUO/WcZ11blRL/O+rnj94JRGwt/CHbc9+6EA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://pixijs.download/release/pixi.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/pixi-filters@6.0.6/dist/pixi-filters.min.js"></script>
 
 <script type="module" src="static/script/news-broadcast.js" defer></script>
+<script src="https://embed.twitch.tv/embed/v1.js"></script>
+
 {% endblock %}
 
 {% block content %}
@@ -28,8 +34,7 @@
             <img src="static/img/{{article.img_path or 'https://ratnewsnetwork.com/static/img/rat-news-network-logo.png'}}"
                 alt="article image">
         </a>
-        <a class="preview-body"
-            href="{{article.article_id or article.id}}">
+        <a class="preview-body" href="{{article.article_id or article.id}}">
             <h1>{{article.title}}</h1>
             <p>{{article.overview}}</p>
             <span class="read-time">{{article.category}} • {{article.reading_time_minutes}} min read • {{ "1 comment" if
@@ -37,5 +42,24 @@
         </a>
     </div>
     {% endfor %}
+
+    <div id="twitch-embed"></div>
+    <script>
+        window.onload = function () {
+            const OG_DISPLAY = document.getElementById("twitch-embed").style.display;
+            document.getElementById("twitch-embed").style.display = 'none';
+            var player = new Twitch.Embed("twitch-embed", {
+                width: 246,
+                height: 138,
+                layout: "video",
+                channel: "jackkmango",
+            });
+
+            player.addEventListener(Twitch.Embed.VIDEO_PLAY, function () {
+                console.log('The stream is playing');
+                document.getElementById("twitch-embed").style.display = OG_DISPLAY;
+            });
+        };
+    </script>
 </div>
 {% endblock %}

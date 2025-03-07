@@ -200,24 +200,24 @@ async function addSoundButton(sound) {
 
 // live transcript
 
-const transcript = `Good day, Ratopolis! This is Rat News Network, and I'm Whiskers Wagtail, here with a squeak-tacular roundup of today's top headlines.
+const transcript = `Good evening, Ratopolis! I'm Whiskers Whiteclaw, and here's your 60-second rundown:
 
-First up, crime meets stomach-churning creativity: Jasper Longtail Gilder, wanted on multiple warrants, tried hiding stolen Cheddar & Co. jewelry IN his belly. Authorities say the heist might have gone down easier if he'd just used a bag.
+The Rat States have halted military aid to Cheeselandia, with leader Trumpet claiming they 'brought it on themselves.' Tensions rise as some worry about threats from neighboring Rodentia.
 
-Meanwhile, Mayor Whiskers McCheese is calling out the Cheddar Council for their big spend on transgender rat experiments. Eight million cheese crumbs? The mayor says science is important—but so is watching your cheddar.
+Meanwhile, billionaire Elon Whiskers addresses the firing of cheese inspectors, attributing it to individual agencies. Political scrutiny builds as President Cheddar calls for caution in downsizing.
 
-In urgent developments, Ratopolis is on shaky ground—literally. A rise in sinkholes has city officials scurrying to stop entire neighborhoods from disappearing beneath our paws. Stay alert, folks!
+Over at the palace, Whisker McCheese challenges the Rattus monarchy with a bold new vision. Reform promises spark debate between tradition and modernity.
 
-For a breath of fresh air—underground—say hello to the newly unveiled Ratopolis Library. This secretive subterranean labyrinth brims with ancient scrolls and futuristic info-tech, quickly becoming the city's favorite spot for nibbling on knowledge.
+Speaking of tradition, Ratopolis is pondering if rapid tech advances are causing it to 'lose its tail,' fueling a tug-of-war between heritage and innovation.
 
-Looking for some soul food for the mind? Scribble Tail's new philosophical epic, 'Whiskers of Existence,' is challenging every rat to rethink identity and purpose. Early reviews say it'll have you questioning your reflection in the water dish.
+In lighter news, artisanal claw cursers are all the rage—part fashion, part function—giving local makers a boost.
 
-And finally, a wave of nostalgia is sweeping Ratopolis as traditional crafts make a triumphant comeback. Young rats are blending old-school weaving and carving with modern twists, reviving cultural pride one paw-stitch at a time.
+Finally, the Ivy Claw League faces allegations of favoring high-status pedigrees over genuine potential, raising concerns about systemic inequality.
 
-That's today's news, Ratopolis! Stay sharp, stay squeaky, and we'll see you tomorrow on RNN!`;
+That's all for now! Stay sharp, Ratopolis, and keep those whiskers tuned for more updates.`;
 
 
-function estimateReadingSeconds(text, wordsPerMinute = 200) {
+function estimateReadingSeconds(text, wordsPerMinute = 180) {
   if (typeof text !== 'string' || text.trim() === '') {
       throw new Error("Input must be a non-empty string");
   }
@@ -254,7 +254,7 @@ function countSyllables(word) {
   return syllableMatches ? syllableMatches.length : 1;
 }
 
-function chunkTextForSubtitles(text, maxChunkLength = 30) {
+function chunkTextForSubtitles(text, maxChunkLength = 40) {
   const sentences = text.match(/[^.!?]+[.!?]/g) || [text]; // Split by sentence boundaries
   let chunks = [];
   let currentChunk = "";
@@ -290,7 +290,7 @@ const backdrop = graphics.rect(0, app.screen.height-TEXT_BG_HEIGHT, app.screen.w
 backdrop.fill(0)
 
 let sub = new PIXI.Text({ text: subtitles[0], style: 
-  { fontFamily: 'Silkscreen', fontSize: 15, fill: liveColor, wordWrap: true, wordWrapWidth: app.screen.width-20} 
+  { fontFamily: 'Silkscreen', fontSize: 12, fill: liveColor, wordWrap: true, wordWrapWidth: app.screen.width-20} 
 })
 
 sub.y = app.screen.height - TEXT_BG_HEIGHT + 5;

@@ -23,7 +23,9 @@
     box-sizing: border-box;
 }
 
-body, html, .site {
+body,
+html,
+.site {
     font-family: Arial, sans-serif;
     color: var(--color2);
     background: var(--color3);
@@ -39,7 +41,7 @@ body, html, .site {
 
 body {
     /* Adjust this value based on the combined height of your header and sub-header */
-    padding-top: 120px; 
+    padding-top: 120px;
 }
 
 .site {
@@ -59,7 +61,7 @@ header {
     color: var(--color3);
     min-height: 70px;
     padding: 0;
-    
+
     margin: 0;
 
     display: flex;
@@ -72,10 +74,10 @@ header a {
     text-decoration: none;
     font-size: 16px;
     padding: 0;
-    
+
 }
 
-h1  {
+h1 {
     margin: 0;
 }
 
@@ -91,7 +93,8 @@ header h1 {
 
 .site-title {
     display: inline-block;
-    font-size: 60px; /* Starting font size */
+    font-size: 60px;
+    /* Starting font size */
     line-height: 1;
     text-transform: uppercase;
 }
@@ -110,7 +113,7 @@ header h1 {
     width: 100%;
     text-align: center;
     border-right: 4px solid var(--cream);
-    border-bottom: 4px solid var(--cream) ;
+    border-bottom: 4px solid var(--cream);
     padding: 4px;
     /* width: fit-content; */
     /* padding: 30px5px; */
@@ -133,7 +136,8 @@ header h1 {
     color: var(--golden-yellow);
     padding: 10px 20px;
     border: none;
-    border-radius: 10px; /* this creates the rounded corners */
+    border-radius: 10px;
+    /* this creates the rounded corners */
     cursor: pointer;
     font-size: 16px;
     transition: 0.3s;
@@ -141,7 +145,8 @@ header h1 {
 }
 
 .rounded-button:hover {
-    background-color: #111100; /* slightly lighter black when hovered */
+    background-color: #111100;
+    /* slightly lighter black when hovered */
 }
 
 .rounded-button-ylw {
@@ -149,7 +154,8 @@ header h1 {
     color: var(--deep-black);
     padding: 8px 8px;
     border: none;
-    border-radius: 10px; /* this creates the rounded corners */
+    border-radius: 10px;
+    /* this creates the rounded corners */
     cursor: pointer;
     font-size: 16px;
     transition: 0.3s;
@@ -158,12 +164,12 @@ header h1 {
 }
 
 
-.no-right-border{
+.no-right-border {
     border-right: none;
 }
 
 .submenu-button:hover {
-    border-bottom: 5px solid var(--color1) ;
+    border-bottom: 5px solid var(--color1);
     color: var(--color1);
     translate: 0px 1px;
 }
@@ -219,7 +225,7 @@ footer {
 
     color: var(--color2);
     font-size: small;
-    
+
     display: flex;
     flex-flow: row nowrap;
     align-items: start;
@@ -297,12 +303,28 @@ footer {
     right: 20px;
     width: 256px;
     height: 290px;
-    z-index: 1000; /* Ensures it's above other content */
+    z-index: 1000;
+    /* Ensures it's above other content */
     border-radius: 5px;
     border-width: 5px;
     border-color: var(--color1);
     border-style: solid;
-    box-shadow: 0px 0px 40px rgba(255, 244, 213, 0.3);
+    box-shadow: 0px 0px 30px rgba(255, 244, 213, 0.3);
+}
+
+#twitch-embed {
+    position: fixed;
+    bottom: 330px;
+    right: 20px;
+    width: 256px;
+    height: 148px;
+    z-index: 1000;
+
+    border-radius: 5px;
+    border-width: 5px;
+    border-color: var(--color1);
+    border-style: solid;
+    box-shadow: 0px 0px 30px rgba(255, 244, 213, 0.3);
 }
 
 
@@ -357,7 +379,7 @@ footer {
 
 .article-body {
     overflow-wrap: normal;
-    width: 80%;    
+    width: 80%;
     font-size: 1.1em;
     /* background: var(--color3); */
     color: var(--color2);
@@ -411,7 +433,7 @@ footer {
     margin-top: 5px
 }
 
-.button-3{
+.button-3 {
     border-color: var(--color2);
     border-radius: 2px;
     padding: 2px;
@@ -441,7 +463,7 @@ footer {
 }
 
 
-.vote-down-count.clicked  {
+.vote-down-count.clicked {
     border-color: var(--golden-yellow) !important;
 }
 
@@ -466,7 +488,8 @@ footer {
     min-width: 450 px;
     /* max-width: 50%; */
     padding: 20px;
-    margin-bottom: 20px; /* useful for mobile */
+    margin-bottom: 20px;
+    /* useful for mobile */
 
     display: flex;
     flex-flow: column nowrap;
@@ -478,8 +501,7 @@ footer {
     box-shadow: inset 0px 0px 10px 5px rgba(255, 244, 213, 0.2);
 }
 
-.subscription-features {
-}
+.subscription-features {}
 
 .subscription-price {
     display: flex;
@@ -493,7 +515,7 @@ footer {
     padding: 5px;
 
     border-radius: 5px;
-    border: 1px solid #C9A000; 
+    border: 1px solid #C9A000;
 
     background: var(--color1);
     color: var(--color3);
@@ -519,10 +541,10 @@ footer {
 @media (max-width: 768px) {
     body {
         /* Adjust this value based on the combined height of your header and sub-header */
-        padding-top: 140px; 
+        padding-top: 140px;
     }
 
-    
+
     .container {
         width: 95%;
     }
@@ -536,7 +558,8 @@ footer {
     }
 
     .site-title {
-        font-size: calc(34px + 2vw); /* Smaller base size for mobile */
+        font-size: calc(34px + 2vw);
+        /* Smaller base size for mobile */
     }
 
     .frontpage {
@@ -590,24 +613,27 @@ footer {
     .article-comments {
         width: 100%;
     }
-    
+
     #pixi-container {
         position: static;
-        width: 256px;
-        height: 290px;
-        border-radius: 5px;
-        border-width: 5px;
-        border-color: var(--color1);
-        border-style: solid;
         z-index: 0;
-    }    
+    }
+
+    #twitch-embed {
+        position: static;
+        z-index: 0;
+        margin-top: 10px;
+    }
+
 }
 
 
 @media (max-width: 480px) {
     .site-title {
-        font-size: calc(30px + 2vw); /* Even smaller for very small screens */
+        font-size: calc(30px + 2vw);
+        /* Even smaller for very small screens */
     }
+
     .content h1 {
         font-size: 40px;
     }
@@ -615,8 +641,10 @@ footer {
 
 @media (max-width: 420px) {
     .site-title {
-        font-size: calc(24px + 2vw); /* Even smaller for very small screens */
+        font-size: calc(24px + 2vw);
+        /* Even smaller for very small screens */
     }
+
     .content h1 {
         font-size: 40px;
     }
