@@ -195,13 +195,12 @@ def generate_top_story_outlines(
     url = "https://newsapi.org/v2/top-headlines"
     params = {
         "apiKey": api_key,
-        "pageSize": max(10, num),
+        "pageSize": max(30, num),
         "sources": "associated-press,reuters",
     }
 
     response = requests.get(url, params=params)
     data = response.json()
-
     selected_articles = random.sample(data.get("articles", []), num)
     print("Parodying:")
     for i, article in enumerate(selected_articles):

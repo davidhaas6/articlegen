@@ -141,7 +141,7 @@ fetch('static/audio/output.json')
   .then(response => response.json())
   .then(async (data) => {
     data['html5'] = false;
-    var sound = new Howl(data);
+    var sound = new Howl(data);  // note: this is probably causing a js console warning
     SOUND_GLO = sound;
     await addSoundButton(sound);
   })
