@@ -13,6 +13,7 @@ class ArticleSiteGenerator:
         self.template_dir = template_dir
         self.output_dir = output_dir
         self.article_output_dir = os.path.join(self.output_dir, "article")
+        self.archive_src_dir = 'out/articles' # local path in articlegen
         self.site_img_dir = os.path.join("static", "img")
         self.img_output_dir = os.path.join(output_dir, self.site_img_dir)
         self.env = Environment(loader=FileSystemLoader(template_dir))
@@ -26,6 +27,7 @@ class ArticleSiteGenerator:
         self.copy_images(articles)
         self.generate_qr_code_page(articles)
         self.generate_subscribe_page()
+        self.generate_archive()
 
     def copy_template_dir(self):
         """Copies the template directory to the output directory."""
@@ -70,27 +72,40 @@ class ArticleSiteGenerator:
         with open(os.path.join(self.output_dir, "subscribe.html"), "w") as f:
             f.write(output)
 
-    def generate_archive(self, src_article_dir: str):
-        dst_dir = os.path.join(self.output_dir, "date")
+    def generate_archive(self):
+        dst_dir = os.path.join(self.output_dir, "edition")
         if not os.path.exists(dst_dir):
             os.makedirs(dst_dir, exist_ok=True)
 
-        articles = self._load_articles(article_dir=src_article_dir)
+        articles = self._load_articles(article_dir=self.archive_src_dir, recursive=True)
         articles_by_date = {}
         for article in articles:
-            date = article["timestamp"].strftime("%m-%d-%Y")
+            date = article["timestamp"].strftime("%Y-%m-%d")
             if date not in articles_by_date:
                 articles_by_date[date] = []
             articles_by_date[date].append(article)
+        sorted_dates = sorted(articles_by_date.keys())
 
-        # generate the archive page for each date
+        # mapping of dates to edition numbers
+        # This could be loaded from a configuration file
+        date_to_edition = {}
+        for edition_num, date in enumerate(sorted_dates, 1):
+            date_to_edition[date] = edition_num
+        
+        # Generate archive pages using the edition numbers
         for date, articles in articles_by_date.items():
-            print(date)
-            self.generate_index_page(articles, os.path.join(dst_dir, date + ".html"))
+            edition_num = date_to_edition[date]
+            file_path = os.path.join(dst_dir, f"{edition_num}.html")
+            
+            # Add edition metadata to the articles
+            for article in articles:
+                article["edition"] = edition_num
+                
+            self.generate_index_page(articles, file_path)
             for article in articles:
                 self._write_article(article, self.article_output_dir)
 
-    def _load_articles(self, articles=None, article_dir=None):
+    def _load_articles(self, articles=None, article_dir=None, recursive=False):
         if article_dir is None:
             article_dir = self.articles_dir
 
@@ -99,13 +114,18 @@ class ArticleSiteGenerator:
                 self._process_article(article)
         else:
             articles = []
-            print("Loading articles from directory")
             for filename in os.listdir(article_dir):
+                file_path = os.path.join(article_dir, filename)
                 if filename.endswith(".json"):
-                    with open(os.path.join(article_dir, filename), "r") as f:
+                    with open(file_path, "r") as f:
                         article = json.load(f)
                         self._process_article(article)
                         articles.append(article)
+                elif recursive and os.path.isdir(file_path):
+                    articles += self._load_articles(
+                        article_dir=file_path, 
+                        recursive=True
+                    )
 
         return sorted(articles, key=lambda x: x.get("category") != 'Featured')
 
