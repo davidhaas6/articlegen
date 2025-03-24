@@ -1,6 +1,7 @@
 import gen
 import util
 import templater
+from src.sitemap_generator import generate_sitemap
 
 import dotenv
 from typing import Optional
@@ -88,6 +89,11 @@ def generate_and_push_articles(
     # Generate site
     os.makedirs(site_dir, exist_ok=True)
     templater.ArticleSiteGenerator(article_dir, "templates/", site_dir).generate_site()
+    
+    # Generate sitemap
+    base_url = "https://ratnewsnetwork.com/"
+    generate_sitemap(base_url, site_dir)
+    logging.info(f"Sitemap generated for {base_url}")
     print(site_dir)
 
     if not os.path.exists(site_dir) or not os.listdir(site_dir):
