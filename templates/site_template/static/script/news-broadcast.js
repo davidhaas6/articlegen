@@ -200,21 +200,21 @@ async function addSoundButton(sound) {
 
 // live transcript
 
-const transcript = `Good evening, Ratopolis! I'm Whiskers Whiteclaw, and here's your 60-second rundown:
+const transcript = `
+Good evening, Ratopolis! Here's your 60-second cheese-infused update:
 
-The Rat States have halted military aid to Cheeselandia, with leader Trumpet claiming they 'brought it on themselves.' Tensions rise as some worry about threats from neighboring Rodentia.
+Cheese Bishop Francis is outta the clinic after battling cheese lung—he's rolling back to the Cheese Cathedral, holier (and cheesier) than ever.
 
-Meanwhile, billionaire Elon Whiskers addresses the firing of cheese inspectors, attributing it to individual agencies. Political scrutiny builds as President Cheddar calls for caution in downsizing.
+Big moves in Cheeseden: their forces took Cheddar Palace, sending Rodent Support Forces packing. Peace? Maybe. Drama? Always.
 
-Over at the palace, Whisker McCheese challenges the Rattus monarchy with a bold new vision. Reform promises spark debate between tradition and modernity.
+Shoutout to the Tunnel Guardians keeping our subways squeaky clean and cat-free—true underground legends.
 
-Speaking of tradition, Ratopolis is pondering if rapid tech advances are causing it to 'lose its tail,' fueling a tug-of-war between heritage and innovation.
+Whisker Symphonies are back! Ancient rat melodies now on display—go tap those tails at the museum.
 
-In lighter news, artisanal claw cursers are all the rage—part fashion, part function—giving local makers a boost.
+And in fashion, tail-weaving gets a glow-up! Tradition meets tech in the most stylish swish yet.
 
-Finally, the Ivy Claw League faces allegations of favoring high-status pedigrees over genuine potential, raising concerns about systemic inequality.
+That's the chewable news—stay sharp, Ratopolis!`;
 
-That's all for now! Stay sharp, Ratopolis, and keep those whiskers tuned for more updates.`;
 
 
 function estimateReadingSeconds(text, wordsPerMinute = 180) {
