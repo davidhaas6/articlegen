@@ -84,19 +84,10 @@ def generate_and_push_articles(
             # write to disk
             with open(f"{article_dir}/{article['article_id']}.json", "w") as f:
                 f.write(json.dumps(article))
-    else:
-        # load in articles
-        articles = []
-        for article_file in os.listdir(article_dir):
-            with open(os.path.join(article_dir, article_file), "r") as f:
-                if article_file.endswith(".json"):
-                    articles.append(json.load(f))
-
+    
     # Generate site
     os.makedirs(site_dir, exist_ok=True)
-    templater.ArticleSiteGenerator(article_dir, "templates/", site_dir).generate_site(
-        articles
-    )
+    templater.ArticleSiteGenerator(article_dir, "templates/", site_dir).generate_site()
     print(site_dir)
 
     if not os.path.exists(site_dir) or not os.listdir(site_dir):
@@ -167,7 +158,7 @@ def git_deploy(
     # Commit changes if there are any
     result = subprocess.run("git diff --staged --quiet", shell=True)
     if result.returncode == 1:  # Changes are staged
-        commit_message = f"Daily site update {datetime.now().strftime('%Y-%m-%d')}"
+        commit_message = f"Site update {datetime.now().strftime('%Y-%m-%d-%H%M%S')}"
         run_command(f'git commit -m "{commit_message}"')
         run_command("git status")
         should_push = (

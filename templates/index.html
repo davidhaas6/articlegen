@@ -28,22 +28,23 @@
 
 <div class="container frontpage">
     <div class="edition-nav-container">
-        <a  href="/edition/{{edition+1}}" 
-            style="{% if not has_next_edition %}visibility: hidden;{% endif %}">
-            Next Edition
-        </a>
-        <h1 style="{% if not has_next_edition %}visibility: hidden;{% endif %}">Edition #{{edition}}</h1>
         <a  href="/edition/{{edition-1}}" 
             style="{% if edition < 2 %}visibility: hidden;{% endif %}">
-            Previous Edition
+            < Previous
+        </a>
+        <h1 >{{"Today's News" if is_latest else 'Edition #' ~ edition}}</h1>
+        <a  href="/edition/{{edition+1}}" 
+            style="{% if is_latest %}visibility: hidden;{% endif %}"
+            class="{% if is_latest %}hide-on-small{% endif %}">
+            Next >
         </a>
     </div>
     
     {% for article in articles %}
     <div class="preview {% if article.category == 'Featured' %}featured{% endif %}">
         <a href="/article/{{article.article_id}}" class="preview-img-link">
-            <img src="/static/img/{{article.img_path or 'https://ratnewsnetwork.com/static/img/rat-news-network-logo.png'}}"
-                alt="article image">
+            <img src="/static/img/{{article.img_filename or 'rat-news-network-logo.png'}}"
+                alt="article image"> <!-- Note: img_filename is created in templater.py -->
         </a>
         <a class="preview-body" href="/article/{{article.article_id or article.id}}">
             <h1>{{article.title}}</h1>
@@ -58,7 +59,7 @@
     {% endfor %}
 
 
-    <div id="twitch-embed"></div>
+    <!-- <div id="twitch-embed"></div>
     <script>
         window.onload = function () {
             const OG_DISPLAY = document.getElementById("twitch-embed").style.display;
@@ -75,6 +76,6 @@
                 document.getElementById("twitch-embed").style.display = OG_DISPLAY;
             });
         };
-    </script>
+    </script> -->
 </div>
 {% endblock %}

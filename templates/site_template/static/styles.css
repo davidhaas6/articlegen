@@ -168,7 +168,7 @@ header h1 {
     border-radius: 10px;
     /* this creates the rounded corners */
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1.3em;
     transition: 0.3s;
     /* Optional: add some hover effect for better UX */
 }
@@ -205,11 +205,10 @@ header h1 {
 
 .menu-blurb {
     flex: 2;
-    text-overflow: ellipsis;
+    text-overflow: clip;
     font-size: 20px;
-    text-align: left;
+    text-align: center;
     max-height: 60px;
-
     padding: 0px 10px;
 }
 
@@ -242,8 +241,8 @@ footer {
 
 .frontpage {
     display: flex;
-    flex-flow: column wrap;
-    align-items: start;
+    flex-flow: column nowrap;
+    align-items: center;
     justify-content: flex-start;
     padding: 10px 0px;
 }
@@ -324,7 +323,7 @@ footer {
     flex-flow: row nowrap;
     width: 100%;
     justify-content: space-around;
-    align-items: center;
+    align-items: baseline;
 }
 
 .edition-nav-container a {
@@ -641,7 +640,7 @@ footer {
     .edition-nav-container h1 {
         /* text-decoration: none; */
         color: var(--cream);
-        font-size: 40px;
+        font-size: 50px;
     }
 
     .content {

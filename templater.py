@@ -18,16 +18,16 @@ class ArticleSiteGenerator:
         self.img_output_dir = os.path.join(output_dir, self.site_img_dir)
         self.env = Environment(loader=FileSystemLoader(template_dir))
 
-    def generate_site(self, article_jsons=None):
+    def generate_site(self):
         os.makedirs(self.output_dir, exist_ok=True)
-        articles = self._load_articles(article_jsons)
+        # new_articles = self._load_articles(article_jsons)
+        all_articles = self.generate_content_pages()
         self.copy_template_dir()
-        self.generate_article_pages(articles)
+        # self.generate_article_pages(articles)
         # self.generate_index_page(articles)
-        self.copy_images(articles)
-        self.generate_qr_code_page(articles)
+        self.copy_images(all_articles)
+        self.generate_qr_code_page()
         self.generate_subscribe_page()
-        self.generate_archive()
 
     def copy_template_dir(self):
         """Copies the template directory to the output directory."""
@@ -44,24 +44,24 @@ class ArticleSiteGenerator:
 
     def copy_images(self, articles):
         for article in articles:
-            src_path = os.path.join(self.articles_dir, article["img_path"])
-            dst_path = os.path.join(self.img_output_dir, article["img_path"])
+            src_path = article['img_path']
+            dst_path = os.path.join(self.img_output_dir, article["img_filename"])
             if os.path.exists(src_path):
                 shutil.copy2(src_path, dst_path)
             else:
-                print(f"Warning: Image file not found: {src_path}")
+                print(f"Warning: {article['article_id']} - Image file not found: {src_path}")
 
-    def generate_index_page(self, articles, edition, has_next, dst_path=None):
+    def generate_index_page(self, articles, edition, is_latest, dst_path=None):
         if dst_path is None:
             dst_path = os.path.join(self.output_dir, "index.html")
         template = self.env.get_template("index.html")
-        output = template.render(articles=articles, edition=edition, has_next_edition=has_next)
+        output = template.render(articles=articles, edition=edition, is_latest=is_latest)
         with open(dst_path, "w") as f:
             f.write(output)
 
-    def generate_qr_code_page(self, articles):
+    def generate_qr_code_page(self):
         template = self.env.get_template("qr.html")
-        output = template.render(articles=articles)
+        output = template.render()
         with open(os.path.join(self.output_dir, "qr.html"), "w") as f:
             f.write(output)
 
@@ -72,14 +72,17 @@ class ArticleSiteGenerator:
         with open(os.path.join(self.output_dir, "subscribe.html"), "w") as f:
             f.write(output)
 
-    def generate_archive(self):
-        dst_dir = os.path.join(self.output_dir, "edition")
-        if not os.path.exists(dst_dir):
-            os.makedirs(dst_dir, exist_ok=True)
+    def generate_content_pages(self):
+        archive_dst_dir = os.path.join(self.output_dir, "edition")
+        if not os.path.exists(archive_dst_dir):
+            os.makedirs(archive_dst_dir, exist_ok=True)
 
-        articles = self._load_articles(article_dir=self.archive_src_dir, recursive=True)
+        all_articles = self._load_articles(
+            article_dir=self.archive_src_dir,
+            recursive=True
+        )
         articles_by_date = {}
-        for article in articles:
+        for article in all_articles:
             date = article["timestamp"].strftime("%Y-%m-%d")
             if date not in articles_by_date:
                 articles_by_date[date] = []
@@ -96,17 +99,27 @@ class ArticleSiteGenerator:
         for date, articles in articles_by_date.items():
             edition_num = date_to_edition[date]
             latest_edition = edition_num == max(date_to_edition.values())
-
             if latest_edition:
+                # its convenient for navigation to write the index content to two pages
                 file_path = os.path.join(self.output_dir, "index.html")
-            else:
-                file_path = os.path.join(dst_dir, f"{edition_num}.html")
-            # TODO: for the latest edition, make it the index
-            # TODO: generate the index page here, not elsewhere
+                self.generate_index_page(
+                    articles, 
+                    edition_num, 
+                    latest_edition, 
+                    file_path
+                )
                 
-            self.generate_index_page(articles, edition_num, not latest_edition, file_path)
+            file_path = os.path.join(archive_dst_dir, f"{edition_num}.html")
+            self.generate_index_page(
+                articles, 
+                edition_num, 
+                latest_edition, 
+                file_path
+            )
             for article in articles:
                 self._write_article(article, self.article_output_dir)
+        
+        return all_articles
 
     def _load_articles(self, articles=None, article_dir=None, recursive=False):
         if article_dir is None:
@@ -142,7 +155,7 @@ class ArticleSiteGenerator:
         article["timestamp"] = datetime.strptime(
             article["timestamp"], "%Y-%m-%d %H:%M:%S"
         )
-        article["img_path"] = os.path.basename(article["img_path"])
+        article["img_filename"] = os.path.basename(article["img_path"])
         if "reading_time_minutes" not in article:
             article["reading_time_minutes"] = text_processing.estimate_reading_time(
                 article["body"]
@@ -170,7 +183,7 @@ class ArticleSiteGenerator:
             title=article["title"],
             overview=article["overview"],
             body=text_processing.markdown_to_html(article["body"]),
-            img_path=article["img_path"],
+            img_path=article["img_filename"],
             reading_time=article["reading_time_minutes"],
             comments=article.get("comments", []),
             parody_src=article.get('parody_src')
