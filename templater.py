@@ -12,6 +12,7 @@ class ArticleSiteGenerator:
         self.articles_dir = articles_dir
         self.template_dir = template_dir
         self.output_dir = output_dir
+        self.article_output_dir = os.path.join(self.output_dir, "article")
         self.site_img_dir = os.path.join("static", "img")
         self.img_output_dir = os.path.join(output_dir, self.site_img_dir)
         self.env = Environment(loader=FileSystemLoader(template_dir))
@@ -34,12 +35,10 @@ class ArticleSiteGenerator:
             dirs_exist_ok=True,
         )
 
-    def generate_article_pages(self, articles, dst_dir=None):
-        if dst_dir is None:
-            dst_dir = self.output_dir
+    def generate_article_pages(self, articles):
         template = self.env.get_template("article.html")
         for article in articles:
-            self._write_article(article, dst_dir, template=template)
+            self._write_article(article, self.article_output_dir, template=template)
 
     def copy_images(self, articles):
         for article in articles:
@@ -72,21 +71,14 @@ class ArticleSiteGenerator:
             f.write(output)
 
     def generate_archive(self, src_article_dir: str):
-        # UNFINISHED
-
-        dst_dir = os.path.join(self.output_dir, "archive")
+        dst_dir = os.path.join(self.output_dir, "date")
         if not os.path.exists(dst_dir):
             os.makedirs(dst_dir, exist_ok=True)
-            print("WARNING: Archive directory does not exist. Creating it.")
-        # load jsons from archive_dir
+
         articles = self._load_articles(article_dir=src_article_dir)
-        # group them by their date
         articles_by_date = {}
         for article in articles:
-            # article = self._process_article(article)
-            # get the day of the week
-            # day = article['timestamp'].strftime('%A')
-            date = article["timestamp"].strftime("%Y-%m-%d")
+            date = article["timestamp"].strftime("%m-%d-%Y")
             if date not in articles_by_date:
                 articles_by_date[date] = []
             articles_by_date[date].append(article)
@@ -96,8 +88,7 @@ class ArticleSiteGenerator:
             print(date)
             self.generate_index_page(articles, os.path.join(dst_dir, date + ".html"))
             for article in articles:
-                # print(f"  {article['article_id']} {article['title']}")
-                self._write_article(article, dst_dir)
+                self._write_article(article, self.article_output_dir)
 
     def _load_articles(self, articles=None, article_dir=None):
         if article_dir is None:
@@ -161,6 +152,9 @@ class ArticleSiteGenerator:
             comments=article.get("comments", []),
             parody_src=article.get('parody_src')
         )
+        
+        if not os.path.exists(out_dir):
+            os.makedirs(out_dir)
         filename = f"{article['article_id']}.html"
         with open(os.path.join(out_dir, filename), "w") as f:
             f.write(output)

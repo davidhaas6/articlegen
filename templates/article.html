@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{title}} - Rat News Network{% endblock %}
+{% block title %}{{title}} - RNN{% endblock %}
 
 {% block extra_head %}
 <meta property="og:title" content="{{ title|safe }}">
@@ -21,7 +21,7 @@
         {% endif %}
     </span>
     {% if img_path != None %}
-    <img src="static/img/{{img_path}}" alt="article image">
+    <img src="/static/img/{{img_path}}" alt="article image">
     {% endif %}
     <br>
     <div class="article-container">
