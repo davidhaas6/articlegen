@@ -1,6 +1,6 @@
 {
   "src": [
-    "static/audio/output.mp3"
+    "/static/audio/output.mp3"
   ],
   "sprite": {
     "eem": [
