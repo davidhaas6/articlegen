@@ -27,7 +27,17 @@
 {% block content %}
 
 <div class="container frontpage">
-    <div id="pixi-container"></div>
+    <div class="edition-nav-container">
+        <a  href="/edition/{{edition+1}}" 
+            style="{% if not has_next_edition %}visibility: hidden;{% endif %}">
+            Next Edition
+        </a>
+        <h1 style="{% if not has_next_edition %}visibility: hidden;{% endif %}">Edition #{{edition}}</h1>
+        <a  href="/edition/{{edition-1}}" 
+            style="{% if edition < 2 %}visibility: hidden;{% endif %}">
+            Previous Edition
+        </a>
+    </div>
     
     {% for article in articles %}
     <div class="preview {% if article.category == 'Featured' %}featured{% endif %}">
@@ -42,7 +52,11 @@
                 article.comments|length == 1 else article.comments|length ~ " comments" }}</span>
         </a>
     </div>
+    {% if loop.index == (articles|length // 2) %}
+    <div id="pixi-container"></div>
+    {% endif %}
     {% endfor %}
+
 
     <div id="twitch-embed"></div>
     <script>

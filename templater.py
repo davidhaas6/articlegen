@@ -23,7 +23,7 @@ class ArticleSiteGenerator:
         articles = self._load_articles(article_jsons)
         self.copy_template_dir()
         self.generate_article_pages(articles)
-        self.generate_index_page(articles)
+        # self.generate_index_page(articles)
         self.copy_images(articles)
         self.generate_qr_code_page(articles)
         self.generate_subscribe_page()
@@ -51,11 +51,11 @@ class ArticleSiteGenerator:
             else:
                 print(f"Warning: Image file not found: {src_path}")
 
-    def generate_index_page(self, articles, dst_path=None):
+    def generate_index_page(self, articles, edition, has_next, dst_path=None):
         if dst_path is None:
             dst_path = os.path.join(self.output_dir, "index.html")
         template = self.env.get_template("index.html")
-        output = template.render(articles=articles)
+        output = template.render(articles=articles, edition=edition, has_next_edition=has_next)
         with open(dst_path, "w") as f:
             f.write(output)
 
@@ -84,10 +84,10 @@ class ArticleSiteGenerator:
             if date not in articles_by_date:
                 articles_by_date[date] = []
             articles_by_date[date].append(article)
-        sorted_dates = sorted(articles_by_date.keys())
 
         # mapping of dates to edition numbers
         # This could be loaded from a configuration file
+        sorted_dates = sorted(articles_by_date.keys())
         date_to_edition = {}
         for edition_num, date in enumerate(sorted_dates, 1):
             date_to_edition[date] = edition_num
@@ -95,13 +95,16 @@ class ArticleSiteGenerator:
         # Generate archive pages using the edition numbers
         for date, articles in articles_by_date.items():
             edition_num = date_to_edition[date]
-            file_path = os.path.join(dst_dir, f"{edition_num}.html")
-            
-            # Add edition metadata to the articles
-            for article in articles:
-                article["edition"] = edition_num
+            latest_edition = edition_num == max(date_to_edition.values())
+
+            if latest_edition:
+                file_path = os.path.join(self.output_dir, "index.html")
+            else:
+                file_path = os.path.join(dst_dir, f"{edition_num}.html")
+            # TODO: for the latest edition, make it the index
+            # TODO: generate the index page here, not elsewhere
                 
-            self.generate_index_page(articles, file_path)
+            self.generate_index_page(articles, edition_num, not latest_edition, file_path)
             for article in articles:
                 self._write_article(article, self.article_output_dir)
 
