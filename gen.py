@@ -191,8 +191,8 @@ def article_from_idea(idea: ArticleIdea) -> dict | None:
         outline = article_outline(idea_str)
         logging.info("Generating body")
         # sample from normal distribution for word count within limits
-        num_words = int(random.gauss(650, 150))
-        num_words = max(300, min(10000, num_words))
+        num_words = int(random.gauss(450, 150))
+        num_words = max(100, min(10000, num_words))
 
         article = article_body(idea_str, outline, num_words)
         article["Outline"] = outline
