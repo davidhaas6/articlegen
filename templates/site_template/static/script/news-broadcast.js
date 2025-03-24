@@ -41,7 +41,7 @@ const spritesheetData = {
     base_face: getSpriteData(0)
   },
   meta: {
-    image: 'static/img/big-news-anchor-sprites.png',
+    image: '/static/img/big-news-anchor-sprites.png',
     format: 'RGBA8888',
     size: { w: SPRITE_PX * NUM_SPRITES, h: SPRITE_PX },
     scale: 1
@@ -137,7 +137,7 @@ function onXButtonClick() {
 // sound button
 var SOUND_ON = false;
 
-fetch('static/audio/output.json')
+fetch('/static/audio/output.json')
   .then(response => response.json())
   .then(async (data) => {
     data['html5'] = false;
@@ -154,8 +154,8 @@ async function addSoundButton(sound) {
   sound_button.on('pointerdown', onSoundButtonClick);
   sound_button.cursor = 'pointer';
 
-  const muted_texture = await PIXI.Assets.load('static/img/muted.png')
-  const playing_texture = await PIXI.Assets.load('static/img/playing.png')
+  const muted_texture = await PIXI.Assets.load('/static/img/muted.png')
+  const playing_texture = await PIXI.Assets.load('/static/img/playing.png')
   const sound_sprite = new PIXI.Sprite(muted_texture)
 
   const x = 45;
