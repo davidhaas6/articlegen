@@ -127,7 +127,17 @@ class SitemapGenerator:
         pages = []
         for html_file in glob.glob(f"{self.output_dir}/**/*.html", recursive=True):
             rel_path = os.path.relpath(html_file, self.output_dir)
-            url = self.base_url + rel_path.replace(os.path.sep, "/")
+            
+            # Remove .html extension from the URL
+            url_path = rel_path.replace(os.path.sep, "/")
+            if url_path.endswith(".html"):
+                url_path = url_path[:-5]  # Remove .html extension
+                
+            # Special case for index.html - convert to root URL
+            if url_path == "index":
+                url = self.base_url
+            else:
+                url = self.base_url + url_path
             
             # Get file modification time
             lastmod = datetime.fromtimestamp(os.path.getmtime(html_file))

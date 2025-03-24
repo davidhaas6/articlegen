@@ -65,12 +65,12 @@ class TestSitemapGenerator(unittest.TestCase):
         
         # Check that all expected URLs are in the sitemap
         expected_paths = [
-            "index.html",  # index.html
-            "article/article1.html",
-            "article/article2.html",
-            "edition/1.html",
-            "subscribe.html",
-            "qr.html"
+            "",  # index.html -> root URL
+            "article/article1",
+            "article/article2",
+            "edition/1",
+            "subscribe",
+            "qr"
         ]
         
         found_paths = []
@@ -112,13 +112,13 @@ class TestSitemapGenerator(unittest.TestCase):
             loc = loc_elem.text
             priority = float(priority_elem.text)
             
-            if loc.endswith("index.html") or loc == self.base_url:
+            if loc == self.base_url:  # index (root URL)
                 self.assertEqual(priority, 1.0)
             elif "article/" in loc:
                 self.assertEqual(priority, 0.8)
             elif "edition/" in loc:
                 self.assertEqual(priority, 0.6)
-            elif loc.endswith("subscribe.html") or loc.endswith("qr.html"):
+            elif loc.endswith("subscribe") or loc.endswith("qr"):
                 self.assertEqual(priority, 0.5)
                 
     def test_changefreq_assignment(self):
@@ -147,13 +147,13 @@ class TestSitemapGenerator(unittest.TestCase):
             loc = loc_elem.text
             changefreq = changefreq_elem.text
             
-            if loc.endswith("index.html") or loc == self.base_url:
+            if loc == self.base_url:  # index (root URL)
                 self.assertEqual(changefreq, "daily")
             elif "article/" in loc:
                 self.assertEqual(changefreq, "weekly")
             elif "edition/" in loc:
                 self.assertEqual(changefreq, "monthly")
-            elif loc.endswith("subscribe.html") or loc.endswith("qr.html"):
+            elif loc.endswith("subscribe") or loc.endswith("qr"):
                 self.assertEqual(changefreq, "monthly")
                 
     def test_custom_config(self):
@@ -200,7 +200,7 @@ class TestSitemapGenerator(unittest.TestCase):
             priority = float(priority_elem.text)
             changefreq = changefreq_elem.text
             
-            if loc.endswith("index.html") or loc == self.base_url:
+            if loc == self.base_url:  # index (root URL)
                 self.assertEqual(priority, 0.9)
                 self.assertEqual(changefreq, "hourly")
             elif "article/" in loc:
