@@ -453,6 +453,8 @@ footer {
     justify-content: flex-start;
     padding: 20px;
     width: 80%;
+
+    scroll-margin-top: 110px;
 }
 
 .comment {
@@ -698,6 +700,12 @@ footer {
     }
 
     .content h1 {
+        font-size: 40px;
+    }
+    
+    .edition-nav-container h1 {
+        /* text-decoration: none; */
+        color: var(--cream);
         font-size: 40px;
     }
 }
