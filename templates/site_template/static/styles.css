@@ -49,6 +49,10 @@ button {
     font-family: "VT323", sans-serif;
 }
 
+a {
+    color: var(--golden-yellow);
+}
+
 body,
 html,
 .site {

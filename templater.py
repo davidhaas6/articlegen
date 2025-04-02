@@ -27,6 +27,7 @@ class ArticleSiteGenerator:
         # self.generate_index_page(articles)
         self.copy_images(all_articles)
         self.generate_qr_code_page()
+        self.generate_404_page()
         self.generate_subscribe_page()
 
     def copy_template_dir(self):
@@ -63,6 +64,12 @@ class ArticleSiteGenerator:
         template = self.env.get_template("qr.html")
         output = template.render()
         with open(os.path.join(self.output_dir, "qr.html"), "w") as f:
+            f.write(output)
+    
+    def generate_404_page(self):
+        template = self.env.get_template("404.html")
+        output = template.render()
+        with open(os.path.join(self.output_dir, "404.html"), "w") as f:
             f.write(output)
 
     def generate_subscribe_page(self):
