@@ -1,7 +1,8 @@
 from pathlib import Path
 import dotenv
 
-dotenv.load_dotenv()
+if not dotenv.load_dotenv(".env"):
+    print("WARNING: Could not load env file")
 
 root = Path(__file__).resolve().parent.parent
 

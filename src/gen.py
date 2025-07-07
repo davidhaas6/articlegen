@@ -13,11 +13,12 @@ import sys
 import random
 import traceback
 import uuid
-from pathlib import Path
 
 import text_processing
 import util
-from src.config import PROMPTS_DIR, DEFAULT_ARTICLE_DIR
+from config import PROMPTS_DIR, DEFAULT_ARTICLE_DIR
+from parody import generate_top_story_outlines
+
 
 VERBOSE = True
 
@@ -155,7 +156,6 @@ def new_articles(num: int, ideas=None) -> List[dict]:
 
 
 def new_parody_articles(num: int) -> List[dict]:
-    from src.parody import generate_top_story_outlines
 
     if num <= 0:
         return []

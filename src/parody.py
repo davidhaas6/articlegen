@@ -5,20 +5,18 @@ from typing import List, Optional, Dict, Any
 from multiprocessing import Pool
 from markitdown import MarkItDown
 from openai import OpenAI
-from pydantic import BaseModel
 import sys
 import requests
 import yaml
-from pathlib import Path
 import dotenv
 import re
 
-print("done importing")
+import config
 
 if not dotenv.load_dotenv(".env"):
     print("WARNING: Could not load env file")
 client = OpenAI()
-PROMPT_PATH = Path(__file__).parent.parent / "prompts" / "parody.yaml"
+PROMPT_PATH = config.PROMPTS_DIR / "parody.yaml"
 with open(PROMPT_PATH) as f:
     PROMPTS = yaml.safe_load(f)
 

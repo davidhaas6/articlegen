@@ -5,7 +5,7 @@ from jinja2 import Environment, FileSystemLoader
 import shutil
 
 import text_processing
-import src.config
+import config
 
 
 class ArticleSiteGenerator:
@@ -219,13 +219,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "output_dir",
         help="Directory to output the generated site",
-        default=src.config.root / f"out/templater-output/{day_timestamp}/site_{full_timestamp}",
+        default=config.root / f"out/templater-output/{day_timestamp}/site_{full_timestamp}",
         nargs="?",
     )
     parser.add_argument(
         "template_dir",
         help="Directory containing HTML templates",
-        default=src.config.TEMPLATES_DIR.as_posix(),
+        default=config.TEMPLATES_DIR.as_posix(),
         nargs="?",
     )
     args = parser.parse_args()
@@ -234,7 +234,7 @@ if __name__ == "__main__":
         args.articles, 
         args.template_dir, 
         f"{args.output_dir}", 
-        src.config.DEFAULT_ARTICLE_DIR
+        config.DEFAULT_ARTICLE_DIR
     )
     generator.generate_site()
     print(args.output_dir)

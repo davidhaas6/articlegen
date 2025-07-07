@@ -9,3 +9,4 @@ prompts/feedback.md
 repo/
 .env
 .DS_Store
+.pytest_cache/

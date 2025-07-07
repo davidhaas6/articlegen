@@ -1,8 +1,9 @@
-from src.config import DEFAULT_ARTICLE_DIR, DEFAULT_SITE_DIR, TEMPLATES_DIR
+from config import DEFAULT_ARTICLE_DIR, DEFAULT_SITE_DIR, TEMPLATES_DIR
 import gen
 import util
 import templater
-from src.sitemap_generator import generate_sitemap
+from sitemap_generator import generate_sitemap
+import text_processing
 
 import dotenv
 from typing import Optional
@@ -15,7 +16,6 @@ from urllib.parse import urlparse
 import json
 import sys
 
-import text_processing
 
 dotenv.load_dotenv()
 logging.basicConfig(
