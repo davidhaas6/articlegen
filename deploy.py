@@ -1,3 +1,4 @@
+from src.config import DEFAULT_ARTICLE_DIR, DEFAULT_SITE_DIR, TEMPLATES_DIR
 import gen
 import util
 import templater
@@ -67,9 +68,10 @@ def generate_and_push_articles(
     NUM_PARODY = 2
     day_timestamp = datetime.now().strftime("%Y-%m-%d")
     full_timestamp = datetime.now().strftime("%Y-%m-%d-%H%M%S")
-    site_dir = f"out/site/{day_timestamp}/{full_timestamp}"
+    site_dir = (DEFAULT_SITE_DIR / f"{day_timestamp}/{full_timestamp}").as_posix()
     if article_dir is None:
-        article_dir = f"out/articles/{day_timestamp}/{full_timestamp}"
+        article_dir = (DEFAULT_ARTICLE_DIR / f"{day_timestamp}/{full_timestamp}").as_posix()
+    archive_dir = DEFAULT_ARTICLE_DIR
     os.makedirs(site_dir, exist_ok=True)
     os.makedirs(article_dir, exist_ok=True)
 
@@ -83,12 +85,16 @@ def generate_and_push_articles(
         for article in articles:
             process_article(article, article_dir)
             # write to disk
-            with open(f"{article_dir}/{article['article_id']}.json", "w") as f:
+            with open(
+                os.path.join(article_dir, f"{article['article_id']}.json"), "w"
+            ) as f:
                 f.write(json.dumps(article))
     
     # Generate site
     os.makedirs(site_dir, exist_ok=True)
-    templater.ArticleSiteGenerator(article_dir, "templates/", site_dir).generate_site()
+    templater.ArticleSiteGenerator(
+        article_dir, TEMPLATES_DIR, site_dir, archive_dir
+    ).generate_site()
     
     # Generate sitemap
     base_url = "https://ratnewsnetwork.com/"

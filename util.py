@@ -5,9 +5,10 @@ from io import BytesIO
 from PIL import Image
 import requests
 import logging
+from pathlib import Path
 
 
-def download_and_compress_image(url: str, webp_path: str, quality=85) -> bool:
+def download_and_compress_image(url: str, webp_path: str | Path, quality=85) -> bool:
     # Download the image
     response = requests.get(url)
     if response.status_code != 200:

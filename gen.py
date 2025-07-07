@@ -14,16 +14,14 @@ import random
 import traceback
 import uuid
 from pathlib import Path
-import dotenv
 
 import text_processing
 import util
+from src.config import PROMPTS_DIR, DEFAULT_ARTICLE_DIR
 
 VERBOSE = True
 
-dotenv.load_dotenv()
-prompts_dir = Path(__file__).resolve().parent / "prompts"
-with open(prompts_dir / "system.yaml") as f:
+with open(PROMPTS_DIR / "system.yaml") as f:
     systems = yaml.safe_load(f)
 
 client = OpenAI()
@@ -82,14 +80,16 @@ def _cli_main():
         logger.info(f"Generating article from idea: {idea}")
         article = article_from_idea(ArticleIdea(description=idea,title='',category=''))
         logger.info(f"Article created: {article}")
-        util.download_and_compress_image(
-            article["img_path"], f'out/articles/{article["article_id"]}.webp'
-        )
-        article["img_path"] = f'{article["article_id"]}.webp'
-        # save to out/articles
-        with open(f'out/articles/{article["article_id"]}.json', "w") as f:
-            json.dump(article, f)
-            logger.info(f'Article saved to out/articles/{article["article_id"]}.json')
+        if article is not None:
+            util.download_and_compress_image(
+                article["img_path"], 
+                DEFAULT_ARTICLE_DIR / f'{article["article_id"]}.webp'
+            )
+            article["img_path"] = f'{article["article_id"]}.webp'
+            # save to out/articles
+            with open(DEFAULT_ARTICLE_DIR / f'{article["article_id"]}.json', "w") as f:
+                json.dump(article, f)
+                logger.info(f'Article saved to {DEFAULT_ARTICLE_DIR}/{article["article_id"]}.json')
     elif "image" in action:
         if len(sys.argv) < 4:
             print("usage: gen.py image <title> <outline>")
@@ -107,7 +107,7 @@ def _cli_main():
         for article in articles:
             if article is None:
                 print("Error generating article")
-            with open(f'out/articles/{article["article_id"]}.json', "w") as f:
+            with open(DEFAULT_ARTICLE_DIR / f'{article["article_id"]}.json', "w") as f:
                 json.dump(article, f)
                 logger.info(
                     f'Article saved to out/articles/{article["article_id"]}.json'
@@ -229,7 +229,7 @@ def article_from_idea(idea: ArticleIdea) -> dict | None:
 
 
 def article_image(title: str, outline: str) -> str | None:
-    with open(prompts_dir / "images.yaml") as f:
+    with open(PROMPTS_DIR / "images.yaml") as f:
         prompts = yaml.safe_load(f)
 
     convo_1_ideas = [
@@ -280,7 +280,7 @@ def article_ideas(n: int) -> List[ArticleIdea]:
     Returns:
         str: a string containing a set of article ideas
     """
-    with open(prompts_dir / "ideas.yaml", "rb") as f:
+    with open(PROMPTS_DIR / "ideas.yaml", "rb") as f:
         prompts = yaml.safe_load(f)
 
     convo_1_ideas = [
@@ -310,7 +310,7 @@ def article_outline(idea: str) -> str:
     Returns:
         str: A brief outline for the article
     """
-    with open(prompts_dir / "article.yaml", "rb") as f:
+    with open(PROMPTS_DIR / "article.yaml", "rb") as f:
         prompts = yaml.safe_load(f)
 
     chat_completion = client.chat.completions.create(
@@ -344,7 +344,7 @@ def article_body(idea: str, outline: str, num_words: int) -> Dict:
                generator -> generator version
     """
 
-    with open(prompts_dir / "article.yaml", "rb") as f:
+    with open(PROMPTS_DIR / "article.yaml", "rb") as f:
         prompts = yaml.safe_load(f)
 
     article_generator = random.choice(
@@ -376,7 +376,7 @@ def article_body(idea: str, outline: str, num_words: int) -> Dict:
 
 
 def get_comments(article: dict, num_comments: int, model=light_llm) -> List[str]:
-    with open(prompts_dir / "article.yaml", "rb") as f:
+    with open(PROMPTS_DIR / "article.yaml", "rb") as f:
         prompts = yaml.safe_load(f)
 
     chat_completion = client.chat.completions.create(
@@ -416,7 +416,7 @@ def get_comments(article: dict, num_comments: int, model=light_llm) -> List[str]
 
 
 def article_to_json(article_text: str, model=light_llm) -> dict:
-    with open(prompts_dir / "article.yaml", "rb") as f:
+    with open(PROMPTS_DIR / "article.yaml", "rb") as f:
         prompts = yaml.safe_load(f)
 
     article_json_str = _get_text(
@@ -446,7 +446,7 @@ def article_to_json(article_text: str, model=light_llm) -> dict:
 
 
 def summarize_article(title: str, body: str, num_sentences=3, model=light_llm) -> str:
-    with open(prompts_dir / "article.yaml") as f:
+    with open(PROMPTS_DIR / "article.yaml") as f:
         prompts = yaml.safe_load(f)
     summary = _get_text(
         client.chat.completions.create(

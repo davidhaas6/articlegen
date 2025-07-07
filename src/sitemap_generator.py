@@ -125,7 +125,9 @@ class SitemapGenerator:
             A list of PageEntry objects representing the discovered pages
         """
         pages = []
-        for html_file in glob.glob(f"{self.output_dir}/**/*.html", recursive=True):
+        for html_file in glob.glob(
+                os.path.join(self.output_dir, "**", "*.html"
+            ), recursive=True):
             rel_path = os.path.relpath(html_file, self.output_dir)
             
             # Remove .html extension from the URL

@@ -5,15 +5,16 @@ from jinja2 import Environment, FileSystemLoader
 import shutil
 
 import text_processing
+import src.config
 
 
 class ArticleSiteGenerator:
-    def __init__(self, articles_dir, template_dir, output_dir):
+    def __init__(self, articles_dir, template_dir, output_dir, archive_src_dir):
         self.articles_dir = articles_dir
         self.template_dir = template_dir
         self.output_dir = output_dir
         self.article_output_dir = os.path.join(self.output_dir, "article")
-        self.archive_src_dir = 'out/articles' # local path in articlegen
+        self.archive_src_dir = archive_src_dir
         self.site_img_dir = os.path.join("static", "img")
         self.img_output_dir = os.path.join(output_dir, self.site_img_dir)
         self.env = Environment(loader=FileSystemLoader(template_dir))
@@ -218,19 +219,22 @@ if __name__ == "__main__":
     parser.add_argument(
         "output_dir",
         help="Directory to output the generated site",
-        default=f"out/templater-output/{day_timestamp}/site_{full_timestamp}",
+        default=src.config.root / f"out/templater-output/{day_timestamp}/site_{full_timestamp}",
         nargs="?",
     )
     parser.add_argument(
         "template_dir",
         help="Directory containing HTML templates",
-        default="templates/",
+        default=src.config.TEMPLATES_DIR.as_posix(),
         nargs="?",
     )
     args = parser.parse_args()
 
     generator = ArticleSiteGenerator(
-        args.articles, args.template_dir, f"{args.output_dir}"
+        args.articles, 
+        args.template_dir, 
+        f"{args.output_dir}", 
+        src.config.DEFAULT_ARTICLE_DIR
     )
     generator.generate_site()
     print(args.output_dir)
