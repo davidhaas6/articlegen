@@ -50,8 +50,12 @@
             <div class="menu-blurb hide-on-small">
                 <h3 id="temperature">450°R, Ratopolis</h3>
             </div>
-            <div class="menu-button">
-                <a href="/subscribe"><button class="rounded-button">Subscribe</button></a>
+            <div class="subscribe-container">
+                <form id="subscribe-form" class="subscribe-form" action="#" novalidate>
+                    <input type="email" name="email" placeholder="you@ratmail.example" required class="subscribe-input" />
+                    <button type="submit" class="subscribe-button rounded-button">Subscribe</button>
+                </form>
+                <div id="subscribe-message" class="subscribe-message" aria-live="polite"></div>
             </div>
         </header>
 
@@ -92,6 +96,7 @@
     <footer>
         <p>Content is AI Generated. &copy; 2025 Rat News Network. All rats reserved.</p>
     </footer>
+    <script src="/static/script/subscribe.js"></script>
 </body>
 
 </html>

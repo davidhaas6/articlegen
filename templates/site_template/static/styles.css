@@ -222,6 +222,96 @@ header h1 {
     vertical-align: middle;
 }
 
+.subscribe-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding-right: 20px;
+}
+
+.subscribe-form {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.subscribe-input {
+    padding: 8px 10px;
+    border: 2px solid rgba(0,0,0,0.15);
+    border-radius: 8px;
+    background: var(--color2);
+    color: var(--deep-black);
+    font-family: "VT323", sans-serif;
+    font-size: 1em;
+    width: 220px;
+    max-width: 40vw;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+/* invalid state toggled by JS */
+.subscribe-input.invalid {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 4px rgba(255,107,107,0.08);
+}
+
+/* subtle focus style */
+.subscribe-input:focus {
+    outline: none;
+    border-color: var(--deep-black);
+    box-shadow: 0 0 0 4px rgba(1,1,0,0.06);
+}
+
+.subscribe-button {
+    padding: 8px 14px;
+    font-size: 1em;
+}
+
+.subscribe-button:disabled {
+    background: #666;
+    cursor: not-allowed;
+}
+
+/* message area below the form (shows success/error/info) */
+.subscribe-message {
+    margin-top: 6px;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    text-align: center;
+    width: 100%;
+    color: var(--cream);
+}
+
+.subscribe-message.show {
+    opacity: 1;
+}
+
+.subscribe-message.success {
+    color: #6dd36d;
+}
+
+.subscribe-message.error {
+    color: #ff6b6b;
+}
+
+.subscribe-message.info {
+    color: var(--cream);
+}
+
+/* On very small screens, allow the subscribe form to compress */
+@media (max-width: 520px) {
+    .subscribe-input {
+        width: 140px;
+        max-width: 35vw;
+    }
+
+    .subscribe-container {
+        padding-right: 8px;
+    }
+}
+
 footer {
     background: var(--color3);
     color: var(--color2);
