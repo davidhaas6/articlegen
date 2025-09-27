@@ -236,10 +236,12 @@ header h1 {
     display: flex;
     gap: 0.5rem;
     align-items: center;
+        height:40px;
 }
 
 .subscribe-input {
     padding: 8px 10px;
+    box-sizing: border-box;
     border: 2px solid rgba(0,0,0,0.15);
     border-radius: 8px;
     background: var(--color2);
@@ -249,6 +251,7 @@ header h1 {
     width: 220px;
     max-width: 40vw;
     transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    height: 100%;
 }
 
 /* invalid state toggled by JS */
@@ -265,8 +268,14 @@ header h1 {
 }
 
 .subscribe-button {
-    padding: 8px 14px;
+    /* padding: 8px 14px; */
     font-size: 1.5em;
+    /* box-sizing: border-box; */
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
 }
 
 .subscribe-button:disabled {
