@@ -7,6 +7,7 @@
     --golden-yellow: #fbc62c;
     --deep-black: #010100;
     --cream: #FFF4D5;
+    --cream-dim: #E6D8A7;
     --dark-gray: #3E3E3E;
     --brownish-gray: #5A5551;
 }
@@ -366,15 +367,13 @@ footer {
 }
 
 .read-time {
-    color: var(--cream);
-    font-size: 1.2em;
-    font-weight: 500;
+    color: #dad8d3;
+    font-size: 1em;
+    font-weight: 300;
     padding: 5px 0px;
     width: 100%;
     text-align: left;
-    /* font-style: italic; */
-    /* text-transform: uppercase; */
-
+    font-style: italic;
 }
 
 
@@ -392,15 +391,16 @@ footer {
 }
 
 .preview a h1 {
-    color: var(--color2) !important;
-    font-size: 35px;
+    color: #fffefc !important;
+    font-size: 45px;
     font-weight: 700;
     min-height: 50%;
-    /* max-width: 50%; */
+    line-height: 90%;
+    padding-bottom: 5px;
 }
 
 .preview a p {
-    color: var(--cream) !important;
+    color: #f5f4f3 !important;
 
     font-size: 22px;
     font-weight: 400;
