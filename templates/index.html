@@ -18,7 +18,7 @@
             style="{% if edition < 2 %}visibility: hidden;{% endif %}">
             < Previous
         </a>
-        <h1 >{{"Today's News" if is_latest else 'Edition #' ~ edition}}</h1>
+        <h1 >{{"TODAY'S NEWS" if is_latest else 'EDITION #' ~ edition}}</h1>
         <a  href="/edition/{{edition+1}}" 
             style="{% if is_latest %}visibility: hidden;{% endif %}"
             class="{% if is_latest %}hide-on-small{% endif %}">
