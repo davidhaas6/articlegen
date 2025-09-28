@@ -115,7 +115,6 @@ h1 {
 }
 
 header h1 {
-    font-size: 60px;
     padding: 0px 20px;
     flex: 3;
     white-space: nowrap;
@@ -126,7 +125,7 @@ header h1 {
 
 .site-title {
     display: inline-block;
-    font-size: 60px;
+    font-size: 70px;
     /* Starting font size */
     line-height: 1;
     text-transform: uppercase;
@@ -212,7 +211,6 @@ header h1 {
     flex: 2;
     text-overflow: clip;
     font-size: 20px;
-    text-align: center;
     max-height: 60px;
     padding: 0px 10px;
 }
@@ -373,14 +371,13 @@ footer {
     justify-content: space-evenly;
 
     text-align: left;
-    margin-top: 0px;
     /* add a square gold border and a backdrop to add some hierarchy */
     /* border: 3px solid var(--color1); */
     border-radius: 10px;
     /* background: var(--dark-gray); */
     /* box-shadow: 0px 0px 15px rgba(255, 244, 213, 0.3) inset; */
     padding: 0 20px;
-    margin-top: 40px;
+    margin-top: 25px;
     transition: all 0.2s ease;
 }
 
@@ -465,7 +462,7 @@ footer {
 .edition-nav-container h1 {
     /* text-decoration: none; */
     color: var(--cream);
-    font-size: 60px;
+    font-size: 55px;
 }
 
 /* .featured {
@@ -718,6 +715,11 @@ footer {
 }
 
 
+@media (max-width: 1000px) {
+    #temperature {
+        display: none;
+    }
+}
 
 /* Responsive design */
 @media (max-width: 768px) {

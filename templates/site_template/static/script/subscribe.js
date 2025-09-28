@@ -84,7 +84,7 @@ Client-side subscription handler for Rat News Network
         }
         showMessage(`Error (${res.status}): ${text}`, "error");
       } else {
-        showMessage("Success!", "success");
+        showMessage("Check your inbox!", "success");
         form.reset();
       }
     } catch (err) {
