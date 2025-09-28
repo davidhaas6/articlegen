@@ -29,6 +29,7 @@ Client-side subscription handler for Rat News Network
       if (!msg) return;
       msg.classList.remove("show");
       // keep class type for a moment; could clear text if desired
+      msg.textContent = "";
       hideTimer = null;
     }, 4000);
   }
@@ -56,7 +57,7 @@ Client-side subscription handler for Rat News Network
     // Basic client-side validation
     if (!email || !emailRegex.test(email)) {
       setInvalidState(true);
-      showMessage("Please enter a valid email address.", "error");
+      showMessage("Invalid email", "error");
       return;
     }
 
@@ -83,7 +84,7 @@ Client-side subscription handler for Rat News Network
         }
         showMessage(`Error (${res.status}): ${text}`, "error");
       } else {
-        showMessage("Success! Check your inbox to confirm.", "success");
+        showMessage("Success!", "success");
         form.reset();
       }
     } catch (err) {
