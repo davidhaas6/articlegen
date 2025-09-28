@@ -407,7 +407,15 @@ def get_comments(article: dict, num_comments: int, model=light_llm) -> List[str]
                 ):
                     comments_list = json_comments[key]
                     break
+        # if len(comments_list) == 0 and isinstance(json_comments, list):
+        #     comments_list = json_comments
+
+        # replace 10% of comments to simulate moderation
+        for i in range(len(comments_list)):
+            if random.random() < 0.1:
+                comments_list[i]['text'] = "< removed by moderator >"
         return comments_list
+    
     except json.JSONDecodeError as e:
         logger.error(f"Json decode error: {e}")
         logger.error(traceback.format_exc())
