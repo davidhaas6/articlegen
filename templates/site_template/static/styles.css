@@ -709,12 +709,12 @@ footer {
     }
 
     header {
-        justify-content: center;
+        justify-content: start;
+        align-items: center;
     }
 
     .site-title {
-        font-size: calc(34px + 2vw);
-        /* Smaller base size for mobile */
+        font-size: 60px;
     }
 
     .frontpage {
@@ -792,7 +792,7 @@ footer {
 
 @media (max-width: 480px) {
     .site-title {
-        font-size: calc(30px + 2vw);
+        font-size: 60px;
         /* Even smaller for very small screens */
     }
 
@@ -801,9 +801,9 @@ footer {
     }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 445px) {
     .site-title {
-        font-size: calc(24px + 2vw);
+        font-size: 48px;
         /* Even smaller for very small screens */
     }
 
