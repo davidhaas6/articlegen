@@ -414,6 +414,7 @@ def get_comments(article: dict, num_comments: int, model=light_llm) -> List[str]
         for i in range(len(comments_list)):
             if random.random() < 0.1:
                 comments_list[i]['text'] = "<removed by moderator>"
+                # comments_list[i]['downvotes'] += int(comments_list[i]['upvotes'] * 3)
         return comments_list
     
     except json.JSONDecodeError as e:
