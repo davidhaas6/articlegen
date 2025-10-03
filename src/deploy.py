@@ -1,11 +1,14 @@
 from config import DEFAULT_ARTICLE_DIR, DEFAULT_SITE_DIR, TEMPLATES_DIR
 import gen
+from rss_build import render_feed, load_items_from_json_dir
 import util
 import templater
 from sitemap_generator import generate_sitemap
 import text_processing
 
 import dotenv
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 from typing import Optional
 import os
 from datetime import datetime
@@ -100,6 +103,15 @@ def generate_and_push_articles(
     base_url = "https://ratnewsnetwork.com/"
     generate_sitemap(base_url, site_dir)
     logging.info(f"Sitemap generated for {base_url}")
+
+    items = load_items_from_json_dir(
+        article_dir=article_dir,
+        base_url=base_url,
+        site_subpath_builder=lambda meta: f"/article/{meta.get('article_id')}"
+    )
+    render_feed(TEMPLATES_DIR, "feed.xml.j2", base_url, site_dir, items)
+    logging.info("RSS feed written to feed.xml")
+
     print(site_dir)
 
     if not os.path.exists(site_dir) or not os.listdir(site_dir):
@@ -124,6 +136,25 @@ def process_article(article: dict, article_dir: str):
         article["reading_time_minutes"] = text_processing.estimate_reading_time(
             article["body"]
         )
+
+def publish_to_db(articles):
+    try:
+        uri = os.environ.get("DB_URI")
+    except KeyError:
+        raise ValueError("DB_URI not found in environment variables")
+
+    # Create a new client and connect to the server
+    client = MongoClient(uri, server_api=ServerApi('1'))
+    # Send a ping to confirm a successful connection
+    try:
+        client.admin.command('ping')
+        print("Pinged your deployment. You successfully connected to MongoDB!")
+    except Exception as e:
+        print(e)
+    
+    # todo: write to db
+    
+    raise NotImplementedError('publish_to_db not implemented')
 
 
 def git_deploy(
@@ -185,8 +216,8 @@ def git_deploy(
         print("No changes to commit.")
 
     os.chdir("..")
-    if not keep_local:
-        shutil.rmtree("repo")
+    # if not keep_local:
+    #     shutil.rmtree("repo")
 
 
 def auth_repo_url(repo_url: str) -> str:

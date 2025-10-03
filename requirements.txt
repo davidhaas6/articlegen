@@ -11,3 +11,4 @@ typing-inspect
 urllib3
 tqdm
 markitdown
+pymongo[srv]

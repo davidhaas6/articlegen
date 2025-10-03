@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- jinja2 xml template - ai generated -->
+
+<rss version="2.0"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:media="http://search.yahoo.com/mrss/">
+  <channel>
+    <title>Rat News Network</title>
+    <link>{{ base_url }}</link>
+    <description>All the cheddar. Zero fluff.</description>
+    <lastBuildDate>{{ now_rfc822 }}</lastBuildDate>
+    <atom:link href="{{ base_url.rstrip('/') }}/feed.xml" rel="self" type="application/rss+xml"/>
+
+    {% for a in items %}
+    <item>
+      <title>{{ a.title }}</title>
+      <link>{{ a.url }}</link>
+      <guid isPermaLink="true">{{ a.url }}</guid>
+      <pubDate>{{ a.pub_date_rfc822 }}</pubDate>
+      <description>{{ a.description }}</description>
+      {% if a.html_content %}<content:encoded><![CDATA[{{ a.html_content }}]]></content:encoded>{% endif %}
+      {% if a.image_url %}<media:content url="{{ a.image_url }}" medium="image"/>{% endif %}
+      {% for c in a.categories %}<category>{{ c }}</category>{% endfor %}
+      {% if a.author %}<author>{{ a.author }}</author>{% endif %}
+    </item>
+    {% endfor %}
+  </channel>
+</rss>

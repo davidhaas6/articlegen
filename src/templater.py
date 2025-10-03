@@ -58,26 +58,26 @@ class ArticleSiteGenerator:
             dst_path = os.path.join(self.output_dir, "index.html")
         template = self.env.get_template("index.html")
         output = template.render(articles=articles, edition=edition, is_latest=is_latest)
-        with open(dst_path, "w") as f:
+        with open(dst_path, "w", encoding="utf-8") as f:
             f.write(output)
 
     def generate_qr_code_page(self):
         template = self.env.get_template("qr.html")
         output = template.render()
-        with open(os.path.join(self.output_dir, "qr.html"), "w") as f:
+        with open(os.path.join(self.output_dir, "qr.html"), "w", encoding="utf-8") as f:
             f.write(output)
     
     def generate_404_page(self):
         template = self.env.get_template("404.html")
         output = template.render()
-        with open(os.path.join(self.output_dir, "404.html"), "w") as f:
+        with open(os.path.join(self.output_dir, "404.html"), "w", encoding="utf-8") as f:
             f.write(output)
 
     def generate_subscribe_page(self):
         """Generates the subscription page."""
         template = self.env.get_template("subscribe.html")
         output = template.render(title="Subscribe")
-        with open(os.path.join(self.output_dir, "subscribe.html"), "w") as f:
+        with open(os.path.join(self.output_dir, "subscribe.html"), "w", encoding="utf-8") as f:
             f.write(output)
 
     def generate_content_pages(self):
@@ -141,7 +141,7 @@ class ArticleSiteGenerator:
             for filename in os.listdir(article_dir):
                 file_path = os.path.join(article_dir, filename)
                 if filename.endswith(".json"):
-                    with open(file_path, "r") as f:
+                    with open(file_path, "r", encoding="utf-8") as f:
                         article = json.load(f)
                         self._process_article(article)
                         articles.append(article)
@@ -200,8 +200,11 @@ class ArticleSiteGenerator:
         if not os.path.exists(out_dir):
             os.makedirs(out_dir)
         filename = f"{article['article_id']}.html"
-        with open(os.path.join(out_dir, filename), "w") as f:
-            f.write(output)
+        try:
+            with open(os.path.join(out_dir, filename), "w", encoding="utf-8") as f:
+                f.write(output)
+        except Exception as e:
+            print(f"Error writing file {filename}: {e}")
         return output
 
 
