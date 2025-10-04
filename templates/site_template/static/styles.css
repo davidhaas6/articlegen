@@ -526,7 +526,7 @@ footer {
 }
 
 .article-title {
-    font-size: 86px;
+    font-size: 80px;
     width: 100%;
     line-height: 0.9;
     text-align: left;
@@ -536,7 +536,7 @@ footer {
 }
 
 .article-header-container img {
-     max-height: 512px;
+     max-height: 384px;
     max-width: 100%;
     height: auto;
     width: auto;
@@ -550,6 +550,18 @@ footer {
     width: 100%;
     text-align: left;
     /* font-style: italic; */
+}
+
+/* Publish date styling for article header */
+.article-publish-date {
+    color: #d3cdbf; /* subtle cream tone to sit below the title */
+    font-size: 1.15em;
+    font-weight: 300;
+    margin: 6px 0 16px 0;
+    text-align: left;
+    letter-spacing: 0.4px;
+    opacity: 0.95;
+    /* Keep it visually subordinate to the title but readable */
 }
 
 

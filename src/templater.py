@@ -187,6 +187,9 @@ class ArticleSiteGenerator:
         if template is None:
             template = self.env.get_template("article.html")
 
+        publish_date = ""
+        if article.get("timestamp"):
+            publish_date = article["timestamp"].strftime("%B %d, %Y").replace(" 0", " ")
         output = template.render(
             title=article["title"],
             overview=article["overview"],
@@ -194,7 +197,8 @@ class ArticleSiteGenerator:
             img_path=article["img_filename"],
             reading_time=article["reading_time_minutes"],
             comments=article.get("comments", []),
-            parody_src=article.get('parody_src')
+            parody_src=article.get('parody_src'),
+            publish_date=publish_date
         )
         
         if not os.path.exists(out_dir):
