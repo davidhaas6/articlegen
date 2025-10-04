@@ -515,12 +515,49 @@ footer {
     color: var(--color2);
 }
 
+.article-header-container {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 10%;
+    width: 100%;
+    height: fit-content;
+}
+
+.article-title {
+    font-size: 86px;
+    width: 100%;
+    line-height: 0.9;
+    text-align: left;
+    border-left: 10px solid var(--color1);
+    padding-left: 30px;
+    margin-left: -40px;
+}
+
+.article-header-container img {
+     max-height: 512px;
+    max-width: 100%;
+    height: auto;
+    width: auto;
+}
+
+.article-header-sub {
+    color: #dad8d3;
+    font-size: 1.5em;
+    font-weight: 300;
+    padding: 5px 0px;
+    width: 100%;
+    text-align: left;
+    /* font-style: italic; */
+}
+
+
 .content h1 {
-    font-size: 50px;
+    font-size: 86px;
     width: 100%;
     line-height: 0.9;
 }
-
 
 .overview {
     color: var(--cream);
@@ -531,13 +568,6 @@ footer {
     padding: 15px 0px 5px 0px;
 }
 
-.content img {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    text-align: center;
-    max-width: 100%;
-    max-height: 768px;
-}
 
 .article-container {
     display: flex;
@@ -552,7 +582,7 @@ footer {
     overflow-wrap: normal;
     width: 80%;
     font-size: 1.6em;
-    /* background: var(--color3); */
+    background: var(--color3);
     color: var(--color2);
     line-height: 1;
     text-align: left;
@@ -742,7 +772,7 @@ footer {
     }
 
     header {
-        justify-content: start;
+        justify-content: center;
         align-items: center;
     }
 
@@ -802,6 +832,10 @@ footer {
         max-width: 95%;
     }
 
+    .article-title {
+        font-size: 70px;
+    }
+
     .article-body {
         width: 100%;
         font-size: 1.2em;
@@ -831,8 +865,20 @@ footer {
         /* Even smaller for very small screens */
     }
 
+
+    .article-header-container {
+        padding: 0px 5%;
+    }
+
+    .article-title {
+        font-size: 55px;
+        border: none;
+        margin-left: 0px;
+        padding-left: 0px
+    }
+
     .content h1 {
-        font-size: 40px;
+        font-size: 55px;
     }
 }
 

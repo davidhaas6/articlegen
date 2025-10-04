@@ -10,19 +10,25 @@
 {% endblock %}
 
 {% block content %}
-<div class="container content">
-    <h1>{{ title }}</h1>
-    <div class="overview">{{ overview|safe }}</div>
-    <span class="read-time">
-        {{reading_time}} minute read •
-        <a href="#comments-section" id="scroll-to-comments" class="comments-link">Comments</a>
-        {% if parody_src != None %}
+
+<div class="article-header-container">
+    <div>
+        <span class="article-header-sub">
+            {{reading_time}} minute read •
+            <a href="#comments-section" id="scroll-to-comments" class="comments-link">Comments</a>
+            {% if parody_src != None %}
             <span> • </span><a href="{{parody_src}}" class="comments-link">Original Article</a>
-        {% endif %}
-    </span>
+            {% endif %}
+        </span>
+        <h1 class="article-title">{{ title }}</h1>
+        
+    </div>
     {% if img_path != None %}
     <img src="/static/img/{{img_path}}" alt="article image">
     {% endif %}
+</div>
+
+<div class="container content">
     <br>
     <div class="article-container">
         <span class="article-body">
@@ -51,7 +57,7 @@
     </div>
     {% endif %}
 </div>
-</div>
+
 
 <script>
     // Helper to update the vote count on a button.
