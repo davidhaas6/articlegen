@@ -25,6 +25,7 @@
     font-weight: 300;
     font-style: normal;
 }
+
 /* VT323-Regular */
 
 @font-face {
@@ -234,13 +235,13 @@ header h1 {
     display: flex;
     gap: 0.5rem;
     align-items: center;
-        height:40px;
+    height: 40px;
 }
 
 .subscribe-input {
     padding: 8px 10px;
     box-sizing: border-box;
-    border: 2px solid rgba(0,0,0,0.15);
+    border: 2px solid rgba(0, 0, 0, 0.15);
     border-radius: 10px;
     background: var(--color2);
     color: var(--deep-black);
@@ -255,14 +256,14 @@ header h1 {
 /* invalid state toggled by JS */
 .subscribe-input.invalid {
     border-color: #ff6b6b;
-    box-shadow: 0 0 0 4px rgba(255,107,107,0.08);
+    box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.08);
 }
 
 /* subtle focus style */
 .subscribe-input:focus {
     outline: none;
     border-color: var(--deep-black);
-    box-shadow: 0 0 0 4px rgba(1,1,0,0.06);
+    box-shadow: 0 0 0 4px rgba(1, 1, 0, 0.06);
 }
 
 .subscribe-button {
@@ -331,17 +332,19 @@ footer {
 
 
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     width: 95%;
     margin: auto;
 }
 
 .shrinkable {
-  transition: transform 0.2s ease; /* smooth animation */
+    transition: transform 0.2s ease;
+    /* smooth animation */
 }
 
 .shrinkable:active {
-  transform: scale(0.9); /* shrink to 90% */
+    transform: scale(0.9);
+    /* shrink to 90% */
 }
 
 /* Front page
@@ -350,13 +353,85 @@ footer {
  -
 */
 
-.frontpage {
+
+.frontpage-sections {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+
+.frontpage-previews {
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
     justify-content: flex-start;
     padding: 10px 0px;
+    flex-grow: 3;
 }
+
+.frontpage-flavor {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+    width: 300px;
+}
+
+.wotd-box {
+    background-color: var(--deep-black);
+    color: var(--golden-yellow);
+    font-family: "VT323", sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+/* Variation 2: Modern Retro */
+.wotd-v2 {
+    border-left: 8px solid var(--golden-yellow);
+    background: #0f0f00;
+    padding: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.wotd-v2::after {
+    content: "WOTD";
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-family: "Jersey10", sans-serif;
+    font-size: 4em;
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+.wotd-v2 .label {
+    text-transform: uppercase;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+    color: var(--cream-dim);
+}
+
+.wotd-v2 .word {
+    font-family: "Jersey10", sans-serif;
+    font-size: 3em;
+    color: var(--white);
+    /* Fallback to cream if not defined */
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.wotd-v2 .definition {
+    font-size: 1.2em;
+    color: var(--cream);
+    font-style: italic;
+    border-top: 1px solid rgba(251, 198, 44, 0.3);
+    padding-top: 10px;
+}
+
 
 .preview {
     max-width: 85%;
@@ -463,13 +538,13 @@ footer {
 .edition-nav-container a {
     /* text-decoration: none; */
     color: var(--golden-yellow);
-    font-size: 20px;
+    font-size: 30px;
 }
 
 .edition-nav-container h1 {
     /* text-decoration: none; */
     color: var(--cream);
-    font-size: 55px;
+    font-size: 60px;
 }
 
 /* .featured {
@@ -544,7 +619,7 @@ footer {
 }
 
 .article-header-container img {
-     max-height: 384px;
+    max-height: 384px;
     max-width: 100%;
     height: auto;
     width: auto;
@@ -562,7 +637,8 @@ footer {
 
 /* Publish date styling for article header */
 .article-publish-date {
-    color: #d3cdbf; /* subtle cream tone to sit below the title */
+    color: #d3cdbf;
+    /* subtle cream tone to sit below the title */
     font-size: 1.15em;
     font-weight: 300;
     margin: 6px 0 16px 0;
@@ -783,8 +859,8 @@ footer {
     }
 
 
-    .container {
-        width: 95%;
+    .frontpage-sections {
+        flex-direction: column;
     }
 
     .hide-on-small {
@@ -800,8 +876,14 @@ footer {
         font-size: 60px;
     }
 
-    .frontpage {
+    .frontpage-previews {
         align-items: center;
+        width: 100%;
+    }
+
+    .frontpage-flavor {
+        width: 100%;
+        padding: 20px 0;
     }
 
     .preview {
@@ -858,7 +940,7 @@ footer {
 
     .article-body {
         width: 100%;
-        font-size: 1.2em;
+        font-size: 1.5em;
     }
 
     .article-comments {
@@ -911,7 +993,7 @@ footer {
     .content h1 {
         font-size: 40px;
     }
-    
+
     .edition-nav-container h1 {
         /* text-decoration: none; */
         color: var(--cream);

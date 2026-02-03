@@ -12,33 +12,42 @@
 
 {% block content %}
 
-<div class="container frontpage">
-    <div class="edition-nav-container">
-        <a  href="/edition/{{edition-1}}" 
-            style="{% if edition < 2 %}visibility: hidden;{% endif %}">
-            < Previous
-        </a>
-        <h1 >{{"LATEST HEADLINES" if is_latest else 'EDITION #' ~ edition}}</h1>
-        <a  href="/edition/{{edition+1}}">
-            {% if not is_latest %}Next >{% endif %}
-        </a>
+
+<div class="edition-nav-container">
+    <a href="/edition/{{edition-1}}" style="{% if edition < 2 %}visibility: hidden;{% endif %}">
+        < Previous </a>
+            <h1>{{"LATEST HEADLINES" if is_latest else 'EDITION #' ~ edition}}</h1>
+            <a href="/edition/{{edition+1}}">
+                {% if not is_latest %}Next >{% endif %}
+            </a>
+</div>
+<div class="container frontpage-sections">
+    <div class="container frontpage-previews">
+        {% for article in articles %}
+        <div class="preview {% if article.category == 'Featured' %}featured{% endif %}">
+            <a href="/article/{{article.article_id}}" class="preview-img-link">
+                <img src="/static/img/{{article.img_filename or 'rat-news-network-logo.png'}}" alt="article image">
+                <!-- Note: img_filename is created in templater.py -->
+            </a>
+            <a class="preview-body" href="/article/{{article.article_id or article.id}}">
+                <h1>{{article.title}}</h1>
+                <p>{{article.overview}}</p>
+                <span class="read-time">{{article.category}} • {{article.reading_time_minutes}} min read • {{
+                    "1 comment" if article.comments|length == 1 else article.comments|length ~ " comments" }}</span>
+            </a>
+        </div>
+        {% if loop.index == (articles|length // 2) %}
+        {% endif %}
+        {% endfor %}
     </div>
-    
-    {% for article in articles %}
-    <div class="preview {% if article.category == 'Featured' %}featured{% endif %}">
-        <a href="/article/{{article.article_id}}" class="preview-img-link">
-            <img src="/static/img/{{article.img_filename or 'rat-news-network-logo.png'}}"
-                alt="article image"> <!-- Note: img_filename is created in templater.py -->
-        </a>
-        <a class="preview-body" href="/article/{{article.article_id or article.id}}">
-            <h1>{{article.title}}</h1>
-            <p>{{article.overview}}</p>
-            <span class="read-time">{{article.category}} • {{article.reading_time_minutes}} min read • {{ "1 comment" if
-                article.comments|length == 1 else article.comments|length ~ " comments" }}</span>
-        </a>
+    <div class="frontpage-flavor">
+        <div class="wotd-box wotd-v2">
+            <div class="label">Word of the Day</div>
+            <div class="word">{{daily_word.word}}</div>
+            <div class="definition">
+                {{daily_word.definition}}
+            </div>
+        </div>
     </div>
-    {% if loop.index == (articles|length // 2) %}
-    {% endif %}
-    {% endfor %}
 </div>
 {% endblock %}

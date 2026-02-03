@@ -1,11 +1,16 @@
+import datetime
+import hashlib
 import json
 import os
-from datetime import datetime
-from jinja2 import Environment, FileSystemLoader
+import random
 import shutil
+from datetime import datetime
+from pathlib import Path
 
-import text_processing
+from jinja2 import Environment, FileSystemLoader
+
 import config
+import text_processing
 
 
 class ArticleSiteGenerator:
@@ -17,6 +22,7 @@ class ArticleSiteGenerator:
         self.archive_src_dir = archive_src_dir
         self.site_img_dir = os.path.join("static", "img")
         self.img_output_dir = os.path.join(output_dir, self.site_img_dir)
+        self.daily_word = self._load_daily_word()
         self.env = Environment(loader=FileSystemLoader(template_dir))
 
     def generate_site(self):
@@ -43,18 +49,25 @@ class ArticleSiteGenerator:
 
     def copy_images(self, articles):
         for article in articles:
-            src_path = article['img_path']
+            src_path = article["img_path"]
             dst_path = os.path.join(self.img_output_dir, article["img_filename"])
             if os.path.exists(src_path):
                 shutil.copy2(src_path, dst_path)
             else:
-                print(f"Warning: {article['article_id']} - Image file not found: {src_path}")
+                print(
+                    f"Warning: {article['article_id']} - Image file not found: {src_path}"
+                )
 
     def generate_index_page(self, articles, edition, is_latest, dst_path=None):
         if dst_path is None:
             dst_path = os.path.join(self.output_dir, "index.html")
         template = self.env.get_template("index.html")
-        output = template.render(articles=articles, edition=edition, is_latest=is_latest)
+        output = template.render(
+            articles=articles,
+            edition=edition,
+            is_latest=is_latest,
+            daily_word=self.daily_word,
+        )
         with open(dst_path, "w", encoding="utf-8") as f:
             f.write(output)
 
@@ -63,18 +76,22 @@ class ArticleSiteGenerator:
         output = template.render()
         with open(os.path.join(self.output_dir, "qr.html"), "w", encoding="utf-8") as f:
             f.write(output)
-    
+
     def generate_404_page(self):
         template = self.env.get_template("404.html")
         output = template.render()
-        with open(os.path.join(self.output_dir, "404.html"), "w", encoding="utf-8") as f:
+        with open(
+            os.path.join(self.output_dir, "404.html"), "w", encoding="utf-8"
+        ) as f:
             f.write(output)
 
     def generate_subscribe_page(self):
         """Generates the subscription page."""
         template = self.env.get_template("subscribe.html")
         output = template.render(title="Subscribe")
-        with open(os.path.join(self.output_dir, "subscribe.html"), "w", encoding="utf-8") as f:
+        with open(
+            os.path.join(self.output_dir, "subscribe.html"), "w", encoding="utf-8"
+        ) as f:
             f.write(output)
 
     def generate_content_pages(self):
@@ -83,8 +100,7 @@ class ArticleSiteGenerator:
             os.makedirs(archive_dst_dir, exist_ok=True)
 
         all_articles = self._load_articles(
-            article_dir=self.archive_src_dir,
-            recursive=True
+            article_dir=self.archive_src_dir, recursive=True
         )
         articles_by_date = {}
         for article in all_articles:
@@ -99,7 +115,7 @@ class ArticleSiteGenerator:
         date_to_edition = {}
         for edition_num, date in enumerate(sorted_dates, 1):
             date_to_edition[date] = edition_num
-        
+
         # Generate archive pages using the edition numbers
         for date, articles in articles_by_date.items():
             edition_num = date_to_edition[date]
@@ -108,22 +124,14 @@ class ArticleSiteGenerator:
                 # its convenient for navigation to write the index content to two pages
                 file_path = os.path.join(self.output_dir, "index.html")
                 self.generate_index_page(
-                    articles, 
-                    edition_num, 
-                    latest_edition, 
-                    file_path
+                    articles, edition_num, latest_edition, file_path
                 )
-                
+
             file_path = os.path.join(archive_dst_dir, f"{edition_num}.html")
-            self.generate_index_page(
-                articles, 
-                edition_num, 
-                latest_edition, 
-                file_path
-            )
+            self.generate_index_page(articles, edition_num, latest_edition, file_path)
             for article in articles:
                 self._write_article(article, self.article_output_dir)
-        
+
         return all_articles
 
     def _load_articles(self, articles=None, article_dir=None, recursive=False):
@@ -144,11 +152,10 @@ class ArticleSiteGenerator:
                         articles.append(article)
                 elif recursive and os.path.isdir(file_path):
                     articles += self._load_articles(
-                        article_dir=file_path, 
-                        recursive=True
+                        article_dir=file_path, recursive=True
                     )
 
-        return sorted(articles, key=lambda x: x.get("category") != 'Featured')
+        return sorted(articles, key=lambda x: x.get("category") != "Featured")
 
     def _process_article(self, article):
         """Does misc cleaning, data conversion, and imputation on an article object
@@ -175,7 +182,7 @@ class ArticleSiteGenerator:
         Args:
             article (dict): The article to insert into the template.
             out_dir (str): The directory to write the file to.
-            template (jinja2.Template): The template to use. 
+            template (jinja2.Template): The template to use.
                                         If None, uses the default template.
         Returns:
             str: The rendered template as a string.
@@ -194,10 +201,10 @@ class ArticleSiteGenerator:
             img_path=article["img_filename"],
             reading_time=article["reading_time_minutes"],
             comments=article.get("comments", []),
-            parody_src=article.get('parody_src'),
-            publish_date=publish_date
+            parody_src=article.get("parody_src"),
+            publish_date=publish_date,
         )
-        
+
         if not os.path.exists(out_dir):
             os.makedirs(out_dir)
         filename = f"{article['article_id']}.html"
@@ -207,6 +214,25 @@ class ArticleSiteGenerator:
         except Exception as e:
             print(f"Error writing file {filename}: {e}")
         return output
+
+    def _load_daily_word(self, date=None):
+        path = Path(self.template_dir) / "data" / "wotd.json"
+        raw = path.read_text(encoding="utf-8")
+        words = json.loads(raw)["entries"]
+
+        if not words:
+            return None
+
+        if date is None:
+            date = datetime.now().date()
+
+        # Combine date + file hash so edits reshuffle future selections
+        file_hash = hashlib.sha256(raw.encode("utf-8")).hexdigest()
+        seed_str = f"{date.isoformat()}|{file_hash}"
+        seed = int(hashlib.sha256(seed_str.encode("utf-8")).hexdigest(), 16)
+
+        rng = random.Random(seed)
+        return rng.choice(words)
 
 
 # Usage
@@ -223,7 +249,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "output_dir",
         help="Directory to output the generated site",
-        default=config.root / f"out/templater-output/{day_timestamp}/site_{full_timestamp}",
+        default=config.root
+        / f"out/templater-output/{day_timestamp}/site_{full_timestamp}",
         nargs="?",
     )
     parser.add_argument(
@@ -235,10 +262,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     generator = ArticleSiteGenerator(
-        args.articles, 
-        args.template_dir, 
-        f"{args.output_dir}", 
-        config.DEFAULT_ARTICLE_DIR
+        args.articles,
+        args.template_dir,
+        f"{args.output_dir}",
+        config.DEFAULT_ARTICLE_DIR,
     )
     generator.generate_site()
     print(args.output_dir)

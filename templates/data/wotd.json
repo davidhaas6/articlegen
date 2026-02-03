@@ -1,0 +1,584 @@
+{
+    "entries": [
+        {
+            "word": "Kerfuffle",
+            "definition": "A commotion out of proportion to its cause. Often begins as “just a quick question” and ends as a full committee."
+        },
+        {
+            "word": "Harrumph",
+            "definition": "To register displeasure without the inconvenience of specificity. A classic tool for maintaining standards while avoiding solutions."
+        },
+        {
+            "word": "Scurrilous",
+            "definition": "Scandalously rude or slanderous. The sort of language that travels faster than evidence and ages worse than milk."
+        },
+        {
+            "word": "Obfuscate",
+            "definition": "To make something unclear, frequently by adding details until the original point goes missing."
+        },
+        {
+            "word": "Farrago",
+            "definition": "A messy mixture of things. Not quite a collage, not quite a plan, more like a draft that refuses to choose a lane."
+        },
+        {
+            "word": "Imbroglio",
+            "definition": "A tangled, complicated situation. Usually features too many parties, too few facts, and a timeline no one will commit to."
+        },
+        {
+            "word": "Pernicious",
+            "definition": "Harmful in a slow, subtle way. It doesn't kick the door down; it just rearranges the furniture until you trip."
+        },
+        {
+            "word": "Cantankerous",
+            "definition": "Bad-tempered and argumentative. Sometimes right, often loud, always somehow in the group chat."
+        },
+        {
+            "word": "Pulchritude",
+            "definition": "Physical beauty. A lovely concept trapped inside a word that sounds like it should be illegal."
+        },
+        {
+            "word": "Skullduggery",
+            "definition": "Underhanded behavior. The polite term for “we all know what happened, but no one has receipts.”"
+        },
+        {
+            "word": "Brouhaha",
+            "definition": "An uproar, typically public and performative. The volume suggests catastrophe; the details suggest a typo."
+        },
+        {
+            "word": "Hoodwink",
+            "definition": "To deceive or trick. Implies a certain showmanship: the lie doesn't just land, it bows."
+        },
+        {
+            "word": "Codswallop",
+            "definition": "Utter nonsense. Especially useful when you want to be dismissive but keep it vaguely nautical."
+        },
+        {
+            "word": "Flapdoodle",
+            "definition": "Pretentious nonsense. If “insight” had a costume closet, this would be in it."
+        },
+        {
+            "word": "Balderdash",
+            "definition": "Senseless talk. Has the satisfying ring of a gavel slam, but friendlier."
+        },
+        {
+            "word": "Scuttlebutt",
+            "definition": "Rumor or gossip. The unofficial newsletter that arrives before the official one, every time."
+        },
+        {
+            "word": "Poppycock",
+            "definition": "Foolish nonsense. Light, crisp, and unexpectedly effective at ending an argument."
+        },
+        {
+            "word": "Hogwash",
+            "definition": "Rubbish. A blunt instrument, best deployed sparingly and with good aim."
+        },
+        {
+            "word": "Claptrap",
+            "definition": "Empty, insincere talk meant to impress. The sound of words applauding themselves."
+        },
+        {
+            "word": "Rigmarole",
+            "definition": "A long, complicated procedure. Like trying to explain Rat News Network to a pigeon."
+        },
+        {
+            "word": "Bamboozle",
+            "definition": "To trick or confuse. More playful than sinister."
+        },
+        {
+            "word": "Tomfoolery",
+            "definition": "Silly behavior. Sometimes extremely silly behavior."
+        },
+        {
+            "word": "Mollycoddle",
+            "definition": "To treat with excessive indulgence or protectiveness. The managerial instinct to pad the nest until no one remembers what discomfort is."
+        },
+        {
+            "word": "Skedaddle",
+            "definition": "To leave quickly. The sound of tiny feet on tile when the lights flick on and everyone suddenly has “another commitment.”"
+        },
+        {
+            "word": "Hullabaloo",
+            "definition": "A loud fuss or commotion. Big energy for something that, moments ago, was just a minor crumb situation."
+        },
+        {
+            "word": "Hobbledehoy",
+            "definition": "An awkward, gawky youth. All elbows and enthusiasm, like a junior rat trying to look casual while carrying a baguette slice."
+        },
+        {
+            "word": "Flibbertigibbet",
+            "definition": "A frivolous, flighty person. Always darting off mid-sentence, chasing the next shiny wrapper of an idea."
+        },
+        {
+            "word": "Snollygoster",
+            "definition": "A shrewd, unprincipled person (especially in politics). The type who'd promise “ample cheese for all” while quietly moving the pantry."
+        },
+        {
+            "word": "Blatherskite",
+            "definition": "A person who talks at length without making much sense. Generates impressive squeaks per minute; net information, unclear."
+        },
+        {
+            "word": "Dither",
+            "definition": "To hesitate nervously or be indecisive. Circling the same corner of the tunnel, convinced the right route will reveal itself."
+        },
+        {
+            "word": "Histrionics",
+            "definition": "Over-the-top emotional displays meant to attract attention. A squeal that implies catastrophe, even if it's just a dramatic reaction to a draft."
+        },
+        {
+            "word": "Bugbear",
+            "definition": "A pet annoyance or persistent irritation. The one recurring problem you can't stop sniffing at, even when everyone else has moved on."
+        },
+        {
+            "word": "Folderol",
+            "definition": "Trivial fuss; ornamental nonsense. A real gewgaw."
+        },
+        {
+            "word": "Malarkey",
+            "definition": "Meaningless talk; nonsense. Like gnawing on cardboard and calling it dinner."
+        },
+        {
+            "word": "Prevaricate",
+            "definition": "To speak evasively; to avoid the truth. A careful slalom around the question, as if the truth were a trap plate."
+        },
+        {
+            "word": "Shenanigans",
+            "definition": "Sneaky or mischievous activity. After-hours tunnel business: harmless in theory, in practice always sticky."
+        },
+        {
+            "word": "Obstreperous",
+            "definition": "Noisy and difficult to control. Like a council meeting in a narrow pipe: echoing, crowded, and impossible to moderate."
+        },
+        {
+            "word": "Mountebank",
+            "definition": "A charlatan; someone who deceives, especially to sell something. The guy in the alley offering “premium artisanal cheese” from an unmarked sack."
+        },
+        {
+            "word": "Fustian",
+            "definition": "Pompous, inflated language with little substance. Words puffed up like a rat trying to look larger in a doorway."
+        },
+        {
+            "word": "Chicanery",
+            "definition": "Trickery or deception, especially the legalistic kind. The fine-print maneuver that lets someone claim the cheese was “allocated,” not “stolen.”"
+        },
+        {
+            "word": "Ballyhoo",
+            "definition": "Loud publicity that implies a breakthrough and delivers a pamphlet. The kind of hype that squeaks itself hoarse."
+        },
+        {
+            "word": "Flummox",
+            "definition": "To thoroughly confuse. When the tunnel map is technically correct but spiritually useless."
+        },
+        {
+            "word": "Befuddle",
+            "definition": "To make someone pleasantly lost. Like adding one more “quick clarification” until nobody remembers the question."
+        },
+        {
+            "word": "Hornswoggle",
+            "definition": "To cheat or swindle with gusto. Think Captain Rat Sparrow."
+        },
+        {
+            "word": "Bunkum",
+            "definition": "Nonsense presented as serious argument. A speech so confident you almost forget it's vapor."
+        },
+        {
+            "word": "Taradiddle",
+            "definition": "A petty lie. The tiny fib you tell to avoid admitting you ate the last crumb."
+        },
+        {
+            "word": "Fandango",
+            "definition": "An elaborate, showy fuss. A simple decision turned into choreography and paperwork."
+        },
+        {
+            "word": "Palaver",
+            "definition": "Overlong talk or negotiation. The meeting that could've been a squeak, but chose to be a saga."
+        },
+        {
+            "word": "Uproarious",
+            "definition": "Loudly noisy or hilarious. The sort of laughter that rattles the pipes and alarms the serious rats."
+        },
+        {
+            "word": "Bickering",
+            "definition": "Petty arguing with high confidence and low yield. Competitive squeaking about nothing in particular."
+        },
+        {
+            "word": "Badinage",
+            "definition": "Playful teasing. The friendly nibble of sarcasm that still leaves teeth marks."
+        },
+        {
+            "word": "Sardonic",
+            "definition": "Grimly mocking humor. A smile that says, “Sure, let's do it your way,” while already writing the postmortem."
+        },
+        {
+            "word": "Quibbling",
+            "definition": "Arguing over trivial details. Refusing to move the cheese until the font size is resolved."
+        },
+        {
+            "word": "Pedantic",
+            "definition": "Overly concerned with minor rules. The rat who cites the tunnel bylaws during a flood."
+        },
+        {
+            "word": "Polemical",
+            "definition": "Aggressively argumentative, to the point where grandma is crying, your dad storms out, and even the turkey thinks you went too far."
+        },
+        {
+            "word": "Vitriolic",
+            "definition": "Bitterly harsh language. The kind of stuff that just makes you sad :("
+        },
+        {
+            "word": "Invective",
+            "definition": "Insulting, abusive language. Best saved for Thanksgiving dinner."
+        },
+        {
+            "word": "Grandiloquent",
+            "definition": "Pompously fancy speech. A paragraph that struts, preens, and never once touches reality."
+        },
+        {
+            "word": "Bombastic",
+            "definition": "Big words, big confidence, small substance. A trumpet solo played on a kazoo."
+        },
+        {
+            "word": "Pontificate",
+            "definition": "To speak as if unquestionably right. Announcing opinions from a soapbox made of stolen crackers."
+        },
+        {
+            "word": "Cavil",
+            "definition": "To raise trivial objections. The art of stopping progress with a magnifying glass."
+        },
+        {
+            "word": "Carping",
+            "definition": "Constantly finding fault. A steady drip of criticism that somehow never waters anything useful."
+        },
+        {
+            "word": "Niggling",
+            "definition": "Small but persistent annoyance. The crumb in your fur you can't stop thinking about."
+        },
+        {
+            "word": "Picayune",
+            "definition": "Petty; of little importance. A whole crisis manufactured from a rounding error."
+        },
+        {
+            "word": "Trumpery",
+            "definition": "Showy but worthless stuff. Shiny objects that look like solutions from a distance."
+        },
+        {
+            "word": "Guff",
+            "definition": "Empty talk; nonsense. Hot air with a press pass."
+        },
+        {
+            "word": "Faffle",
+            "definition": "To waste time doing trivial things. Busywork that looks industrious and tastes like cardboard."
+        },
+        {
+            "word": "Muddle",
+            "definition": "A confused mess. When everything is technically happening, just not in the same reality."
+        },
+        {
+            "word": "Ensnare",
+            "definition": "To trap or entangle. The policy that starts as guidance and ends as a net."
+        },
+        {
+            "word": "Machination",
+            "definition": "A crafty scheme. A plan with hidden doors and suspiciously well-timed memos."
+        },
+        {
+            "word": "Stratagem",
+            "definition": "A clever tactic. The elegant tunnel detour that saves face and steals snacks."
+        },
+        {
+            "word": "Subterfuge",
+            "definition": "Deception used to hide intent. The smile that says “collaboration” while relocating the pantry."
+        },
+        {
+            "word": "Duplicity",
+            "definition": "Deliberate double-dealing. Two faces, one whisker set, zero shame."
+        },
+        {
+            "word": "Mendacious",
+            "definition": "Habitually dishonest. Lies so routine they arrive formatted and spell-checked."
+        },
+        {
+            "word": "Dissemble",
+            "definition": "To conceal true feelings or motives. Agreeing enthusiastically while quietly moving the goalposts."
+        },
+        {
+            "word": "Equivocate",
+            "definition": "To use ambiguity to avoid commitment. A yes that's allergic to dates and numbers."
+        },
+        {
+            "word": "Circumlocution",
+            "definition": "Using many words to say little. Taking the scenic route around a simple fact."
+        },
+        {
+            "word": "Zeitgeist",
+            "definition": "The spirit of the time. The collective mood in the tunnels that decides what's 'obvious' this week."
+        },
+        {
+            "word": "Gerrymander",
+            "definition": "To manipulate boundaries for advantage. Redrawing the maze so your faction “coincidentally” finds the cheese first."
+        },
+        {
+            "word": "Sycophant",
+            "definition": "A flatterer who clings to power. Always nodding so hard you can hear it in the walls."
+        },
+        {
+            "word": "Cheddarathy",
+            "definition": "A pretended expertise in cheese matters, often deployed to win arguments about snacks with unjustified confidence."
+        },
+        {
+            "word": "Squeakonomy",
+            "definition": "The study of how resources move through the tunnels: who gets crumbs, who gets credit, and who issues the press release."
+        },
+        {
+            "word": "Whiskerlogy",
+            "definition": "A semi-serious discipline devoted to sensing shifts in the air."
+        },
+        {
+            "word": "Rattergy",
+            "definition": "The craft of gaining advantage through nimble maneuvering, strategic alliances, and a suspiciously well-timed absence."
+        },
+        {
+            "word": "Gnawtice",
+            "definition": "A formal warning delivered with a polite tone and sharp edges. Often arrives right after the last crumb is gone."
+        },
+        {
+            "word": "Scurryptic",
+            "definition": "Doubtful by default, but still moving quickly. Questions everything, except their own urgency."
+        },
+        {
+            "word": "Verminology",
+            "definition": "A tidy vocabulary for messy situations: classification, naming, and tasteful euphemisms for tunnel politics."
+        },
+        {
+            "word": "Nibbletariat",
+            "definition": "The working class of the pantry: diligent, under-credited, and fully aware of who keeps sampling the inventory."
+        },
+        {
+            "word": "Mouselody",
+            "definition": "A pleasing sequence of small, careful steps that sounds effortless."
+        },
+        {
+            "word": "Tailmetry",
+            "definition": "The informal science of reading signals from posture and movement: who's confident, who's cornered, and who's bluffing."
+        },
+        {
+            "word": "Pawsperity",
+            "definition": "Collective well-being measured in warmth, safety, and snack security. The KPI everyone claims to support."
+        },
+        {
+            "word": "Crumbassador",
+            "definition": "A representative sent to negotiate treats and alliances, armed with charm, patience, and a suspiciously empty satchel."
+        },
+        {
+            "word": "Burrowcracy",
+            "definition": "A governance system where every tunnel requires a form, every form requires a meeting, and every meeting requires minutes."
+        },
+        {
+            "word": "Scentimental",
+            "definition": "Overly guided by nostalgia and smell-memory. Makes decisions based on vibes and a familiar trail."
+        },
+        {
+            "word": "Furrensics",
+            "definition": "The investigative art of interpreting traces: pawprints, scratch marks, and the unmistakable scent of plausible deniability."
+        },
+        {
+            "word": "Squeakish",
+            "definition": "Timid in manner, but loud under pressure. Startles easily and over-announces minor dangers."
+        },
+        {
+            "word": "Gnawful",
+            "definition": "Excessively harsh or unpleasant. A situation so bad you can practically hear teeth grinding."
+        },
+        {
+            "word": "Nibbly",
+            "definition": "Tempted to take small bites."
+        },
+        {
+            "word": "Scurry",
+            "definition": "To move quickly with purpose, often as a substitute for having a plan. Progress measured in footfalls."
+        },
+        {
+            "word": "Skitty",
+            "definition": "Restless and jumpy, changing direction without warning. Decisions made at sprint speed, with minimal map reading."
+        },
+        {
+            "word": "Scamper",
+            "definition": "To hurry energetically, often with cheerful panic. The official motion of “we're totally on top of this.”"
+        },
+        {
+            "word": "Slinky",
+            "definition": "Smooth, stealthy, and hard to track. Operates between meetings and leaves no fingerprints, only outcomes."
+        },
+        {
+            "word": "Scritch",
+            "definition": "A small scratch of activity that sounds productive. Frequently a prelude to deeper digging or deeper trouble."
+        },
+        {
+            "word": "Furry",
+            "definition": "Covered in comforting familiarity, sometimes to a suspicious degree. Warm vibes that may conceal sharp intent."
+        },
+        {
+            "word": "Tunnely",
+            "definition": "Narrowly focused and deeply internal. Prioritizes tunnel logic over surface reality, with consistent confidence."
+        },
+        {
+            "word": "Crumbline",
+            "definition": "An informal channel of information that travels faster than official notices. If you heard it on the crumbline, it's already halfway true in everyone's mind."
+        },
+        {
+            "word": "Tunnelbrief",
+            "definition": "A short, tightly framed summary meant to guide action without inviting debate. Often used when the full story would cause a meeting."
+        },
+        {
+            "word": "Pawprint",
+            "definition": "A trace of involvement that remains even after the story changes."
+        },
+        {
+            "word": "Cheesework",
+            "definition": "Visible effort performed mainly for signaling. The appearance of productivity that's easier to applaud than to verify."
+        },
+        {
+            "word": "Nibblebudget",
+            "definition": "A set of resources too small to be dignified with a plan, yet large enough to provoke competition. Managed through optimism and quiet negotiation."
+        },
+        {
+            "word": "Scurrycycle",
+            "definition": "A repeating pattern of urgency that produces motion more than progress. Everyone runs; the destination stays the same."
+        },
+        {
+            "word": "Burrowback",
+            "definition": "Institutional resistance to change expressed as process."
+        },
+        {
+            "word": "Scenttrail",
+            "definition": "A sequence of cues that leads attention toward a conclusion. Part evidence, part suggestion, entirely effective."
+        },
+        {
+            "word": "Whiskercheck",
+            "definition": "A quick reality test before committing to a claim. Usually performed after the claim has already been made."
+        },
+        {
+            "word": "Pouchlogic",
+            "definition": "Reasoning that makes perfect sense when you're the one carrying the stash. Privately coherent, publicly confusing."
+        },
+        {
+            "word": "Rationface",
+            "definition": "A neutral expression adopted when resources are tight and opinions are loud. Communicates seriousness without making promises."
+        },
+        {
+            "word": "Clawback",
+            "definition": "A quiet attempt to reclaim credit, budget, or authority after it has drifted away. Often framed as “alignment.”"
+        },
+        {
+            "word": "Nesting",
+            "definition": "A period of low visibility spent consolidating comfort and control."
+        },
+        {
+            "word": "Larderlock",
+            "definition": "Restricted access to supplies justified as “order.” Maintains stability by ensuring the right rats are never surprised."
+        },
+        {
+            "word": "Gnawledge",
+            "definition": "Practical knowledge acquired through repeated small mistakes. Rarely documented; widely respected."
+        },
+        {
+            "word": "Undercheese",
+            "definition": "The unspoken incentive shaping decisions beneath the stated rationale."
+        },
+        {
+            "word": "Cratecraft",
+            "definition": "The skill of packaging a messy situation into a tidy explanation. Makes chaos stackable and presentable."
+        },
+        {
+            "word": "Tunnelmath",
+            "definition": "Accounting that works inside the system's assumptions, even if it collapses in daylight. Technically correct within the walls."
+        },
+        {
+            "word": "Scuttleproof",
+            "definition": "Designed to survive gossip and scrutiny. Most RNN Articles fall into this category."
+        },
+        {
+            "word": "Cheeseledger",
+            "definition": "A record of who owes whom, written or otherwise. More powerful than policy because it's remembered."
+        },
+        {
+            "word": "Pawvote",
+            "definition": "A decision made by visible show of support rather than substance. The vote that reflects mood more than merit."
+        },
+        {
+            "word": "Whiskerline",
+            "definition": "The boundary between acceptable risk and public embarrassment. Crossed when confidence outruns preparation."
+        },
+        {
+            "word": "Sackshare",
+            "definition": "An informal distribution arrangement outside official channels. Presented as fairness; operated as influence."
+        },
+        {
+            "word": "Crumbtax",
+            "definition": "A small, recurring cost that feels inevitable. Individually minor, collectively controlling."
+        },
+        {
+            "word": "Pipepolitics",
+            "definition": "Decision-making shaped by proximity and pressure. The local power dynamics that never make it into the announcement."
+        },
+        {
+            "word": "Squeakquota",
+            "definition": "A target for communication that rewards volume over clarity. Encourages updates that contain motion, not meaning."
+        },
+        {
+            "word": "Nestmemo",
+            "definition": "A written note meant to settle a matter without reopening it. Carefully phrased to sound final while remaining flexible."
+        },
+        {
+            "word": "Whisperfile",
+            "definition": "An unofficial dossier built from fragments, impressions, and repeatable stories. Half rumor, half memory, fully actionable."
+        },
+        {
+            "word": "Ratify",
+            "definition": "To formally approve what has already become the default. A ceremony of agreement after the tunnel has moved on."
+        },
+        {
+            "word": "Scurryproofing",
+            "definition": "Adding safeguards after a failure becomes undeniable. A retrofit of caution, usually delivered with lessons learned."
+        },
+        {
+            "word": "Crumbcount",
+            "definition": "A tally that feels objective while hiding important context. Useful for dashboards and arguments alike."
+        },
+        {
+            "word": "Pawcarry",
+            "definition": "The hidden work of keeping a plan alive through friction. Done quietly, rewarded inconsistently."
+        },
+        {
+            "word": "Larderscope",
+            "definition": "A narrow focus on immediate inventory at the expense of long-term strategy. Rational in crisis, limiting by habit."
+        },
+        {
+            "word": "Tunnelaccord",
+            "definition": "A fragile agreement maintained by mutual convenience. Stable until the incentives shift."
+        },
+        {
+            "word": "Scentbias",
+            "definition": "A preference formed from familiar cues rather than present evidence. Hard to argue with because it feels like certainty."
+        },
+        {
+            "word": "Pawcedence",
+            "definition": "An earlier decision used to justify a new one, regardless of changed conditions. A historical anchor that can also be a weight."
+        },
+        {
+            "word": "Crumbsignal",
+            "definition": "A small indicator that something larger is moving. The crumbsignal is large with RNN."
+        },
+        {
+            "word": "Tunnelpost",
+            "definition": "A notice intended for broad circulation, written to be hard to misquote. Clear enough to repeat, vague enough to survive."
+        },
+        {
+            "word": "Nestguard",
+            "definition": "Protective control over access and information framed as care. Keeps things safe by keeping them close."
+        },
+        {
+            "word": "Scurryline",
+            "definition": "The point at which urgency becomes disorder. Once crossed, speed increases and accuracy collapses."
+        }
+    ]
+}
