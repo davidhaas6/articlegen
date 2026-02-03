@@ -21,6 +21,8 @@ with open(PROMPT_PATH) as f:
     PROMPTS = yaml.safe_load(f)
 
 
+NEWS_CATEGORIES = ['business', 'entertainment', 'general', 'health', 'science', 'sports', 'technology']
+
 class ParodyError(Exception):
     """Base exception for parody-related errors"""
 
@@ -39,9 +41,9 @@ class ArticleExtractionError(ParodyError):
     pass
 
 
-def fetch_response(url):
+def fetch_response(url, params=None):
     try:
-        response = requests.get(url, timeout=10)
+        response = requests.get(url, timeout=10, params=params)
         response.raise_for_status()  # Raises an HTTPError for bad responses
         return response
     except requests.RequestException as e:
@@ -168,23 +170,14 @@ def process_single_article(article: Dict[str, Any]) -> Optional[Dict[str, str]]:
             return None
 
         return {"description": outline, "src_url": url}
+    except KeyboardInterrupt:
+        sys.exit(0)
     except Exception as e:
         print(f"Error processing article {url}: {e}")
         return None
 
 
-def generate_top_story_outlines(
-    num: int, num_processes: Optional[int] = None
-) -> List[Dict[str, str]]:
-    """Generate parody outlines for top news stories using parallel processing.
-
-    Args:
-        num (int): Number of articles to process
-        num_processes (Optional[int]): Number of processes to use. Defaults to CPU count.
-
-    Returns:
-        List[str]: List of generated outlines
-    """
+def get_stories(num: int, category: str) -> List[str]:
     api_key = os.environ.get("NEWS_API_KEY")
     if not api_key:
         raise ValueError(
@@ -193,20 +186,67 @@ def generate_top_story_outlines(
     url = "https://newsapi.org/v2/top-headlines"
     params = {
         "apiKey": api_key,
-        "pageSize": max(30, num),
-        "sources": "associated-press,reuters",
+        "pageSize": min(30, num),
+        "category": category
     }
 
-    response = requests.get(url, params=params)
-    data = response.json()
-    selected_articles = random.sample(data.get("articles", []), num)
+    response = fetch_response(url, params=params)
+    return response.json().get("articles", [])
+
+
+def generate_top_story_outlines(
+    num: int, category: str = "general", num_processes: Optional[int] = None
+) -> List[Dict[str, str]]:
+    """Generate parody outlines for top news stories using parallel processing.
+
+    Args:
+        num (int): Number of articles to process
+        category (str): News category to fetch from
+        num_processes (Optional[int]): Number of processes to use. Defaults to CPU count.
+
+    Returns:
+        List[str]: List of generated outlines
+    """
+
+    # pick a collection of categories to pull news from
+    categories = random.choices(NEWS_CATEGORIES, k=num)
+    print("Generating news for: ", categories)
+    selected_articles = []
+    chosen_headlines = set()
+
+    for category in categories:
+        stories = get_stories(10, category)  # pick from 1 out of 10
+
+        # remove already selected articles
+        filtered_stories = []
+        for story in stories:
+            if story["title"] not in chosen_headlines:
+                filtered_stories.append(story)
+        if len(filtered_stories) == 0:
+            # TODO: should we requery somehow
+            continue
+
+        stories = filtered_stories
+        random_article = random.choice(stories)
+        random_article["category"] = category
+        chosen_headlines.add(random_article["title"])
+        selected_articles.append(random_article)
+
+
     print("Parodying:")
     for i, article in enumerate(selected_articles):
-        print(f"{i+1}.", article.get("title"))
+        print(f"{i+1}.", article.get("title"), f'({article.get("category")})')
+
+    if input("\nGood topics? ") == 'no':
+        sys.exit(0)
 
     # Process articles in parallel
-    with Pool(processes=num or num_processes) as pool:
-        outlines = pool.map(process_single_article, selected_articles)
+    try:
+        with Pool(processes=num or num_processes) as pool:
+            outlines = pool.map(process_single_article, selected_articles)
+    except KeyboardInterrupt:
+        sys.exit(0)
+    
 
     # Filter out None results
     return [outline for outline in outlines if outline is not None]
@@ -224,30 +264,42 @@ def extract_step_5(text) -> str | None:
 
 def main():
     """CLI entrypoint"""
-    import json
-
     parser = argparse.ArgumentParser(
         description="Convert web articles into rat-themed parodies"
     )
+    
+    # Story fetching arguments
+    parser.add_argument(
+        '--stories', 
+        action='store_true', 
+        help="Fetch real life stories from news API"
+    )
+    parser.add_argument(
+        '--category', 
+        default='general',
+        choices=NEWS_CATEGORIES,
+        help="News category to fetch (default: general). Only used with --stories."
+    )
+    parser.add_argument(
+        '--quantity', 
+        type=int, 
+        default=10,
+        help="Number of stories to fetch (default: 10). Only used with --stories."
+    )
+    
+    # Article processing arguments
     parser.add_argument("--url", help="URL of the article to parody")
     parser.add_argument("--output", help="Output file path (default: print to stdout)")
+    
     args = parser.parse_args()
 
     try:
-        if not args.url:
-            parser.error("--url is required")
-
-
-        outline = process_single_article({"url": args.url})
-        if not outline:
-            raise ArticleExtractionError("Failed to generate outline")
-
-        # Output handling
-        if args.output:
-            with open(args.output, "w") as f:
-                f.write(json.dumps(outline, indent=2))
+        if args.stories:
+            return handle_stories_command(args)
+        elif args.url:
+            return handle_url_command(args)
         else:
-            print(outline)
+            parser.error("Either --stories or --url is required")
 
     except ParodyError as e:
         print(f"Error: {str(e)}", file=sys.stderr)
@@ -255,6 +307,30 @@ def main():
     except Exception as e:
         print(f"Unexpected error: {str(e)}", file=sys.stderr)
         sys.exit(1)
+
+
+def handle_stories_command(args):
+    """Handle the --stories command with category and quantity"""
+    import json
+    
+    stories = get_stories(args.quantity, args.category)
+    print(json.dumps(stories, indent=2))
+
+
+def handle_url_command(args):
+    """Handle the --url command for processing a single article"""
+    import json
+    
+    outline = process_single_article({"url": args.url})
+    if not outline:
+        raise ArticleExtractionError("Failed to generate outline")
+
+    # Output handling
+    if args.output:
+        with open(args.output, "w") as f:
+            f.write(json.dumps(outline, indent=2))
+    else:
+        print(json.dumps(outline, indent=2))
 
 
 if __name__ == "__main__":

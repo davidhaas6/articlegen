@@ -213,6 +213,8 @@ def article_from_idea(idea: ArticleIdea) -> dict | None:
         logging.info("creating image")
         try:
             article["img_path"] = article_image(article["title"], outline)
+        except KeyboardInterrupt:
+            sys.exit(0)
         except Exception as e:
             logging.error(f"Error creating image: {e}")
             article["img_path"] = ""
@@ -221,6 +223,8 @@ def article_from_idea(idea: ArticleIdea) -> dict | None:
             f'*Article created*\nTitle: {article["title"]}\nImage: {article["img_path"]}\nOverview:{article["overview"]}'
         )
         article["article_id"] = make_article_id(article["title"], article["overview"])
+    except KeyboardInterrupt:
+        sys.exit(0)
     except Exception as e:
         logger.error(e)
         logger.error(traceback.format_exc())
@@ -413,7 +417,7 @@ def get_comments(article: dict, num_comments: int, model=light_llm) -> List[str]
         # replace 10% of comments to simulate moderation
         for i in range(len(comments_list)):
             if random.random() < 0.1:
-                comments_list[i]['text'] = "<removed by moderator>"
+                comments_list[i]['text'] = "< removed by moderator >"
                 # comments_list[i]['downvotes'] += int(comments_list[i]['upvotes'] * 3)
         return comments_list
     

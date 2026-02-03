@@ -21,11 +21,8 @@ class ArticleSiteGenerator:
 
     def generate_site(self):
         os.makedirs(self.output_dir, exist_ok=True)
-        # new_articles = self._load_articles(article_jsons)
         all_articles = self.generate_content_pages()
         self.copy_template_dir()
-        # self.generate_article_pages(articles)
-        # self.generate_index_page(articles)
         self.copy_images(all_articles)
         self.generate_qr_code_page()
         self.generate_404_page()

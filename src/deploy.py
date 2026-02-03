@@ -68,7 +68,7 @@ def generate_and_push_articles(
     keep_local: bool = False,
     force: bool = False,
 ) -> str:
-    NUM_PARODY = 2
+    NUM_PARODY = 3
     day_timestamp = datetime.now().strftime("%Y-%m-%d")
     full_timestamp = datetime.now().strftime("%Y-%m-%d-%H%M%S")
     site_dir = (DEFAULT_SITE_DIR / f"{day_timestamp}/{full_timestamp}").as_posix()
