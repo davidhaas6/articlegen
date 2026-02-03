@@ -4,7 +4,6 @@ import json
 import os
 import random
 import shutil
-from datetime import datetime
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader
